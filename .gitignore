@@ -464,9 +464,9 @@ crashlytics-build.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,dotnetcore,unity
 
-Hunter/Library
-Hunter/Temp
-Hunter/UserSettings
+Agar.io/Library
+Agar.io/Temp
+Agar.io/UserSettings
 
 *.csproj
 *.csproj.user
