@@ -19,7 +19,23 @@ namespace Agario.Model
         public void Move(Vector2 direction)
         {
             Position += direction;
-            //Position += move towards the center
+            Position += GetBlobsCenter();
+        }
+
+        private Vector2 GetBlobsCenter()
+        {
+            Vector2 center = new Vector2();
+            int blobsNum = 0;
+
+            foreach (Blob blob in Owner.Blobs)
+            {
+                center += blob.Position;
+                blobsNum++;
+            }
+
+            center = new Vector2(center.X / blobsNum, center.Y / blobsNum);
+
+            return center;
         }
 
         // Need controller
