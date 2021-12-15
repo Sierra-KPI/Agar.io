@@ -7,6 +7,9 @@ namespace Agario.Model
         public Vector2 Position { get; set; }
         public float Radius { get; set; }
 
-        public void Die() { }
+        public void Die()
+        {
+            // Die(
+        }
     }
 }
