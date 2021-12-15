@@ -7,8 +7,11 @@ namespace Agario.Model
     {
         public string Name { get; set; }
         public List<Blob> Blobs { get; set; }
+        // Probably We Will get it with packages?
+        public List<Blob> VisibleBlobs { get; set; }
 
         public void Die() { }
+
         public void Move(Vector2 direction)
         {
             foreach (Blob blob in Blobs)
@@ -16,6 +19,7 @@ namespace Agario.Model
                 blob.Move(direction);
             }
         }
+
         public float GetTotalRadius()
         {
             float totalRadius = 0f;

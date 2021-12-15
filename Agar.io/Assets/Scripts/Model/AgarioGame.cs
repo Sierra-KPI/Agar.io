@@ -7,6 +7,11 @@ namespace Agario.Model
         private List<Player> _players;
         private List<Food> _food;
 
+        public void Start()
+        {
+            _players = new List<Player>();
+        }
+
         public List<Player> GetLeaderBoard()
         {
             List<Player> leaderBoard = _players;
