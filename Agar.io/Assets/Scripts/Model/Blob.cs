@@ -1,13 +1,15 @@
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace Agario.Model
 {
-    public class Blob
+    public class Blob : Entity
     {
         public Player Owner { get; set; }
-        public Vector2 Position { get; set; }
-        public float Radius { get; set; }
+
+        public Blob()
+        {
+            EntityType = EntityType.Blob;
+        }
 
         // Need controller and probably Object Pooling
         public void Die()
