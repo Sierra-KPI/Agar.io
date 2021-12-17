@@ -17,6 +17,9 @@ public class Client
     public UdpClient udp;
     public IPEndPoint endPoint;
 
+    public delegate void Handler(PacketBase _packet);
+    public static Dictionary<PacketType, Handler> packetHandlers;
+
     public Client()
     {
         instance = this;
@@ -68,6 +71,14 @@ public class Client
         SendToServer(packet);
     }
 
-    
-    
+    private static void InitializeClientData()
+    {
+        packetHandlers = new Dictionary<PacketType, Handler>()
+        {
+            { PacketType.Connection, PacketHandler.Connection },
+            { PacketType.PlayerPosition, PacketHandler.PlayerPosition },
+        };
+
+    }
+
 }
