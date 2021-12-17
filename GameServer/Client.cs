@@ -9,7 +9,6 @@ namespace GameServer
 {
     class Client
     {
-
         public int id;
         //public Player player;
         public UDP udp;

@@ -29,42 +29,76 @@ namespace GameServer
             Console.WriteLine($"Server started on port {Port}.");
 
             udpListener = new UdpClient(Port);
+            udpListener.BeginReceive(UDPReceiveCallback, null);
 
-            while (true)
-            {
-                var remoteEP = new IPEndPoint(IPAddress.Any, Port);
-                var data = udpListener.Receive(ref remoteEP); // listen on port 11000
-                Console.WriteLine("receive data from " + remoteEP.ToString());
-                using (MemoryStream ms = new MemoryStream(data))
-                {
-                    var packet = Serializer.DeserializeWithLengthPrefix<PacketBase>(ms, PrefixStyle.Base128);
+            
 
-                    switch (packet.Type)
-                    {
-                        case PacketType.Connection:
-                            Console.WriteLine("Name: " + ((ConnectionPacket)packet).Name);
-                            break;
-                        case PacketType.PlayerPosition:
-                            var packet1 = ((PlayerPosition)packet);
-                            Console.WriteLine("X: " + packet1.X + " Y: " + packet1.Y);
-                            break;
-
-                    }
-
-
-                }
-                    
-
-
-                udpListener.Send(new byte[] { 1 }, 1, remoteEP); // reply back
-            }
-
-            //udpListener.BeginReceive(UDPReceiveCallback, null);
+            
 
             
         }
 
+        private static void UDPReceiveCallback(IAsyncResult _result)
+        {
+            try
+            {
+                IPEndPoint _clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                byte[] _data = udpListener.EndReceive(_result, ref _clientEndPoint);
+                udpListener.BeginReceive(UDPReceiveCallback, null);
 
+                using (MemoryStream ms = new MemoryStream(_data))
+                {
+                    var _packet = Serializer.DeserializeWithLengthPrefix<PacketBase>(ms, PrefixStyle.Base128);
+                    /*int _clientId = _packet.Id;
+
+                    if (_clientId == 0)
+                    {
+                        return;
+                    }
+
+                    if (clients[_clientId].udp.endPoint == null)
+                    {
+                        clients[_clientId].udp.Connect(_clientEndPoint);
+                        return;
+                    }*/
+
+                    //if (clients[_clientId].udp.endPoint.ToString() == _clientEndPoint.ToString())
+                    {
+                        // move to another method handle data
+                        switch (_packet.Type)
+                        {
+                            case PacketType.Connection:
+                                Console.WriteLine("Name: " + ((ConnectionPacket)_packet).Name);
+                                break;
+                            case PacketType.PlayerPosition:
+                                var packet1 = ((PlayerPosition)_packet);
+                                Console.WriteLine("X: " + packet1.X + " Y: " + packet1.Y);
+                                break;
+
+                        }
+                    }
+                }
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine($"Error receiving UDP data: {_ex}");
+            }
+        }
+
+        /*public static void SendUDPData(IPEndPoint _clientEndPoint, Packet _packet)
+        {
+            try
+            {
+                if (_clientEndPoint != null)
+                {
+                    udpListener.BeginSend(_packet.ToArray(), _packet.Length(), _clientEndPoint, null, null);
+                }
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine($"Error sending data to {_clientEndPoint} via UDP: {_ex}");
+            }
+        }*/
 
         private static void InitializeServerData()
         {

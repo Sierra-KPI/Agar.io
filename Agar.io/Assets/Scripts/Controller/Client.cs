@@ -68,7 +68,6 @@ public class Client
         PlayerPosition packet = new PlayerPosition
         {
             Type = PacketType.PlayerPosition,
-            Name = "FirstPlayer",
             X = 3,
             Y = 5
         };
