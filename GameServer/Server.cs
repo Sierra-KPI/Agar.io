@@ -17,6 +17,9 @@ namespace GameServer
         public static int Port { get; private set; }
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
 
+        public delegate void Handler(PacketBase _packet);
+        public static Dictionary<PacketType, Handler> packetHandlers;
+
         private static UdpClient udpListener;
 
         public static void Start(int _maxPlayers, int _port)
@@ -32,10 +35,6 @@ namespace GameServer
             udpListener.BeginReceive(UDPReceiveCallback, null);
 
             
-
-            
-
-            
         }
 
         private static void UDPReceiveCallback(IAsyncResult _result)
@@ -49,6 +48,8 @@ namespace GameServer
                 using (MemoryStream ms = new MemoryStream(_data))
                 {
                     var _packet = Serializer.DeserializeWithLengthPrefix<PacketBase>(ms, PrefixStyle.Base128);
+                    packetHandlers[_packet.Type](_packet);
+
                     /*int _clientId = _packet.Id;
 
                     if (_clientId == 0)
@@ -65,7 +66,7 @@ namespace GameServer
                     //if (clients[_clientId].udp.endPoint.ToString() == _clientEndPoint.ToString())
                     {
                         // move to another method handle data
-                        switch (_packet.Type)
+                        /*switch (_packet.Type)
                         {
                             case PacketType.Connection:
                                 Console.WriteLine("Name: " + ((ConnectionPacket)_packet).Name);
@@ -75,7 +76,7 @@ namespace GameServer
                                 Console.WriteLine("X: " + packet1.X + " Y: " + packet1.Y);
                                 break;
 
-                        }
+                        }*/
                     }
                 }
             }
@@ -107,6 +108,11 @@ namespace GameServer
                 clients.Add(i, new Client(i));
             }
 
+            packetHandlers = new Dictionary<PacketType, Handler>()
+            {
+                { PacketType.Connection, PacketHandler.Connection },
+                { PacketType.PlayerPosition, PacketHandler.PlayerPosition },
+            };
 
 
             Console.WriteLine("Initialized packets.");
