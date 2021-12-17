@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using ProtoBuf;
 
 namespace GameServer
@@ -63,17 +60,7 @@ namespace GameServer
                     //if (clients[_clientId].udp.endPoint.ToString() == _clientEndPoint.ToString())
                     {
                         // move to another method handle data
-                        /*switch (_packet.Type)
-                        {
-                            case PacketType.Connection:
-                                Console.WriteLine("Name: " + ((ConnectionPacket)_packet).Name);
-                                break;
-                            case PacketType.PlayerPosition:
-                                var packet1 = ((PlayerPosition)_packet);
-                                Console.WriteLine("X: " + packet1.X + " Y: " + packet1.Y);
-                                break;
-
-                        }*/
+                        //packetHandlers[_packet.Type](_packet);
                     }
                 }
             }
@@ -83,20 +70,25 @@ namespace GameServer
             }
         }
 
-        /*public static void SendUDPData(IPEndPoint _clientEndPoint, Packet _packet)
+        public static void SendUDPData(IPEndPoint _clientEndPoint, PacketBase _packet)
         {
             try
             {
                 if (_clientEndPoint != null)
                 {
-                    udpListener.BeginSend(_packet.ToArray(), _packet.Length(), _clientEndPoint, null, null);
+                    using (MemoryStream outputFile = new MemoryStream())
+                    {
+                        Serializer.SerializeWithLengthPrefix<PacketBase>(outputFile, _packet,
+                            PrefixStyle.Base128);
+                        udpListener.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0), _clientEndPoint);
+                    }
                 }
             }
             catch (Exception _ex)
             {
                 Console.WriteLine($"Error sending data to {_clientEndPoint} via UDP: {_ex}");
             }
-        }*/
+        }
 
         private static void InitializeServerData()
         {

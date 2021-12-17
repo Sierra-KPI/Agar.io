@@ -7,7 +7,6 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     private Client client;
-    private IPEndPoint ep;
 
     void Start()
     {
@@ -21,12 +20,12 @@ public class Controller : MonoBehaviour
         KeyController();
     }
 
+    //just for testing
     void KeyController()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
 
-            //client.SendToServerWithAnswer();
             client.SendConnectionPacket();
             client.SendPlayerPosition();
         }

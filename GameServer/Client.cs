@@ -9,34 +9,19 @@ namespace GameServer
 {
     class Client
     {
-        public int id;
+        public int Id;
+        public string Name;
+        public IPEndPoint EndPoint;
         //public Player player;
-        public UDP udp;
 
-        public Client(int _clientId)
+
+        public Client(int clientId)
         {
-            id = _clientId;
-            udp = new UDP(id);
+            Id = clientId;
+            //player = new Player();
         }
     }
 
 
-    public class UDP
-    {
-        public IPEndPoint endPoint;
-
-        private int id;
-
-        public UDP(int _id)
-        {
-            id = _id;
-        }
-
-        public void Connect(IPEndPoint _endPoint)
-        {
-            endPoint = _endPoint;
-        }
-
-        
-    }
+   
 }

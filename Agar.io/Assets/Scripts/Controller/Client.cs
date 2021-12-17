@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,12 +11,12 @@ public class Client
 {
     public static Client instance;
 
-    public string ip = "127.0.0.1";
-    public int port = 26950;
-    public int id = 0;
+    private string _ip = "127.0.0.1";
+    private int _port = 26950;
+    private int _id = 0;
 
-    public UdpClient udp;
-    public IPEndPoint endPoint;
+    private UdpClient _udp;
+    private IPEndPoint _endPoint;
 
     public delegate void Handler(PacketBase _packet);
     public static Dictionary<PacketType, Handler> packetHandlers;
@@ -23,20 +24,44 @@ public class Client
     public Client()
     {
         instance = this;
-        endPoint = new IPEndPoint(IPAddress.Parse(instance.ip), instance.port);
-        udp = new UdpClient();
-        udp.Connect(endPoint);
+        _endPoint = new IPEndPoint(IPAddress.Parse(_ip), _port);
+        _udp = new UdpClient();
+        _udp.Connect(_endPoint);
 
+        _udp.BeginReceive(UDPReceiveCallback, null);
+
+        InitializeClientData();
     }
 
-    public void SendToServerWithAnswer()
+    private void UDPReceiveCallback(IAsyncResult _result)
     {
-        udp.Send(new byte[] { 1, 2, 3, 4, 5 }, 5);
+        try
+        {
+            IPEndPoint _clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            byte[] _data = _udp.EndReceive(_result, ref _clientEndPoint);
+            _udp.BeginReceive(UDPReceiveCallback, null);
+
+            using (MemoryStream ms = new MemoryStream(_data))
+            {
+                var _packet = Serializer.DeserializeWithLengthPrefix<PacketBase>(ms, PrefixStyle.Base128);
+                packetHandlers[_packet.Type](_packet);
+
+            }
+        }
+        catch (Exception _ex)
+        {
+            Debug.LogError($"Error receiving UDP data: {_ex}");
+        }
+    }
+
+    /*public void SendToServerWithAnswer()
+    {
+        _udp.Send(new byte[] { 1, 2, 3, 4, 5 }, 5);
         // then receive data
-        var receivedData = udp.Receive(ref endPoint);
+        var receivedData = _udp.Receive(ref _endPoint);
 
         Debug.Log("receive data from " + receivedData[0]);
-    }
+    }*/
 
     public void SendToServer(PacketBase packet)
     {
@@ -44,11 +69,12 @@ public class Client
         {
             Serializer.SerializeWithLengthPrefix<PacketBase>(outputFile, packet,
                 PrefixStyle.Base128);
-            udp.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0));
+            _udp.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0));
         }
-        Debug.Log("send data to " + endPoint.ToString());
+        Debug.Log("send data to " + _endPoint.ToString());
     }
 
+    // just for testing
     public void SendConnectionPacket()
     {
         ConnectionPacket packet = new ConnectionPacket
@@ -59,6 +85,7 @@ public class Client
         SendToServer(packet);
     }
 
+    // just for testing
     public void SendPlayerPosition()
     {
         PlayerPosition packet = new PlayerPosition
