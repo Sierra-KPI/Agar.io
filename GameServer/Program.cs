@@ -5,7 +5,6 @@ namespace GameServer
 {
     class Program
     {
-
         private static bool isRunning = false;
 
         static void Main(string[] args)
@@ -17,8 +16,8 @@ namespace GameServer
             Thread mainThread = new Thread(new ThreadStart(MainThread));
             mainThread.Start();
 
-            Server.Start(50, 26950);
-
+            int port = 26950;
+            Server.Start(port);
 
         }
 

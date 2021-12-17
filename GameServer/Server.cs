@@ -12,8 +12,7 @@ namespace GameServer
 {
     class Server
     {
-
-        public static int MaxPlayers { get; private set; }
+        public static int MaxPlayers = 100;
         public static int Port { get; private set; }
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
 
@@ -22,19 +21,17 @@ namespace GameServer
 
         private static UdpClient udpListener;
 
-        public static void Start(int _maxPlayers, int _port)
+        public static void Start(int _port)
         {
-            MaxPlayers = _maxPlayers;
             Port = _port;
 
             Console.WriteLine("Starting server...");
             InitializeServerData();
-            Console.WriteLine($"Server started on port {Port}.");
-
+            
             udpListener = new UdpClient(Port);
             udpListener.BeginReceive(UDPReceiveCallback, null);
 
-            
+            Console.WriteLine($"Server started on port {Port}.");
         }
 
         private static void UDPReceiveCallback(IAsyncResult _result)

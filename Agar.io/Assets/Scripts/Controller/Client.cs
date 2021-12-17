@@ -12,37 +12,38 @@ public class Client
 
     public string ip = "127.0.0.1";
     public int port = 26950;
-    public int myId = 0;
-    public UDP udp;
+    public int id = 0;
+
+    public UdpClient udp;
+    public IPEndPoint endPoint;
 
     public Client()
     {
-        if (instance == null)
-        {
-            instance = this;
-            udp = new UDP();
-            udp.Connect();
-        }
-        else if (instance != this)
-        {
-            Debug.Log("Instance already exists, destroying object!");
-        }
+        instance = this;
+        endPoint = new IPEndPoint(IPAddress.Parse(instance.ip), instance.port);
+        udp = new UdpClient();
+        udp.Connect(endPoint);
+
     }
 
     public void SendToServerWithAnswer()
     {
-        udp.socket.Send(new byte[] { 1, 2, 3, 4, 5 }, 5);
+        udp.Send(new byte[] { 1, 2, 3, 4, 5 }, 5);
         // then receive data
-        var receivedData = udp.socket.Receive(ref udp.endPoint);
+        var receivedData = udp.Receive(ref endPoint);
 
         Debug.Log("receive data from " + receivedData[0]);
     }
 
-    public void SendToServer()
+    public void SendToServer(PacketBase packet)
     {
-        udp.socket.Send(new byte[] { 1, 2, 3, 4, 5 }, 5);
-
-        Debug.Log("send data to " + udp.endPoint.ToString());
+        using (MemoryStream outputFile = new MemoryStream())
+        {
+            Serializer.SerializeWithLengthPrefix<PacketBase>(outputFile, packet,
+                PrefixStyle.Base128);
+            udp.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0));
+        }
+        Debug.Log("send data to " + endPoint.ToString());
     }
 
     public void SendConnectionPacket()
@@ -52,15 +53,7 @@ public class Client
             Type = PacketType.Connection,
             Name = "FirstPlayer"
         };
-
-        
-
-        using (MemoryStream outputFile = new MemoryStream())
-        {
-            Serializer.SerializeWithLengthPrefix<PacketBase>(outputFile, packet,
-                PrefixStyle.Base128);
-            udp.socket.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0));
-        }
+        SendToServer(packet);
     }
 
     public void SendPlayerPosition()
@@ -72,38 +65,9 @@ public class Client
             Y = 5
         };
 
-        using (MemoryStream outputFile = new MemoryStream())
-        {
-            Serializer.SerializeWithLengthPrefix(outputFile, packet,
-                PrefixStyle.Base128);
-            udp.socket.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0));
-        }
+        SendToServer(packet);
     }
 
-    public class UDP
-    {
-        public UdpClient socket;
-        public IPEndPoint endPoint;
-
-        public UDP()
-        {
-            endPoint = new IPEndPoint(IPAddress.Parse(instance.ip), instance.port);
-        }
-
-        public void Connect()
-        {
-            socket = new UdpClient();
-
-            socket.Connect(endPoint);
-            //socket.BeginReceive(ReceiveCallback, null);
-
-            //using (Packet _packet = new Packet())
-            //{
-                //SendData(_packet);
-            //}
-        }
-
-
-    }
+    
     
 }
