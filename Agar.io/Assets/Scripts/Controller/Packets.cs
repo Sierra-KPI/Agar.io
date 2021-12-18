@@ -4,13 +4,15 @@ using ProtoBuf;
 
 public enum PacketType
 {
-    Connection,
-    PlayerPosition
+    ConnectionRequest,
+    ConnectionResponse,
+    PlayerPosition,
+    BoardUpdate
 }
 
 [ProtoContract,
     ProtoInclude(10, typeof(ConnectionRequestPacket)),
-    ProtoInclude(11, typeof(ConnectionResponsetPacket)),
+    ProtoInclude(11, typeof(ConnectionResponsePacket)),
     ProtoInclude(12, typeof(PlayerPosition)),
     ProtoInclude(13, typeof(BoardUpdatePacket)),]
 public class PacketBase
@@ -19,6 +21,9 @@ public class PacketBase
     public PacketType Type { get; set; }
 
     [ProtoMember(2)]
+    public int ClientId { get; set; }
+
+    [ProtoMember(3)]
     public int PacketId { get; set; }
 }
 
@@ -32,11 +37,10 @@ public class ConnectionRequestPacket : PacketBase
 }
 
 [ProtoContract]
-public class ConnectionResponsetPacket : PacketBase
+public class ConnectionResponsePacket : PacketBase
 {
 
-    [ProtoMember(3)]
-    public int ClientId { get; set; }
+
 
 }
 
@@ -44,8 +48,7 @@ public class ConnectionResponsetPacket : PacketBase
 public class PlayerPosition : PacketBase
 {
 
-    [ProtoMember(3)]
-    public int ClientId { get; set; }
+
 
     [ProtoMember(4)]
     public int X { get; set; }
@@ -59,8 +62,6 @@ public class PlayerPosition : PacketBase
 public class BoardUpdatePacket : PacketBase
 {
 
-    [ProtoMember(3)]
-    public int ClientId { get; set; }
 
     [ProtoMember(4)]
     public int PlayersNumber { get; set; }

@@ -13,14 +13,14 @@ namespace GameServer
         public static int Port { get; private set; }
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
 
-        public delegate void Handler(PacketBase _packet);
+        public delegate void Handler(Client client, PacketBase packet);
         public static Dictionary<PacketType, Handler> packetHandlers;
 
         private static UdpClient udpListener;
 
-        public static void Start(int _port)
+        public static void Start(int port)
         {
-            Port = _port;
+            Port = port;
 
             Console.WriteLine("Starting server...");
             InitializeServerData();
@@ -31,76 +31,74 @@ namespace GameServer
             Console.WriteLine($"Server started on port {Port}.");
         }
 
-        private static void UDPReceiveCallback(IAsyncResult _result)
+        private static void UDPReceiveCallback(IAsyncResult result)
         {
             try
             {
-                IPEndPoint _clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                byte[] _data = udpListener.EndReceive(_result, ref _clientEndPoint);
+                IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                byte[] data = udpListener.EndReceive(result, ref clientEndPoint);
                 udpListener.BeginReceive(UDPReceiveCallback, null);
 
-                using (MemoryStream ms = new MemoryStream(_data))
+                using (MemoryStream ms = new MemoryStream(data))
                 {
-                    var _packet = Serializer.DeserializeWithLengthPrefix<PacketBase>(ms, PrefixStyle.Base128);
-                    packetHandlers[_packet.Type](_packet);
+                    var packet = Serializer.DeserializeWithLengthPrefix<PacketBase>(ms, PrefixStyle.Base128);
 
-                    /*int _clientId = _packet.Id;
-
-                    if (_clientId == 0)
+                    Client client;
+                    if (packet.Type == PacketType.ConnectionRequest)
                     {
-                        return;
+                        client = AddClient(clientEndPoint);
+                    }
+                    else
+                    {
+                        client = clients[packet.ClientId];
                     }
 
-                    if (clients[_clientId].udp.endPoint == null)
-                    {
-                        clients[_clientId].udp.Connect(_clientEndPoint);
-                        return;
-                    }*/
 
-                    //if (clients[_clientId].udp.endPoint.ToString() == _clientEndPoint.ToString())
-                    {
-                        // move to another method handle data
-                        //packetHandlers[_packet.Type](_packet);
-                    }
+                    packetHandlers[packet.Type](client, packet);
+
+                    
                 }
             }
-            catch (Exception _ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"Error receiving UDP data: {_ex}");
+                Console.WriteLine($"Error receiving UDP data: {e}");
             }
         }
 
-        public static void SendUDPData(IPEndPoint _clientEndPoint, PacketBase _packet)
+        public static void SendUDPData(IPEndPoint clientEndPoint, PacketBase packet)
         {
             try
             {
-                if (_clientEndPoint != null)
+                if (clientEndPoint != null)
                 {
                     using (MemoryStream outputFile = new MemoryStream())
                     {
-                        Serializer.SerializeWithLengthPrefix<PacketBase>(outputFile, _packet,
+                        Serializer.SerializeWithLengthPrefix(outputFile, packet,
                             PrefixStyle.Base128);
-                        udpListener.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0), _clientEndPoint);
+                        udpListener.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint);
                     }
                 }
             }
-            catch (Exception _ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"Error sending data to {_clientEndPoint} via UDP: {_ex}");
+                Console.WriteLine($"Error sending data to {clientEndPoint} via UDP: {e}");
             }
+        }
+
+        private static Client AddClient(IPEndPoint endPoint)
+        {
+            var client = new Client(clients.Count + 1, endPoint);
+            clients.Add(client.Id, client);
+            return client;
         }
 
         private static void InitializeServerData()
         {
-            for (int i = 1; i <= MaxPlayers; i++)
-            {
-                clients.Add(i, new Client(i));
-            }
 
             packetHandlers = new Dictionary<PacketType, Handler>()
             {
-                { PacketType.Connection, PacketHandler.Connection },
-                { PacketType.PlayerPosition, PacketHandler.PlayerPosition },
+                { PacketType.ConnectionRequest, PacketHandler.GetConnectionRequest },
+                { PacketType.PlayerPosition, PacketHandler.GetPlayerPosition },
             };
 
 

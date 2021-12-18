@@ -16,9 +16,10 @@ namespace GameServer
         public int PacketsCounter = 0;
 
 
-        public Client(int clientId)
+        public Client(int clientId, IPEndPoint endPoint)
         {
             Id = clientId;
+            EndPoint = endPoint;
             //player = new Player();
         }
     }

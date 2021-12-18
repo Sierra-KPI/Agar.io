@@ -2,10 +2,24 @@
 
 class PacketHandler
 {
-    public static void Connection(PacketBase _packet)
+    public static void SendConnectionRequest(string name)
     {
-        //Console.WriteLine("Name: " + ((ConnectionPacket)_packet).Name);
+        var packet = new ConnectionRequestPacket
+        {
+            Type = PacketType.ConnectionRequest,
+            PacketId = 0,
+            Name = name
+        };
+
+        Client.SendUDPData(packet);
     }
+
+    public static void GetConnectionResponse(PacketBase _packet)
+    {
+        var packet = (ConnectionResponsePacket)_packet;
+        Client.Instance.Id = packet.ClientId;
+    }
+
 
     public static void PlayerPosition(PacketBase _packet)
     {
