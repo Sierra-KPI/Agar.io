@@ -18,12 +18,10 @@ public class Controller : MonoBehaviour
     private void Update()
     {
         KeyController();
+
+        
     }
 
-    private void OnApplicationQuit()
-    {
-        client.Disconnect();
-    }
 
     //just for testing
     void KeyController()

@@ -55,6 +55,7 @@ namespace GameServer
                     }
                     else
                     {
+                        // check if id exist
                         client = clients[packet.ClientId];
                     }
                     packetHandlers[packet.Type](client, packet);
@@ -84,7 +85,6 @@ namespace GameServer
             catch (Exception e)
             {
                 Console.WriteLine($"Error sending data to {clientEndPoint} via UDP: {e}");
-                DisconnectClient(client);
             }
         }
 
@@ -97,15 +97,21 @@ namespace GameServer
 
         public static void DisconnectClient(Client client)
         {
-            client.Disconnect();
             clients.Remove(client.Id);
             Console.WriteLine($"Disconnect {client.EndPoint} from server");
         }
 
-        public static void BoardUpdate()
+        public static void Update()
         {
             foreach (var client in clients)
             {
+                // add const for 10
+                if (++client.Value.TimeOfLife > 20)
+                {
+                    DisconnectClient(client.Value);
+                    continue;
+                }
+                
                 PacketHandler.SendBoardUpdate(client.Value);
             }
         }

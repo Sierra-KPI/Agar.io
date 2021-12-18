@@ -46,6 +46,7 @@ class PacketHandler
         {
             Client.Instance.TimeOfResponse = 0;
         }
+        Client.Instance.TimeOfLife = 0;
 
         // update board from packet
 

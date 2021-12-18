@@ -15,7 +15,7 @@ namespace GameServer
         //public Player player;
         public int ReceivePacketsCounter = 0;
         public int SendPacketsCounter = 0;
-        public int TimeOfLife;
+        public int TimeOfLife = 0;
 
 
         public Client(int clientId, IPEndPoint endPoint)
@@ -25,11 +25,7 @@ namespace GameServer
             //player = new Player();
         }
 
-        public void Disconnect()
-        {
-            EndPoint = null;
-            //player = null;
-        }
+        
     }
 
 

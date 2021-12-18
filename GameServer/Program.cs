@@ -35,7 +35,7 @@ namespace GameServer
             {
                 while (_nextLoop < DateTime.Now)
                 {
-                    Server.BoardUpdate();
+                    Server.Update();
 
                     _nextLoop = _nextLoop.AddMilliseconds(MS_PER_TICK);
 

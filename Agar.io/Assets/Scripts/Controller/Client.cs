@@ -26,6 +26,7 @@ public class Client
 
     private UdpClient _udp;
     private IPEndPoint _endPoint;
+    private IPEndPoint _sendPoint;
     private bool isConnected = false;
 
     public delegate void Handler(PacketBase _packet);
@@ -35,6 +36,7 @@ public class Client
     {
         Instance = this;
         _endPoint = new IPEndPoint(IPAddress.Parse(_ip), _port);
+        _sendPoint = new IPEndPoint(IPAddress.Parse(_ip), _port);
         _udp = new UdpClient();
         //_udp.Connect(_endPoint);
         isConnected = true;
@@ -49,7 +51,10 @@ public class Client
     {
         try
         {
-            byte[] data = _udp.EndReceive(result, ref _endPoint);
+            IPEndPoint receivePoint = null;
+            byte[] data = _udp.EndReceive(result, ref receivePoint);
+            // check if receivePoint is server (52)
+            //Debug.Log(receivePoint.ToString());
             _udp.BeginReceive(UDPReceiveCallback, null);
 
             using (MemoryStream ms = new MemoryStream(data))
@@ -62,7 +67,7 @@ public class Client
         catch (Exception e)
         {
             Debug.LogError($"Error receiving UDP data: {e}");
-            Disconnect();
+            //Disconnect();
         }
     }
 
@@ -74,12 +79,13 @@ public class Client
             {
                 Serializer.SerializeWithLengthPrefix(outputFile, packet,
                     PrefixStyle.Base128);
-                Instance._udp.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), Instance._endPoint, null, null);
+                Instance._udp.BeginSend(outputFile.ToArray(),
+                    outputFile.ToArray().GetLength(0), Instance._sendPoint, null, null);
             }
-            Debug.Log("send data to " + Instance._endPoint.ToString());
+            Debug.Log("send data to " + Instance._sendPoint.ToString());
         } catch
         {
-            Instance.Disconnect();
+            //Instance.Disconnect();
         }
         
     }
@@ -106,6 +112,21 @@ public class Client
 
         }        
 
+    }
+
+
+    public void CheckConnectToServer()
+    {
+        // add const
+        if (++TimeOfLife > 180)
+        {
+            Debug.Log("Disconnected from server.");
+            PacketHandler.SendConnectionRequest("name"); //fix
+        }
+        if(++TimeOfResponse > 80)
+        {
+            PacketHandler.SendPlayerPosition(9, 9); // fix
+        }
     }
 
 }
