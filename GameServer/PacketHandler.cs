@@ -10,7 +10,7 @@ namespace GameServer
     {
         public static void Connection(PacketBase _packet)
         {
-            Console.WriteLine("Name: " + ((ConnectionPacket)_packet).Name);
+            Console.WriteLine("Name: " + ((ConnectionRequestPacket)_packet).Name);
 
         }
 

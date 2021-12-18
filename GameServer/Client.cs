@@ -13,6 +13,7 @@ namespace GameServer
         public string Name;
         public IPEndPoint EndPoint;
         //public Player player;
+        public int PacketsCounter = 0;
 
 
         public Client(int clientId)

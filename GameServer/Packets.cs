@@ -9,19 +9,21 @@ public enum PacketType
 }
 
 [ProtoContract,
- ProtoInclude(50, typeof(ConnectionPacket)),
- ProtoInclude(51, typeof(PlayerPosition))]
+    ProtoInclude(10, typeof(ConnectionRequestPacket)),
+    ProtoInclude(11, typeof(ConnectionResponsetPacket)),
+    ProtoInclude(12, typeof(PlayerPosition)),
+    ProtoInclude(13, typeof(BoardUpdatePacket)),]
 public class PacketBase
 {
     [ProtoMember(1)]
     public PacketType Type { get; set; }
 
-    //[ProtoMember(2)]
-    //public int Id { get; set; }
+    [ProtoMember(2)]
+    public int PacketId { get; set; }
 }
 
 [ProtoContract]
-public class ConnectionPacket : PacketBase
+public class ConnectionRequestPacket : PacketBase
 {
 
     [ProtoMember(3)]
@@ -30,15 +32,41 @@ public class ConnectionPacket : PacketBase
 }
 
 [ProtoContract]
+public class ConnectionResponsetPacket : PacketBase
+{
+
+    [ProtoMember(3)]
+    public int ClientId { get; set; }
+
+}
+
+[ProtoContract]
 public class PlayerPosition : PacketBase
 {
 
-
     [ProtoMember(3)]
-    public int X { get; set; }
+    public int ClientId { get; set; }
 
     [ProtoMember(4)]
+    public int X { get; set; }
+
+    [ProtoMember(5)]
     public int Y { get; set; }
 
+}
+
+[ProtoContract]
+public class BoardUpdatePacket : PacketBase
+{
+
+    [ProtoMember(3)]
+    public int ClientId { get; set; }
+
+    [ProtoMember(4)]
+    public int PlayersNumber { get; set; }
+
+    [ProtoMember(5)]
+    public PlayerPosition[] Players { get; set; }
 
 }
+
