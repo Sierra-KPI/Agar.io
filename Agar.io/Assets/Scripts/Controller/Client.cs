@@ -23,8 +23,10 @@ public class Client
     public int TimeOfResponse = 0;
 
 
+
     private UdpClient _udp;
     private IPEndPoint _endPoint;
+    private bool isConnected = false;
 
     public delegate void Handler(PacketBase _packet);
     public static Dictionary<PacketType, Handler> packetHandlers;
@@ -35,7 +37,7 @@ public class Client
         _endPoint = new IPEndPoint(IPAddress.Parse(_ip), _port);
         _udp = new UdpClient();
         _udp.Connect(_endPoint);
-
+        isConnected = true;
         _udp.BeginReceive(UDPReceiveCallback, null);
 
         PacketHandler.SendConnectionRequest("SomeName");
@@ -46,8 +48,7 @@ public class Client
     {
         try
         {
-            IPEndPoint _clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            byte[] data = _udp.EndReceive(result, ref _clientEndPoint);
+            byte[] data = _udp.EndReceive(result, ref _endPoint);
             _udp.BeginReceive(UDPReceiveCallback, null);
 
             using (MemoryStream ms = new MemoryStream(data))
@@ -60,6 +61,7 @@ public class Client
         catch (Exception e)
         {
             Debug.LogError($"Error receiving UDP data: {e}");
+            Disconnect();
         }
     }
 
@@ -69,7 +71,7 @@ public class Client
         {
             Serializer.SerializeWithLengthPrefix(outputFile, packet,
                 PrefixStyle.Base128);
-            Instance._udp.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0));
+            Instance._udp.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), null, null);
         }
         Debug.Log("send data to " + Instance._endPoint.ToString());
     }
@@ -81,6 +83,20 @@ public class Client
             { PacketType.ConnectionResponse, PacketHandler.GetConnectionResponse },
             { PacketType.BoardUpdate, PacketHandler.GetBoardUpdate },
         };
+
+    }
+
+    public void Disconnect()
+    {
+        if (isConnected)
+        {
+            isConnected = false;
+            _endPoint = null;
+            _udp = null;
+
+            Debug.Log("Disconnected from server.");
+
+        }        
 
     }
 

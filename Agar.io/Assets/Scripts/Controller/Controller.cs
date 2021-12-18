@@ -20,6 +20,11 @@ public class Controller : MonoBehaviour
         KeyController();
     }
 
+    private void OnApplicationQuit()
+    {
+        client.Disconnect();
+    }
+
     //just for testing
     void KeyController()
     {

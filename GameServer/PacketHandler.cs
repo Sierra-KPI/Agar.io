@@ -28,7 +28,7 @@ namespace GameServer
                 ClientPacketId = client.ReceivePacketsCounter
             };
 
-            Server.SendUDPData(client.EndPoint, packet);
+            Server.SendUDPData(client, packet);
             Console.WriteLine("SendConnectionResponse");
         }
 
@@ -65,7 +65,7 @@ namespace GameServer
 
             
 
-            Server.SendUDPData(client.EndPoint, packet);
+            Server.SendUDPData(client, packet);
             Console.WriteLine("SendBoardUpdate -> ClientId: " + client.Id);
         }
 

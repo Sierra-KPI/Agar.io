@@ -53,11 +53,7 @@ namespace GameServer
                     {
                         client = clients[packet.ClientId];
                     }
-
-
                     packetHandlers[packet.Type](client, packet);
-
-                    
                 }
             }
             catch (Exception e)
@@ -66,8 +62,9 @@ namespace GameServer
             }
         }
 
-        public static void SendUDPData(IPEndPoint clientEndPoint, PacketBase packet)
+        public static void SendUDPData(Client client, PacketBase packet)
         {
+            var clientEndPoint = client.EndPoint;
             try
             {
                 if (clientEndPoint != null)
@@ -76,13 +73,14 @@ namespace GameServer
                     {
                         Serializer.SerializeWithLengthPrefix(outputFile, packet,
                             PrefixStyle.Base128);
-                        udpListener.Send(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint);
+                        udpListener.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint, null, null);
                     }
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error sending data to {clientEndPoint} via UDP: {e}");
+                DisconnectClient(client);
             }
         }
 
@@ -91,6 +89,13 @@ namespace GameServer
             var client = new Client(clients.Count + 1, endPoint);
             clients.Add(client.Id, client);
             return client;
+        }
+
+        public static void DisconnectClient(Client client)
+        {
+            client.Disconnect();
+            clients.Remove(client.Id);
+            Console.WriteLine($"Disconnect {client.EndPoint} from server");
         }
 
         public static void BoardUpdate()

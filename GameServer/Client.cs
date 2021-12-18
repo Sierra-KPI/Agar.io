@@ -24,6 +24,12 @@ namespace GameServer
             EndPoint = endPoint;
             //player = new Player();
         }
+
+        public void Disconnect()
+        {
+            EndPoint = null;
+            //player = null;
+        }
     }
 
 
