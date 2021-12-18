@@ -36,12 +36,13 @@ public class Client
         Instance = this;
         _endPoint = new IPEndPoint(IPAddress.Parse(_ip), _port);
         _udp = new UdpClient();
-        _udp.Connect(_endPoint);
+        //_udp.Connect(_endPoint);
         isConnected = true;
+
+        InitializeClientData();
         _udp.BeginReceive(UDPReceiveCallback, null);
 
         PacketHandler.SendConnectionRequest("SomeName");
-        InitializeClientData();
     }
 
     private void UDPReceiveCallback(IAsyncResult result)
@@ -67,13 +68,20 @@ public class Client
 
     public static void SendUDPData(PacketBase packet)
     {
-        using (MemoryStream outputFile = new MemoryStream())
+        try
         {
-            Serializer.SerializeWithLengthPrefix(outputFile, packet,
-                PrefixStyle.Base128);
-            Instance._udp.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), null, null);
+            using (MemoryStream outputFile = new MemoryStream())
+            {
+                Serializer.SerializeWithLengthPrefix(outputFile, packet,
+                    PrefixStyle.Base128);
+                Instance._udp.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), Instance._endPoint, null, null);
+            }
+            Debug.Log("send data to " + Instance._endPoint.ToString());
+        } catch
+        {
+            Instance.Disconnect();
         }
-        Debug.Log("send data to " + Instance._endPoint.ToString());
+        
     }
 
     private static void InitializeClientData()

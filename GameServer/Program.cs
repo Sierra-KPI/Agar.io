@@ -17,7 +17,8 @@ namespace GameServer
             mainThread.Start();
 
             int port = 26950;
-            Server.Start(port);
+            int port2 = 26952;
+            Server.Start(port, port2);
 
         }
 

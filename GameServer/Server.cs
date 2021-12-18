@@ -18,8 +18,10 @@ namespace GameServer
 
 
         private static UdpClient udpListener;
+        private static UdpClient udpSender;
 
-        public static void Start(int port)
+
+        public static void Start(int port, int port2)
         {
             Port = port;
 
@@ -28,6 +30,8 @@ namespace GameServer
             
             udpListener = new UdpClient(Port);
             udpListener.BeginReceive(UDPReceiveCallback, null);
+
+            udpSender = new UdpClient(port2);
 
             Console.WriteLine($"Server started on port {Port}.");
         }
@@ -73,7 +77,7 @@ namespace GameServer
                     {
                         Serializer.SerializeWithLengthPrefix(outputFile, packet,
                             PrefixStyle.Base128);
-                        udpListener.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint, null, null);
+                        udpSender.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint, null, null);
                     }
                 }
             }
