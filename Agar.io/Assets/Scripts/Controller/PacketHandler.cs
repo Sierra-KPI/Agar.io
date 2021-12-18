@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 class PacketHandler
 {
@@ -7,7 +8,7 @@ class PacketHandler
         var packet = new ConnectionRequestPacket
         {
             Type = PacketType.ConnectionRequest,
-            PacketId = 0,
+            PacketId = ++Client.Instance.SendPacketsCounter,
             Name = name
         };
 
@@ -18,13 +19,39 @@ class PacketHandler
     {
         var packet = (ConnectionResponsePacket)_packet;
         Client.Instance.Id = packet.ClientId;
+        Client.Instance.ReceivePacketsCounter = packet.PacketId;
+
+        Debug.Log("GetConnectionResponse -> Id: " + packet.ClientId);
     }
 
-
-    public static void PlayerPosition(PacketBase _packet)
+    public static void SendPlayerPosition(int x, int y)
     {
-        var packet1 = ((PlayerPosition)_packet);
-        //Console.WriteLine("X: " + packet1.X + " Y: " + packet1.Y);
+        var packet = new PlayerPosition
+        {
+            Type = PacketType.PlayerPosition,
+            ClientId = Client.Instance.Id,
+            PacketId = ++Client.Instance.SendPacketsCounter,
+            X = x,
+            Y = y
+        };
+
+        Client.SendUDPData(packet);
+    }
+
+    public static void GetBoardUpdate(PacketBase _packet)
+    {
+        var packet = (BoardUpdatePacket)_packet;
+
+        if (packet.ClientPacketId == Client.Instance.SendPacketsCounter)
+        {
+            Client.Instance.TimeOfResponse = 0;
+        }
+
+        // update board from packet
+
+        Debug.Log("GetBoardUpdate -> PlayersNumber: " + packet.PlayersNumber);
+
+
     }
 
 }

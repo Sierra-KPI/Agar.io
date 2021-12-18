@@ -26,8 +26,7 @@ public class Controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
 
-            client.SendConnectionPacket();
-            client.SendPlayerPosition();
+            PacketHandler.SendPlayerPosition(1, 2);
         }
     }
     

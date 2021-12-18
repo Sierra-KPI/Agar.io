@@ -16,6 +16,7 @@ namespace GameServer
         public delegate void Handler(Client client, PacketBase packet);
         public static Dictionary<PacketType, Handler> packetHandlers;
 
+
         private static UdpClient udpListener;
 
         public static void Start(int port)
@@ -90,6 +91,14 @@ namespace GameServer
             var client = new Client(clients.Count + 1, endPoint);
             clients.Add(client.Id, client);
             return client;
+        }
+
+        public static void BoardUpdate()
+        {
+            foreach (var client in clients)
+            {
+                PacketHandler.SendBoardUpdate(client.Value);
+            }
         }
 
         private static void InitializeServerData()

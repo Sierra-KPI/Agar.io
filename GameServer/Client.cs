@@ -13,7 +13,9 @@ namespace GameServer
         public string Name;
         public IPEndPoint EndPoint;
         //public Player player;
-        public int PacketsCounter = 0;
+        public int ReceivePacketsCounter = 0;
+        public int SendPacketsCounter = 0;
+        public int TimeOfLife;
 
 
         public Client(int clientId, IPEndPoint endPoint)

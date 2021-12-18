@@ -15,6 +15,14 @@ public class Client
     private int _port = 26950;
     public int Id;
 
+    // public Player player;
+
+    public int ReceivePacketsCounter = 0;
+    public int SendPacketsCounter = 0;
+    public int TimeOfLife = 0;
+    public int TimeOfResponse = 0;
+
+
     private UdpClient _udp;
     private IPEndPoint _endPoint;
 
@@ -66,26 +74,12 @@ public class Client
         Debug.Log("send data to " + Instance._endPoint.ToString());
     }
 
-
-    // just for testing
-    public void SendPlayerPosition()
-    {
-        PlayerPosition packet = new PlayerPosition
-        {
-            Type = PacketType.PlayerPosition,
-            X = 3,
-            Y = 5
-        };
-
-        SendUDPData(packet);
-    }
-
     private static void InitializeClientData()
     {
         packetHandlers = new Dictionary<PacketType, Handler>()
         {
             { PacketType.ConnectionResponse, PacketHandler.GetConnectionResponse },
-            { PacketType.PlayerPosition, PacketHandler.PlayerPosition },
+            { PacketType.BoardUpdate, PacketHandler.GetBoardUpdate },
         };
 
     }

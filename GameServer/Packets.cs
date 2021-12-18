@@ -31,7 +31,7 @@ public class PacketBase
 public class ConnectionRequestPacket : PacketBase
 {
 
-    [ProtoMember(3)]
+    [ProtoMember(4)]
     public string Name { get; set; }
 
 }
@@ -40,7 +40,8 @@ public class ConnectionRequestPacket : PacketBase
 public class ConnectionResponsePacket : PacketBase
 {
 
-
+    [ProtoMember(4)]
+    public int ClientPacketId { get; set; }
 
 }
 
@@ -62,11 +63,13 @@ public class PlayerPosition : PacketBase
 public class BoardUpdatePacket : PacketBase
 {
 
-
     [ProtoMember(4)]
-    public int PlayersNumber { get; set; }
+    public int ClientPacketId { get; set; }
 
     [ProtoMember(5)]
+    public int PlayersNumber { get; set; }
+
+    [ProtoMember(6)]
     public PlayerPosition[] Players { get; set; }
 
 }
