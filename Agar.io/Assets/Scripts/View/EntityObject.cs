@@ -1,7 +1,7 @@
 ﻿using Agario.Model;
 using UnityEngine;
 
-namespace Agario.View
+namespace Agario.UnityView
 {
     public class EntityObject
     {

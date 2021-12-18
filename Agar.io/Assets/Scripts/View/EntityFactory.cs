@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Agario.Model;
 using UnityEngine;
 
-namespace Agario.View
+namespace Agario.UnityView
 {
     public class EntityFactory : MonoBehaviour
     {
