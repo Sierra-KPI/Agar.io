@@ -15,17 +15,16 @@ public class Client
     private string _serverIp = "127.0.0.1";
     private int _serverSendPort = 26950;
     private int _serverReceivePort = 26952;
+    private IPEndPoint _sendEndPoint;
+    private IPEndPoint _receiveEndPoint;
+    private UdpClient _udp;
 
     public int ReceivePacketsCounter = 0;
     public int SendPacketsCounter = 0;
     public int TimeOfLife = 0;
     public int TimeOfResponse = 0;
-    public int MaxTimeOfLife = 1800;
-    public int MaxTimeOfResponse = 80;
-
-    private UdpClient _udp;
-    private IPEndPoint _sendEndPoint;
-    private IPEndPoint _receiveEndPoint;
+    public int MaxTimeOfLife = 3; // 1 sec
+    public int MaxTimeOfResponse = 40; // 0.1 sec
 
     private delegate void Handler(PacketBase _packet);
     private static Dictionary<PacketType, Handler> _packetHandlers;
@@ -59,7 +58,7 @@ public class Client
         }
         catch (Exception e)
         {
-            Debug.LogError($"Error receiving UDP data: {e}");
+            Debug.Log($"Error receiving UDP data: {e}");
         }
     }
 
@@ -73,7 +72,7 @@ public class Client
             _udp.BeginSend(data, data.GetLength(0),
                 _sendEndPoint, null, null);
         }
-        Debug.Log("send data to " + _sendEndPoint.ToString());
+        //Debug.Log("send data to " + _sendEndPoint.ToString());
     }
 
     private void InitializeClientData()
@@ -95,10 +94,13 @@ public class Client
             Debug.Log("Disconnected from server.");
             PacketHandler.SendConnectionRequest("name"); //fix
         }
-        if (++TimeOfResponse > MaxTimeOfResponse)
+        if (TimeOfResponse > MaxTimeOfResponse)
         {
             PacketHandler.SendPlayerPosition(9, 9); // fix
         }
+
     }
+
+
 
 }

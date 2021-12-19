@@ -13,12 +13,15 @@ public class Controller : MonoBehaviour
     private void Update()
     {
         KeyController();
+        client.TimeOfResponse++;
         
     }
 
     private void FixedUpdate()
     {
+        // set Fixed Timestemps to 1 sec
         client.CheckConnectToServer();
+        PacketHandler.SendPlayerPosition(1, 2);
     }
 
     //just for testing
@@ -26,7 +29,6 @@ public class Controller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
             PacketHandler.SendPlayerPosition(1, 2);
         }
     }

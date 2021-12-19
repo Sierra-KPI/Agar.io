@@ -43,7 +43,7 @@ namespace GameServer
             // change player coordinates
 
 
-            Console.WriteLine("X: " + packet.X + " Y: " + packet.Y);
+            //Console.WriteLine("X: " + packet.X + " Y: " + packet.Y);
         }
 
         public static void SendBoardUpdate(Client client)
@@ -60,7 +60,7 @@ namespace GameServer
             };
 
             Server.SendUDPData(client, packet);
-            Console.WriteLine("SendBoardUpdate -> ClientId: " + client.Id);
+            //Console.WriteLine("SendBoardUpdate -> ClientId: " + client.Id);
         }
 
 

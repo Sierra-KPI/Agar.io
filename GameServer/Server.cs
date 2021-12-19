@@ -49,11 +49,8 @@ namespace GameServer
                     }
                     else
                     {
-                        if (!_clients.ContainsKey(packet.ClientId) &&
-                            _clients[packet.ClientId].EndPoint == clientEndPoint)
-                        {
-                            return;
-                        }
+                        if (!_clients.ContainsKey(packet.ClientId)) return;
+                        if (_clients[packet.ClientId].EndPoint == clientEndPoint) return;
                         client = _clients[packet.ClientId];
                     }
                     _packetHandlers[packet.Type](client, packet);

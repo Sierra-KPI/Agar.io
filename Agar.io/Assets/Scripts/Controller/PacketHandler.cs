@@ -49,7 +49,7 @@ class PacketHandler
 
         // update board from packet
 
-        Debug.Log("GetBoardUpdate -> PlayersNumber: " + packet.PlayersNumber);
+        //Debug.Log("GetBoardUpdate -> PlayersNumber: " + packet.PlayersNumber);
 
 
     }
