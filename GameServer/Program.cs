@@ -16,9 +16,9 @@ namespace GameServer
             Thread mainThread = new Thread(new ThreadStart(MainThread));
             mainThread.Start();
 
-            int port = 26950;
-            int port2 = 26952;
-            Server.Start(port, port2);
+            int receivePort = 26950;
+            int sendPort = 26952;
+            Server.Start(receivePort, sendPort);
 
         }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace GameServer
 {
@@ -16,6 +11,7 @@ namespace GameServer
         public int ReceivePacketsCounter = 0;
         public int SendPacketsCounter = 0;
         public int TimeOfLife = 0;
+        public int MaxTimeOfLife = 20;
 
 
         public Client(int clientId, IPEndPoint endPoint)
@@ -27,7 +23,5 @@ namespace GameServer
 
         
     }
-
-
    
 }

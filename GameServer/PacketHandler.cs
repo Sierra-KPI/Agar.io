@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameServer
 {
@@ -62,8 +58,6 @@ namespace GameServer
                 ClientPacketId = client.ReceivePacketsCounter,
                 PlayersNumber = 3,
             };
-
-            
 
             Server.SendUDPData(client, packet);
             Console.WriteLine("SendBoardUpdate -> ClientId: " + client.Id);

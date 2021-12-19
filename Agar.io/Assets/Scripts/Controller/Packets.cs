@@ -1,6 +1,4 @@
-﻿using System;
-
-using ProtoBuf;
+﻿using ProtoBuf;
 
 public enum PacketType
 {
@@ -48,8 +46,6 @@ public class ConnectionResponsePacket : PacketBase
 [ProtoContract]
 public class PlayerPosition : PacketBase
 {
-
-
 
     [ProtoMember(4)]
     public int X { get; set; }

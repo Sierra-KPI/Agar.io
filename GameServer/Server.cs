@@ -9,31 +9,25 @@ namespace GameServer
 {
     class Server
     {
-        public static int MaxPlayers = 100;
-        public static int Port { get; private set; }
-        public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
+        private static Dictionary<int, Client> _clients = new Dictionary<int, Client>();
 
-        public delegate void Handler(Client client, PacketBase packet);
-        public static Dictionary<PacketType, Handler> packetHandlers;
+        private delegate void Handler(Client client, PacketBase packet);
+        private static Dictionary<PacketType, Handler> _packetHandlers;
 
+        private static UdpClient _udpListener;
+        private static UdpClient _udpSender;
 
-        private static UdpClient udpListener;
-        private static UdpClient udpSender;
-
-
-        public static void Start(int port, int port2)
+        public static void Start(int receivePort, int sendPort)
         {
-            Port = port;
-
             Console.WriteLine("Starting server...");
             InitializeServerData();
             
-            udpListener = new UdpClient(Port);
-            udpListener.BeginReceive(UDPReceiveCallback, null);
+            _udpListener = new UdpClient(receivePort);
+            _udpListener.BeginReceive(UDPReceiveCallback, null);
 
-            udpSender = new UdpClient(port2);
+            _udpSender = new UdpClient(sendPort);
 
-            Console.WriteLine($"Server started on port {Port}.");
+            Console.WriteLine($"Server started on port {receivePort}.");
         }
 
         private static void UDPReceiveCallback(IAsyncResult result)
@@ -41,8 +35,8 @@ namespace GameServer
             try
             {
                 IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                byte[] data = udpListener.EndReceive(result, ref clientEndPoint);
-                udpListener.BeginReceive(UDPReceiveCallback, null);
+                byte[] data = _udpListener.EndReceive(result, ref clientEndPoint);
+                _udpListener.BeginReceive(UDPReceiveCallback, null);
 
                 using (MemoryStream ms = new MemoryStream(data))
                 {
@@ -55,10 +49,14 @@ namespace GameServer
                     }
                     else
                     {
-                        // check if id exist
-                        client = clients[packet.ClientId];
+                        if (!_clients.ContainsKey(packet.ClientId) &&
+                            _clients[packet.ClientId].EndPoint == clientEndPoint)
+                        {
+                            return;
+                        }
+                        client = _clients[packet.ClientId];
                     }
-                    packetHandlers[packet.Type](client, packet);
+                    _packetHandlers[packet.Type](client, packet);
                 }
             }
             catch (Exception e)
@@ -78,7 +76,7 @@ namespace GameServer
                     {
                         Serializer.SerializeWithLengthPrefix(outputFile, packet,
                             PrefixStyle.Base128);
-                        udpSender.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint, null, null);
+                        _udpSender.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint, null, null);
                     }
                 }
             }
@@ -90,41 +88,37 @@ namespace GameServer
 
         private static Client AddClient(IPEndPoint endPoint)
         {
-            var client = new Client(clients.Count + 1, endPoint);
-            clients.Add(client.Id, client);
+            var client = new Client(_clients.Count + 1, endPoint);
+            _clients.Add(client.Id, client);
             return client;
         }
 
-        public static void DisconnectClient(Client client)
+        private static void DisconnectClient(Client client)
         {
-            clients.Remove(client.Id);
+            _clients.Remove(client.Id);
             Console.WriteLine($"Disconnect {client.EndPoint} from server");
         }
 
         public static void Update()
         {
-            foreach (var client in clients)
+            foreach (var client in _clients.Values)
             {
-                // add const for 10
-                if (++client.Value.TimeOfLife > 20)
+                if (++client.TimeOfLife > client.MaxTimeOfLife)
                 {
-                    DisconnectClient(client.Value);
+                    DisconnectClient(client);
                     continue;
                 }
-                
-                PacketHandler.SendBoardUpdate(client.Value);
+                PacketHandler.SendBoardUpdate(client);
             }
         }
 
         private static void InitializeServerData()
         {
-
-            packetHandlers = new Dictionary<PacketType, Handler>()
+            _packetHandlers = new Dictionary<PacketType, Handler>()
             {
                 { PacketType.ConnectionRequest, PacketHandler.GetConnectionRequest },
                 { PacketType.PlayerPosition, PacketHandler.GetPlayerPosition },
             };
-
 
             Console.WriteLine("Initialized packets.");
         }

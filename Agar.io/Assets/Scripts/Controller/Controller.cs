@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
@@ -12,16 +8,18 @@ public class Controller : MonoBehaviour
     {
         client = new Client();
 
-       
     }
 
     private void Update()
     {
         KeyController();
-
         
     }
 
+    private void FixedUpdate()
+    {
+        client.CheckConnectToServer();
+    }
 
     //just for testing
     void KeyController()

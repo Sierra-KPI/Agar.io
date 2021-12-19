@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 class PacketHandler
 {
@@ -12,7 +11,7 @@ class PacketHandler
             Name = name
         };
 
-        Client.SendUDPData(packet);
+        Client.Instance.SendUDPData(packet);
     }
 
     public static void GetConnectionResponse(PacketBase _packet)
@@ -35,7 +34,7 @@ class PacketHandler
             Y = y
         };
 
-        Client.SendUDPData(packet);
+        Client.Instance.SendUDPData(packet);
     }
 
     public static void GetBoardUpdate(PacketBase _packet)

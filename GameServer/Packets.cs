@@ -1,6 +1,4 @@
-﻿using System;
-
-using ProtoBuf;
+﻿using ProtoBuf;
 
 public enum PacketType
 {
