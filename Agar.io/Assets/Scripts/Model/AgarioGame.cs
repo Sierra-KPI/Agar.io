@@ -41,7 +41,7 @@ namespace Agario.Model
             {
                 leaderBoard.Sort((a, b) =>
                 {
-                    return a.GetTotalRadius().CompareTo(b.GetTotalRadius());
+                    return a.Radius.CompareTo(b.Radius);
                 });
             }
 
