@@ -4,7 +4,7 @@ using ProtoBuf;
 
 namespace GameServer
 {
-    class Server
+    internal class Server
     {
         private static readonly Dictionary<int, Client> s_clients = new();
 
