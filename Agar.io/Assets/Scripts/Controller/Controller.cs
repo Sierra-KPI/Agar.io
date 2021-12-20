@@ -1,36 +1,37 @@
+using Agario.Network;
 using UnityEngine;
 
-public class Controller : MonoBehaviour
+namespace Agario.UnityController
 {
-    private Client client;
-
-    void Start()
+    public class Controller : MonoBehaviour
     {
-        client = new Client();
+        private Client _client;
 
-    }
-
-    private void Update()
-    {
-        KeyController();
-        client.TimeOfResponse++;
-        
-    }
-
-    private void FixedUpdate()
-    {
-        // set Fixed Timestemps to 1 sec
-        client.CheckConnectToServer();
-        PacketHandler.SendPlayerPosition(1, 2);
-    }
-
-    //just for testing
-    void KeyController()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        private void Start()
         {
+            _client = new Client();
+        }
+
+        private void Update()
+        {
+            KeyController();
+            _client.TimeOfResponse++;
+        }
+
+        private void FixedUpdate()
+        {
+            // set Fixed Timestemps to 1 sec
+            _client.CheckConnectToServer();
             PacketHandler.SendPlayerPosition(1, 2);
         }
+
+        //just for testing
+        private void KeyController()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                PacketHandler.SendPlayerPosition(1, 2);
+            }
+        }
     }
-    
 }

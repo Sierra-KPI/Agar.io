@@ -1,16 +1,16 @@
-﻿using System;
-
-namespace GameServer
+﻿namespace GameServer
 {
-    class PacketHandler
+    internal class PacketHandler
     {
-        public static void GetConnectionRequest(Client client, PacketBase _packet)
+        public static void GetConnectionRequest(Client client,
+            PacketBase _packet)
         {
             var packet = (ConnectionRequestPacket)_packet;
             client.Name = packet.Name;
             client.ReceivePacketsCounter = _packet.PacketId;
 
-            Console.WriteLine("GetConnectionRequest -> Name: " + packet.Name);
+            Console.WriteLine("GetConnectionRequest -> Name: " +
+                packet.Name);
             SendConnectionResponse(client);
         }
 
@@ -28,7 +28,8 @@ namespace GameServer
             Console.WriteLine("SendConnectionResponse");
         }
 
-        public static void GetPlayerPosition(Client client, PacketBase _packet)
+        public static void GetPlayerPosition(Client client,
+            PacketBase _packet)
         {
             var packet = ((PlayerPosition)_packet);
 
@@ -41,7 +42,6 @@ namespace GameServer
             client.TimeOfLife = 0;
 
             // change player coordinates
-
 
             //Console.WriteLine("X: " + packet.X + " Y: " + packet.Y);
         }
@@ -62,7 +62,5 @@ namespace GameServer
             Server.SendUDPData(client, packet);
             //Console.WriteLine("SendBoardUpdate -> ClientId: " + client.Id);
         }
-
-
     }
 }

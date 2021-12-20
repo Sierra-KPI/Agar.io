@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using ProtoBuf;
 
@@ -9,7 +6,7 @@ namespace GameServer
 {
     class Server
     {
-        private static Dictionary<int, Client> _clients = new Dictionary<int, Client>();
+        private static readonly Dictionary<int, Client> s_clients = new();
 
         private delegate void Handler(Client client, PacketBase packet);
         private static Dictionary<PacketType, Handler> _packetHandlers;
@@ -40,7 +37,8 @@ namespace GameServer
 
                 using (MemoryStream ms = new MemoryStream(data))
                 {
-                    var packet = Serializer.DeserializeWithLengthPrefix<PacketBase>(ms, PrefixStyle.Base128);
+                    var packet = Serializer.DeserializeWithLengthPrefix<PacketBase>
+                        (ms, PrefixStyle.Base128);
 
                     Client client;
                     if (packet.Type == PacketType.ConnectionRequest)
@@ -49,9 +47,18 @@ namespace GameServer
                     }
                     else
                     {
-                        if (!_clients.ContainsKey(packet.ClientId)) return;
-                        if (_clients[packet.ClientId].EndPoint == clientEndPoint) return;
-                        client = _clients[packet.ClientId];
+                        if (!s_clients.ContainsKey(packet.ClientId))
+                        {
+                            return;
+                        }
+
+                        if (s_clients[packet.ClientId].EndPoint ==
+                            clientEndPoint)
+                        {
+                            return;
+                        }
+
+                        client = s_clients[packet.ClientId];
                     }
                     _packetHandlers[packet.Type](client, packet);
                 }
@@ -71,40 +78,44 @@ namespace GameServer
                 {
                     using (MemoryStream outputFile = new MemoryStream())
                     {
-                        Serializer.SerializeWithLengthPrefix(outputFile, packet,
-                            PrefixStyle.Base128);
-                        _udpSender.BeginSend(outputFile.ToArray(), outputFile.ToArray().GetLength(0), clientEndPoint, null, null);
+                        Serializer.SerializeWithLengthPrefix(outputFile,
+                            packet, PrefixStyle.Base128);
+                        _udpSender.BeginSend(outputFile.ToArray(),
+                            outputFile.ToArray().GetLength(0),
+                            clientEndPoint, null, null);
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error sending data to {clientEndPoint} via UDP: {e}");
+                Console.WriteLine($"Error sending data to " +
+                    $"{clientEndPoint} via UDP: {e}");
             }
         }
 
         private static Client AddClient(IPEndPoint endPoint)
         {
-            var client = new Client(_clients.Count + 1, endPoint);
-            _clients.Add(client.Id, client);
+            var client = new Client(s_clients.Count + 1, endPoint);
+            s_clients.Add(client.Id, client);
             return client;
         }
 
         private static void DisconnectClient(Client client)
         {
-            _clients.Remove(client.Id);
+            s_clients.Remove(client.Id);
             Console.WriteLine($"Disconnect {client.EndPoint} from server");
         }
 
         public static void Update()
         {
-            foreach (var client in _clients.Values)
+            foreach (var client in s_clients.Values)
             {
                 if (++client.TimeOfLife > client.MaxTimeOfLife)
                 {
                     DisconnectClient(client);
                     continue;
                 }
+
                 PacketHandler.SendBoardUpdate(client);
             }
         }
@@ -113,7 +124,8 @@ namespace GameServer
         {
             _packetHandlers = new Dictionary<PacketType, Handler>()
             {
-                { PacketType.ConnectionRequest, PacketHandler.GetConnectionRequest },
+                { PacketType.ConnectionRequest,
+                    PacketHandler.GetConnectionRequest },
                 { PacketType.PlayerPosition, PacketHandler.GetPlayerPosition },
             };
 

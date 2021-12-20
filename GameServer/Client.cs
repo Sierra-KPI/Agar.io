@@ -2,7 +2,7 @@
 
 namespace GameServer
 {
-    class Client
+    internal class Client
     {
         public int Id;
         public string Name;
@@ -13,15 +13,11 @@ namespace GameServer
         public int TimeOfLife = 0;
         public int MaxTimeOfLife = 30 * 3; // 3 seconds
 
-
         public Client(int clientId, IPEndPoint endPoint)
         {
             Id = clientId;
             EndPoint = endPoint;
             //player = new Player();
         }
-
-        
     }
-   
 }

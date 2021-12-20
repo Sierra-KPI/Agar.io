@@ -1,17 +1,14 @@
-﻿using System;
-using System.Threading;
-
-namespace GameServer
+﻿namespace GameServer
 {
-    class Program
+    internal class Program
     {
-        private static bool isRunning = false;
+        private static bool s_isRunning = false;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.Title = "Game Server";
 
-            isRunning = true;
+            s_isRunning = true;
 
             Thread mainThread = new Thread(new ThreadStart(MainThread));
             mainThread.Start();
@@ -22,8 +19,8 @@ namespace GameServer
 
         }
 
-        public const int TICKS_PER_SEC = 30; 
-        public const float MS_PER_TICK = 1000f / TICKS_PER_SEC;
+        public const int TicksPerSec = 30; 
+        public const float MsPerTick = 1000f / TicksPerSec;
 
         // rewrite
         private static void MainThread()
@@ -31,13 +28,13 @@ namespace GameServer
             Console.WriteLine($"Main thread started");
             DateTime _nextLoop = DateTime.Now;
 
-            while (isRunning)
+            while (s_isRunning)
             {
                 while (_nextLoop < DateTime.Now)
                 {
                     Server.Update();
 
-                    _nextLoop = _nextLoop.AddMilliseconds(MS_PER_TICK);
+                    _nextLoop = _nextLoop.AddMilliseconds(MsPerTick);
 
                     if (_nextLoop > DateTime.Now)
                     {
