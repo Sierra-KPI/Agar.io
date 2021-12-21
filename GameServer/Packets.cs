@@ -24,6 +24,9 @@ namespace GameServer
     {
         [ProtoMember(4)]
         public string Name { get; set; }
+
+        [ProtoMember(5)]
+        public string Color { get; set; }
     }
 
     [ProtoContract]
@@ -57,5 +60,30 @@ namespace GameServer
 
         [ProtoMember(6)]
         public PlayerPosition[] Players { get; set; }
+    }
+
+    [ProtoContract]
+    public class PlayerInfoRequestPacket : PacketBase
+    {
+        [ProtoMember(4)]
+        public int PlayerId { get; set; }
+
+    }
+
+    [ProtoContract]
+    public class PlayerInfoResponsePacket : PacketBase
+    {
+        [ProtoMember(4)]
+        public int PlayerId { get; set; }
+
+        [ProtoMember(5)]
+        public int ClientPacketId { get; set; }
+
+        [ProtoMember(6)]
+        public string PlayerName { get; set; }
+
+        [ProtoMember(7)]
+        public string PlayerColor { get; set; }
+
     }
 }
