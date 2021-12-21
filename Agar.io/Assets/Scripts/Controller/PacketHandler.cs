@@ -91,7 +91,7 @@ namespace Agario.Network
         {
             var packet = new LeaderBoardRequestPacket
             {
-                Type = PacketType.PlayerInfoRequest,
+                Type = PacketType.LeaderBoardRequest,
                 ClientId = Client.Instance.Id,
                 PacketId = ++Client.Instance.SendPacketsCounter,
             };
@@ -106,7 +106,7 @@ namespace Agario.Network
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
 
-            Debug.Log("GetLeaderBoardResponse -> Players: " + packet.Players.ToString());
+            Debug.Log("GetLeaderBoardResponse -> Players: " + packet.Players[2]);
         }
 
     }

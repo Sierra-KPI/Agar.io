@@ -114,7 +114,7 @@ namespace GameServer
         {
             var packet = new LeaderBoardResponsePacket
             {
-                Type = PacketType.PlayerInfoResponse,
+                Type = PacketType.LeaderBoardResponse,
                 ClientId = client.Id,
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,

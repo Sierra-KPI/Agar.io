@@ -32,7 +32,6 @@ namespace Agario.UnityController
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 PacketHandler.SendPlayerPosition(1, 2, 2);
-                //PacketHandler.SendPlayerInfoRequest(1);
             }
         }
     }
