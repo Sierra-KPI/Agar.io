@@ -9,6 +9,7 @@ namespace Agario.UnityController
 
         private void Start()
         {
+            Time.fixedDeltaTime = 1f;
             _client = new Client();
         }
 
