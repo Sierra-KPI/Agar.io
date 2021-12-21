@@ -25,7 +25,7 @@ namespace Agario.Network
             Debug.Log("GetConnectionResponse -> Id: " + packet.ClientId);
         }
 
-        public static void SendPlayerPosition(int x, int y)
+        public static void SendPlayerPosition(int x, int y, int size)
         {
             var packet = new PlayerPosition
             {
@@ -33,7 +33,8 @@ namespace Agario.Network
                 ClientId = Client.Instance.Id,
                 PacketId = ++Client.Instance.SendPacketsCounter,
                 X = x,
-                Y = y
+                Y = y,
+                Size = size
             };
 
             Client.Instance.SendUDPData(packet);
@@ -53,5 +54,59 @@ namespace Agario.Network
 
             //Debug.Log("GetBoardUpdate -> PlayersNumber: " + packet.PlayersNumber);
         }
+
+        public static void SendPlayerInfoRequest(int playerId)
+        {
+            var packet = new PlayerInfoRequestPacket
+            {
+                Type = PacketType.PlayerInfoRequest,
+                ClientId = Client.Instance.Id,
+                PacketId = ++Client.Instance.SendPacketsCounter,
+                PlayerId = playerId
+            };
+
+            Client.Instance.SendUDPData(packet);
+            Debug.Log("SendPlayerInfoRequest");
+        }
+
+        public static void GetPlayerInfoResponse(PacketBase _packet)
+        {
+            var packet = (PlayerInfoResponsePacket)_packet;
+            Client.Instance.Id = packet.ClientId;
+            Client.Instance.ReceivePacketsCounter = packet.PacketId;
+
+            if (packet.PlayerId == 0) return;
+
+            var player = new Player
+            {
+                Name = packet.PlayerName,
+                Color = packet.PlayerColor
+            };
+            Client.Instance.playersInfo[packet.PlayerId] = player;
+
+            Debug.Log("GetPlayerInfoResponse -> Name: " + packet.PlayerName);
+        }
+
+        public static void SendLeaderBoardRequest()
+        {
+            var packet = new LeaderBoardRequestPacket
+            {
+                Type = PacketType.LeaderBoardRequest,
+                ClientId = Client.Instance.Id,
+                PacketId = ++Client.Instance.SendPacketsCounter,
+            };
+
+            Client.Instance.SendUDPData(packet);
+            Debug.Log("SendLeaderBoardRequest");
+        }
+
+        public static void GetLeaderBoardResponse(PacketBase _packet)
+        {
+            var packet = (LeaderBoardResponsePacket)_packet;
+            Client.Instance.Id = packet.ClientId;
+            Client.Instance.ReceivePacketsCounter = packet.PacketId;
+            Debug.Log("GetLeaderBoardResponse");
+        }
+
     }
 }
