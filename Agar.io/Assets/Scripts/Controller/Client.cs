@@ -8,11 +8,17 @@ using UnityEngine;
 
 namespace Agario.Network
 {
+
+    public struct Player {
+        public string Name;
+        public string Color;
+    }
+
     public class Client
     {
         public static Client Instance;
         public int Id;
-        // public Player player;
+        //public Player player;
 
         private readonly string _serverIp = "127.0.0.1";
         private readonly int _serverSendPort = 26950;
@@ -31,15 +37,18 @@ namespace Agario.Network
         private delegate void Handler(PacketBase _packet);
         private static Dictionary<PacketType, Handler> s_packetHandlers;
 
+        public Dictionary<int, Player> playersInfo;
+
         public Client()
         {
             Instance = this;
+            playersInfo = new();
 
             _udp = new UdpClient();
             InitializeClientData();
             _udp.BeginReceive(UDPReceiveCallback, null);
 
-            PacketHandler.SendConnectionRequest("SomeName");
+            PacketHandler.SendConnectionRequest("Player1");
         }
 
         private void UDPReceiveCallback(IAsyncResult result)
@@ -94,6 +103,7 @@ namespace Agario.Network
                 { PacketType.ConnectionResponse,
                     PacketHandler.GetConnectionResponse },
                 { PacketType.BoardUpdate, PacketHandler.GetBoardUpdate },
+                { PacketType.PlayerInfoResponse, PacketHandler.GetPlayerInfoResponse },
             };
         }
 
@@ -107,7 +117,7 @@ namespace Agario.Network
 
             if (TimeOfResponse > MaxTimeOfResponse)
             {
-                PacketHandler.SendPlayerPosition(9, 9); // fix
+                PacketHandler.SendPlayerPosition(9, 9, 2); // fix
             }
         }
     }

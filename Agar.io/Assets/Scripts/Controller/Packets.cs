@@ -6,7 +6,9 @@ namespace Agario.Network
     ProtoInclude(10, typeof(ConnectionRequestPacket)),
     ProtoInclude(11, typeof(ConnectionResponsePacket)),
     ProtoInclude(12, typeof(PlayerPosition)),
-    ProtoInclude(13, typeof(BoardUpdatePacket)),]
+    ProtoInclude(13, typeof(BoardUpdatePacket)),
+    ProtoInclude(14, typeof(PlayerInfoRequestPacket)),
+    ProtoInclude(15, typeof(PlayerInfoResponsePacket)),]
     public class PacketBase
     {
         [ProtoMember(1)]

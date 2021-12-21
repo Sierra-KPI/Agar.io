@@ -54,5 +54,38 @@ namespace Agario.Network
 
             //Debug.Log("GetBoardUpdate -> PlayersNumber: " + packet.PlayersNumber);
         }
+
+        public static void SendPlayerInfoRequest(int playerId)
+        {
+            var packet = new PlayerInfoRequestPacket
+            {
+                Type = PacketType.PlayerInfoRequest,
+                ClientId = Client.Instance.Id,
+                PacketId = ++Client.Instance.SendPacketsCounter,
+                PlayerId = playerId
+            };
+
+            Client.Instance.SendUDPData(packet);
+            Debug.Log("SendPlayerInfoRequest");
+        }
+
+        public static void GetPlayerInfoResponse(PacketBase _packet)
+        {
+            var packet = (PlayerInfoResponsePacket)_packet;
+            Client.Instance.Id = packet.ClientId;
+            Client.Instance.ReceivePacketsCounter = packet.PacketId;
+
+            if (packet.PlayerId == 0) return;
+
+            var player = new Player
+            {
+                Name = packet.PlayerName,
+                Color = packet.PlayerColor
+            };
+            Client.Instance.playersInfo[packet.PlayerId] = player;
+
+            Debug.Log("GetPlayerInfoResponse -> Name: " + packet.PlayerName);
+        }
+
     }
 }

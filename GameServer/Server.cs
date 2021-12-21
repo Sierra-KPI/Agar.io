@@ -103,6 +103,15 @@ namespace GameServer
             return client;
         }
 
+        public static Client GetClient(int id)
+        {
+            if (!s_clients.ContainsKey(id))
+            {
+                return new Client();
+            }
+            return s_clients[id];
+        }
+
         private static void DisconnectClient(Client client)
         {
             s_clients.Remove(client.Id);
@@ -130,6 +139,7 @@ namespace GameServer
                 { PacketType.ConnectionRequest,
                     PacketHandler.GetConnectionRequest },
                 { PacketType.PlayerPosition, PacketHandler.GetPlayerPosition },
+                { PacketType.PlayerInfoRequest, PacketHandler.GetPlayerInfoRequest },
             };
 
             Console.WriteLine("Initialized packets.");

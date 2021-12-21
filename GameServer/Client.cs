@@ -19,5 +19,7 @@ namespace GameServer
             EndPoint = endPoint;
             //player = new Player();
         }
+
+        public Client() { }
     }
 }

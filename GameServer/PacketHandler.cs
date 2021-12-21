@@ -64,5 +64,37 @@ namespace GameServer
             Server.SendUDPData(client, packet);
             //Console.WriteLine("SendBoardUpdate -> ClientId: " + client.Id);
         }
+
+        public static void GetPlayerInfoRequest(Client client,
+           PacketBase _packet)
+        {
+            var packet = (PlayerInfoRequestPacket)_packet;
+            client.ReceivePacketsCounter = _packet.PacketId;
+
+            //var player = Server.GetClient(packet.PlayerId).Player;
+            var player = Server.GetClient(packet.PlayerId);
+
+            Console.WriteLine("GetPlayerInfoRequest");
+            SendPlayerInfoResponse(client, player);
+        }
+
+        //public static void SendPlayerInfoResponse(Client client, Player player)
+        public static void SendPlayerInfoResponse(Client client, Client player)
+        {
+            var packet = new PlayerInfoResponsePacket
+            {
+                Type = PacketType.PlayerInfoResponse,
+                ClientId = client.Id,
+                PacketId = ++client.SendPacketsCounter,
+                ClientPacketId = client.ReceivePacketsCounter,
+                PlayerId = player.Id,
+                PlayerName = player.Name,
+                PlayerColor = "color"
+            };
+
+            Server.SendUDPData(client, packet);
+            Console.WriteLine("SendPlayerInfoResponse about: " + player.Name);
+        }
+
     }
 }

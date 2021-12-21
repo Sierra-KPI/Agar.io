@@ -23,7 +23,7 @@ namespace Agario.UnityController
         {
             // set Fixed Timestemps to 1 sec
             _client.CheckConnectToServer();
-            PacketHandler.SendPlayerPosition(1, 2);
+            PacketHandler.SendPlayerPosition(1, 2, 2);
         }
 
         //just for testing
@@ -31,7 +31,8 @@ namespace Agario.UnityController
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                PacketHandler.SendPlayerPosition(1, 2);
+                PacketHandler.SendPlayerPosition(1, 2, 2);
+                //PacketHandler.SendPlayerInfoRequest(1);
             }
         }
     }

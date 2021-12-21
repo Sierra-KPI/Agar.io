@@ -6,7 +6,9 @@ namespace GameServer
     ProtoInclude(10, typeof(ConnectionRequestPacket)),
     ProtoInclude(11, typeof(ConnectionResponsePacket)),
     ProtoInclude(12, typeof(PlayerPosition)),
-    ProtoInclude(13, typeof(BoardUpdatePacket)),]
+    ProtoInclude(13, typeof(BoardUpdatePacket)),
+    ProtoInclude(14, typeof(PlayerInfoRequestPacket)),
+    ProtoInclude(15, typeof(PlayerInfoResponsePacket)),]
     public class PacketBase
     {
         [ProtoMember(1)]
@@ -67,7 +69,6 @@ namespace GameServer
     {
         [ProtoMember(4)]
         public int PlayerId { get; set; }
-
     }
 
     [ProtoContract]
@@ -84,6 +85,5 @@ namespace GameServer
 
         [ProtoMember(7)]
         public string PlayerColor { get; set; }
-
     }
 }

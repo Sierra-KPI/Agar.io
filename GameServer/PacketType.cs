@@ -5,6 +5,8 @@
         ConnectionRequest,
         ConnectionResponse,
         PlayerPosition,
-        BoardUpdate
+        BoardUpdate,
+        PlayerInfoRequest,
+        PlayerInfoResponse
     }
 }
