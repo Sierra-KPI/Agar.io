@@ -8,7 +8,9 @@ namespace Agario.Network
     ProtoInclude(12, typeof(PlayerPosition)),
     ProtoInclude(13, typeof(BoardUpdatePacket)),
     ProtoInclude(14, typeof(PlayerInfoRequestPacket)),
-    ProtoInclude(15, typeof(PlayerInfoResponsePacket)),]
+    ProtoInclude(15, typeof(PlayerInfoResponsePacket)),
+    ProtoInclude(16, typeof(LeaderBoardRequestPacket)),
+    ProtoInclude(17, typeof(LeaderBoardResponsePacket)),]
     public class PacketBase
     {
         [ProtoMember(1)]
@@ -86,6 +88,19 @@ namespace Agario.Network
 
         [ProtoMember(7)]
         public string PlayerColor { get; set; }
+    }
+
+    [ProtoContract]
+    public class LeaderBoardRequestPacket : PacketBase
+    {
+
+    }
+
+    [ProtoContract]
+    public class LeaderBoardResponsePacket : PacketBase
+    {
+        [ProtoMember(4)]
+        public int[] Players { get; set; }
 
     }
 }

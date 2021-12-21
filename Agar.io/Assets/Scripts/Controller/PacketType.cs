@@ -7,6 +7,8 @@
         PlayerPosition,
         BoardUpdate,
         PlayerInfoRequest,
-        PlayerInfoResponse
+        PlayerInfoResponse,
+        LeaderBoardRequest,
+        LeaderBoardResponse,
     }
 }
