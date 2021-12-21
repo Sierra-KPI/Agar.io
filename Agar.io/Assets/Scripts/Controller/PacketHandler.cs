@@ -87,5 +87,27 @@ namespace Agario.Network
             Debug.Log("GetPlayerInfoResponse -> Name: " + packet.PlayerName);
         }
 
+        public static void SendLeaderBoardRequest()
+        {
+            var packet = new LeaderBoardRequestPacket
+            {
+                Type = PacketType.PlayerInfoRequest,
+                ClientId = Client.Instance.Id,
+                PacketId = ++Client.Instance.SendPacketsCounter,
+            };
+
+            Client.Instance.SendUDPData(packet);
+            Debug.Log("SendLeaderBoardRequest");
+        }
+
+        public static void GetLeaderBoardResponse(PacketBase _packet)
+        {
+            var packet = (LeaderBoardResponsePacket)_packet;
+            Client.Instance.Id = packet.ClientId;
+            Client.Instance.ReceivePacketsCounter = packet.PacketId;
+
+            Debug.Log("GetLeaderBoardResponse -> Players: " + packet.Players.ToString());
+        }
+
     }
 }
