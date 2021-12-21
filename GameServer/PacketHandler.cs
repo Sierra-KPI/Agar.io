@@ -1,4 +1,6 @@
-﻿namespace GameServer
+﻿using System;
+
+namespace GameServer
 {
     internal class PacketHandler
     {
