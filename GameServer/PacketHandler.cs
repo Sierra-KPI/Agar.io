@@ -96,5 +96,34 @@ namespace GameServer
             Console.WriteLine("SendPlayerInfoResponse about: " + player.Name);
         }
 
+        public static void GetLeaderBoardRequest(Client client,
+           PacketBase _packet)
+        {
+            var packet = (LeaderBoardRequestPacket)_packet;
+            client.ReceivePacketsCounter = _packet.PacketId;
+
+            // get leaderBoard
+            int[] players = { 2, 3, 4, 1 };
+
+            Console.WriteLine("GetLeaderBoardRequest");
+            SendLeaderBoardResponse(client, players);
+        }
+
+        //public static void SendPlayerInfoResponse(Client client, Player player)
+        public static void SendLeaderBoardResponse(Client client, int[] players)
+        {
+            var packet = new LeaderBoardResponsePacket
+            {
+                Type = PacketType.PlayerInfoResponse,
+                ClientId = client.Id,
+                PacketId = ++client.SendPacketsCounter,
+                ClientPacketId = client.ReceivePacketsCounter,
+                Players = players
+            };
+
+            Server.SendUDPData(client, packet);
+            Console.WriteLine("SendLeaderBoardResponse");
+        }
+
     }
 }

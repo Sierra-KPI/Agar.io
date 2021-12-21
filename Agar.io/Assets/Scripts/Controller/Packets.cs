@@ -100,6 +100,9 @@ namespace Agario.Network
     public class LeaderBoardResponsePacket : PacketBase
     {
         [ProtoMember(4)]
+        public int ClientPacketId { get; set; }
+
+        [ProtoMember(5)]
         public int[] Players { get; set; }
 
     }

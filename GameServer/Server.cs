@@ -140,6 +140,7 @@ namespace GameServer
                     PacketHandler.GetConnectionRequest },
                 { PacketType.PlayerPosition, PacketHandler.GetPlayerPosition },
                 { PacketType.PlayerInfoRequest, PacketHandler.GetPlayerInfoRequest },
+                { PacketType.LeaderBoardRequest, PacketHandler.GetLeaderBoardRequest },
             };
 
             Console.WriteLine("Initialized packets.");
