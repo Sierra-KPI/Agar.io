@@ -10,6 +10,7 @@ namespace Agario.Network
 {
 
     public struct Player {
+        public int Id;
         public string Name;
         public string Color;
     }

@@ -105,8 +105,7 @@ namespace Agario.Network
             var packet = (LeaderBoardResponsePacket)_packet;
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
-
-            Debug.Log("GetLeaderBoardResponse -> Players: " + packet.Players[2]);
+            Debug.Log("GetLeaderBoardResponse");
         }
 
     }
