@@ -124,6 +124,5 @@ namespace GameServer
             Server.SendUDPData(client, packet);
             Console.WriteLine("SendLeaderBoardResponse");
         }
-
     }
 }

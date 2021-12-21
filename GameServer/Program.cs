@@ -19,7 +19,6 @@ namespace GameServer
             int receivePort = 26950;
             int sendPort = 26952;
             Server.Start(receivePort, sendPort);
-
         }
 
         public const int TicksPerSec = 30; 

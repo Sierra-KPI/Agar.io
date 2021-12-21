@@ -82,7 +82,7 @@ namespace Agario.Network
                 Name = packet.PlayerName,
                 Color = packet.PlayerColor
             };
-            Client.Instance.playersInfo[packet.PlayerId] = player;
+            Client.Instance.PlayersInfo[packet.PlayerId] = player;
 
             Debug.Log("GetPlayerInfoResponse -> Name: " + packet.PlayerName);
         }

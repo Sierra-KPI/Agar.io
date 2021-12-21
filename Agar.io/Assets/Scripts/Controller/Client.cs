@@ -38,12 +38,12 @@ namespace Agario.Network
         private delegate void Handler(PacketBase _packet);
         private static Dictionary<PacketType, Handler> s_packetHandlers;
 
-        public Dictionary<int, Player> playersInfo;
+        public Dictionary<int, Player> PlayersInfo;
 
         public Client()
         {
             Instance = this;
-            playersInfo = new();
+            PlayersInfo = new();
 
             _udp = new UdpClient();
             InitializeClientData();
