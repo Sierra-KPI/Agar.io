@@ -22,39 +22,33 @@ namespace GameServer
     [ProtoContract]
     public class ConnectionRequestPacket : PacketBase
     {
-
         [ProtoMember(4)]
         public string Name { get; set; }
-
     }
 
     [ProtoContract]
     public class ConnectionResponsePacket : PacketBase
     {
-
         [ProtoMember(4)]
         public int ClientPacketId { get; set; }
-
     }
 
     [ProtoContract]
     public class PlayerPosition : PacketBase
     {
-
-
-
         [ProtoMember(4)]
         public int X { get; set; }
 
         [ProtoMember(5)]
         public int Y { get; set; }
 
+        [ProtoMember(6)]
+        public int Size { get; set; }
     }
 
     [ProtoContract]
     public class BoardUpdatePacket : PacketBase
     {
-
         [ProtoMember(4)]
         public int ClientPacketId { get; set; }
 
@@ -63,6 +57,5 @@ namespace GameServer
 
         [ProtoMember(6)]
         public PlayerPosition[] Players { get; set; }
-
     }
 }

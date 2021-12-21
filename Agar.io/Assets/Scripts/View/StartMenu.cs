@@ -28,6 +28,7 @@ public class StartMenu : MonoBehaviour
     {
         var username = _inputField.text;
         Debug.Log("Connect: " + username);
+        // add static field to view
         SceneManager.LoadScene(_mainSceneName);
     }
 

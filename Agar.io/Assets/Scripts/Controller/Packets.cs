@@ -41,6 +41,9 @@ namespace Agario.Network
 
         [ProtoMember(5)]
         public int Y { get; set; }
+
+        [ProtoMember(6)]
+        public int Size { get; set; }
     }
 
     [ProtoContract]

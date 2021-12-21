@@ -25,7 +25,7 @@ namespace Agario.Network
             Debug.Log("GetConnectionResponse -> Id: " + packet.ClientId);
         }
 
-        public static void SendPlayerPosition(int x, int y)
+        public static void SendPlayerPosition(int x, int y, int size)
         {
             var packet = new PlayerPosition
             {
@@ -33,7 +33,8 @@ namespace Agario.Network
                 ClientId = Client.Instance.Id,
                 PacketId = ++Client.Instance.SendPacketsCounter,
                 X = x,
-                Y = y
+                Y = y,
+                Size = size
             };
 
             Client.Instance.SendUDPData(packet);
