@@ -44,13 +44,13 @@ namespace Agario.Network
     public class PlayerPosition : PacketBase
     {
         [ProtoMember(4)]
-        public int X { get; set; }
+        public float X { get; set; }
 
         [ProtoMember(5)]
-        public int Y { get; set; }
+        public float Y { get; set; }
 
         [ProtoMember(6)]
-        public int Size { get; set; }
+        public float Size { get; set; }
     }
 
     [ProtoContract]
