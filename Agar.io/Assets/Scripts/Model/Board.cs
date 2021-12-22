@@ -6,7 +6,6 @@ namespace Agario.Model
 {
     class Board
     {
-
         public Chunk[] Chunks;
         private int _chunkNumber;
         public static int Width = 100;
@@ -88,6 +87,13 @@ namespace Agario.Model
             if (entity.ChunkId == currentChunkId || IsChunkIdValid(entity.ChunkId)) return;
             Chunks[currentChunkId].Entities.Add(entity);
             Chunks[entity.ChunkId].Entities.Remove(entity);
+            entity.ChunkId = currentChunkId;
+        }
+
+        public void AddEntityToBoard(Entity entity)
+        {
+            var currentChunkId = GetChunkIdByPosition(entity.Position);
+            Chunks[currentChunkId].Entities.Add(entity);
             entity.ChunkId = currentChunkId;
         }
 
