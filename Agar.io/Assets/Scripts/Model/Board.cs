@@ -65,6 +65,16 @@ namespace Agario.Model
             return false;
         }
 
+        public bool IsPositionValid(Vector2 position)
+        {
+            if (position.X >= 0 && position.X <= Width &&
+                position.Y >= 0 && position.Y <= Width)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public Chunk GetChunkByPosition(Vector2 position)
         {
             int h = (int)Math.Floor(position.X / Chunk.Width);
