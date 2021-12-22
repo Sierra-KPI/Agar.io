@@ -19,7 +19,7 @@ namespace Agario.Model
             CreateChunks();
         }
 
-        public void CreateChunks()
+        private void CreateChunks()
         {
             _chunkNumber = (int)Math.Pow(Board.Width / Chunk.Width, 2);
             Chunks = new Chunk[_chunkNumber];
@@ -75,14 +75,24 @@ namespace Agario.Model
             return false;
         }
 
-        public Chunk GetChunkByPosition(Vector2 position)
+        public static int GetChunkIdByPosition(Vector2 position)
         {
             int h = (int)Math.Floor(position.X / Chunk.Width);
             int v = (int)Math.Floor(position.Y / Chunk.Width);
             int chunksInRow = Board.Width / Chunk.Width;
             int id = (v * chunksInRow) + h;
-            return Chunks[id];
+            return id;
         }
+
+        public void UpdateChunksForEntity(Entity entity)
+        {
+            var currentChunkId = GetChunkIdByPosition(entity.Position);
+            if (entity.ChunkId == currentChunkId) return;
+            Chunks[currentChunkId].Entities.Add(entity);
+            Chunks[entity.ChunkId].Entities.Remove(entity);
+            entity.ChunkId = currentChunkId;
+        }
+
 
 
     }

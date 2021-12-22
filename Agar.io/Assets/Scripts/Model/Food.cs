@@ -10,6 +10,7 @@ namespace Agario.Model
             Position = position;
             EntityType = EntityType.Food;
             Radius = 2;
+            ChunkId = Board.GetChunkIdByPosition(Position);
         }
 
         public void Die()
