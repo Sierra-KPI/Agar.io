@@ -9,6 +9,7 @@ namespace Agario.Model
         {
             Position = position;
             EntityType = EntityType.Food;
+            Radius = 2;
         }
 
         public void Die()
