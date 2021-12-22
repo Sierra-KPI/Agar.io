@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Agario.Model
 {
@@ -65,7 +62,7 @@ namespace Agario.Model
             return false;
         }
 
-        public bool IsPositionValid(Vector2 position)
+        public static bool IsPositionValid(Vector2 position)
         {
             if (position.X >= 0 && position.X <= Width &&
                 position.Y >= 0 && position.Y <= Width)
@@ -77,6 +74,7 @@ namespace Agario.Model
 
         public static int GetChunkIdByPosition(Vector2 position)
         {
+            if (IsPositionValid(position)) return -1;
             int h = (int)Math.Floor(position.X / Chunk.Width);
             int v = (int)Math.Floor(position.Y / Chunk.Width);
             int chunksInRow = Board.Width / Chunk.Width;
@@ -87,12 +85,17 @@ namespace Agario.Model
         public void UpdateChunksForEntity(Entity entity)
         {
             var currentChunkId = GetChunkIdByPosition(entity.Position);
-            if (entity.ChunkId == currentChunkId) return;
+            if (entity.ChunkId == currentChunkId || IsChunkIdValid(entity.ChunkId)) return;
             Chunks[currentChunkId].Entities.Add(entity);
             Chunks[entity.ChunkId].Entities.Remove(entity);
             entity.ChunkId = currentChunkId;
         }
 
+        public void RemoveEntityFromBoard(Entity entity)
+        {
+            Chunks[entity.ChunkId].Entities.Remove(entity);
+            entity.ChunkId = -1;
+        }
 
 
     }
