@@ -9,10 +9,13 @@ namespace Agario.Model
     class Chunk
     {
         public int Id;
-        public int Width = 5;
+        public static int Width = 20;
         public List<Entity> Entities = new();
 
-
+        public Chunk(int id)
+        {
+            Id = id;
+        }
 
 
     }
