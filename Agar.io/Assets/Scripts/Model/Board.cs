@@ -65,9 +65,13 @@ namespace Agario.Model
             return false;
         }
 
-        public void GetChunkByPosition(Vector2 position)
+        public Chunk GetChunkByPosition(Vector2 position)
         {
-
+            int h = (int)Math.Floor(position.X / Chunk.Width);
+            int v = (int)Math.Floor(position.Y / Chunk.Width);
+            int chunksInRow = Board.Width / Chunk.Width;
+            int id = (v * chunksInRow) + h;
+            return Chunks[id];
         }
 
 
