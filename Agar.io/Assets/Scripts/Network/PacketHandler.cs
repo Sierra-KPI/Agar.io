@@ -2,7 +2,7 @@
 
 namespace Agario.Network
 {
-    internal class PacketHandler
+    public class PacketHandler
     {
         public static void SendConnectionRequest(string name)
         {
