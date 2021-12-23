@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace Agario.Model
 {
-    class Board
+    public class Board
     {
         public Chunk[] Chunks;
         private int _chunkNumber;
@@ -25,7 +25,18 @@ namespace Agario.Model
             }
         }
 
-        public List<Chunk> GetConnectedChunks(int chunkId)
+        public Entity[] GetEntitiesAround(int chunkId)
+        {
+            var entities = new List<Entity>();
+            var chunks = GetConnectedChunks(chunkId);
+            foreach (var chunk in chunks)
+            {
+                entities.AddRange(chunk.Entities);
+            }
+            return entities.ToArray();
+        }
+
+        private List<Chunk> GetConnectedChunks(int chunkId)
         {
             var chunks = new List<Chunk>();
             int chunksInRow = Board.Width / Chunk.Width;
@@ -73,7 +84,7 @@ namespace Agario.Model
 
         public static int GetChunkIdByPosition(Vector2 position)
         {
-            if (IsPositionValid(position)) return -1;
+            if (!IsPositionValid(position)) return -1;
             int h = (int)Math.Floor(position.X / Chunk.Width);
             int v = (int)Math.Floor(position.Y / Chunk.Width);
             int chunksInRow = Board.Width / Chunk.Width;

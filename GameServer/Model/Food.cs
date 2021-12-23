@@ -7,6 +7,7 @@ namespace Agario.Model
 
         public Food(Vector2 position)
         {
+            Id = 1000;
             Position = position;
             EntityType = EntityType.Food;
             Radius = 2;

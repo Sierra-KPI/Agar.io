@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace GameServer
 {
@@ -8,7 +10,8 @@ namespace GameServer
             PacketBase _packet)
         {
             var packet = (ConnectionRequestPacket)_packet;
-            client.Name = packet.Name;
+            client.Player.Name = packet.Name;
+            client.Player.Id = client.Id;
             client.ReceivePacketsCounter = _packet.PacketId;
 
             Console.WriteLine("GetConnectionRequest -> Name: " +
@@ -43,14 +46,28 @@ namespace GameServer
             client.ReceivePacketsCounter = packet.PacketId;
             client.TimeOfLife = 0;
 
-            // change player coordinates
+            var direction = new Vector2(packet.X, packet.Y);
+            client.Player.Move(direction);
+            Server.Game.Board.UpdateChunksForEntity(client.Player);
 
             //Console.WriteLine("X: " + packet.X + " Y: " + packet.Y);
         }
 
         public static void SendBoardUpdate(Client client)
         {
-            // get array of players in board
+            var entities = Server.Game.Board.GetEntitiesAround(client.Player.ChunkId);
+            var entitiesPackets = new PlayerPosition[entities.GetLength(0)];
+            for (int i = 0; i < entities.GetLength(0); i++)
+            {
+                var entity = entities[i];
+                entitiesPackets[i] = new PlayerPosition
+                {
+                    ClientId = entity.Id,
+                    X = entity.Position.X,
+                    Y = entity.Position.Y,
+                    Size = entity.Radius
+                };
+            }
 
             var packet = new BoardUpdatePacket
             {
@@ -58,7 +75,7 @@ namespace GameServer
                 ClientId = client.Id,
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
-                PlayersNumber = 3,
+                Players = entitiesPackets
             };
 
             Server.SendUDPData(client, packet);
@@ -71,14 +88,12 @@ namespace GameServer
             var packet = (PlayerInfoRequestPacket)_packet;
             client.ReceivePacketsCounter = _packet.PacketId;
 
-            //var player = Server.GetClient(packet.PlayerId).Player;
             var player = Server.GetClient(packet.PlayerId);
 
             Console.WriteLine("GetPlayerInfoRequest");
             SendPlayerInfoResponse(client, player);
         }
 
-        //public static void SendPlayerInfoResponse(Client client, Player player)
         public static void SendPlayerInfoResponse(Client client, Client player)
         {
             var packet = new PlayerInfoResponsePacket
@@ -88,37 +103,47 @@ namespace GameServer
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
                 PlayerId = player.Id,
-                PlayerName = player.Name,
-                PlayerColor = "color"
+                Player = new PlayerInfoPacket
+                {
+                    Name = player.Player.Name,
+                    Color = "color" // fix
+                }
             };
 
             Server.SendUDPData(client, packet);
-            Console.WriteLine("SendPlayerInfoResponse about: " + player.Name);
+            Console.WriteLine("SendPlayerInfoResponse about: " + player.Player.Name);
         }
 
         public static void GetLeaderBoardRequest(Client client,
            PacketBase _packet)
         {
             var packet = (LeaderBoardRequestPacket)_packet;
-            client.ReceivePacketsCounter = _packet.PacketId;
-
-            // get leaderBoard
-            int[] players = { 2, 3, 4, 1 };
+            client.ReceivePacketsCounter = packet.PacketId;
 
             Console.WriteLine("GetLeaderBoardRequest");
-            SendLeaderBoardResponse(client, players);
+            SendLeaderBoardResponse(client);
         }
 
-        //public static void SendPlayerInfoResponse(Client client, Player player)
-        public static void SendLeaderBoardResponse(Client client, int[] players)
+        public static void SendLeaderBoardResponse(Client client)
         {
+            var players = new List<PlayerInfoPacket>();
+            foreach (var player in Server.Game.GetLeaderBoard())
+            {
+                players.Add(new PlayerInfoPacket
+                {
+                    Name = player.Name,
+                    Color = "color", // fix
+                    Size = player.Radius,
+                });
+            }
+
             var packet = new LeaderBoardResponsePacket
             {
                 Type = PacketType.LeaderBoardResponse,
                 ClientId = client.Id,
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
-                Players = players
+                Players = players.ToArray()
             };
 
             Server.SendUDPData(client, packet);

@@ -1,23 +1,23 @@
 ﻿using System.Net;
+using Agario.Model;
 
 namespace GameServer
 {
     internal class Client
     {
         public int Id;
-        public string Name;
         public IPEndPoint EndPoint;
-        //public Player player;
+        public Player Player;
         public int ReceivePacketsCounter = 0;
         public int SendPacketsCounter = 0;
         public int TimeOfLife = 0;
         public int MaxTimeOfLife = 30 * 3; // 3 seconds
 
-        public Client(int clientId, IPEndPoint endPoint)
+        public Client(int clientId, IPEndPoint endPoint, Player player)
         {
             Id = clientId;
             EndPoint = endPoint;
-            //player = new Player();
+            Player = player;
         }
 
         public Client() { }

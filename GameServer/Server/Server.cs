@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using Agario.Model;
 using ProtoBuf;
 
 namespace GameServer
 {
     internal class Server
     {
+        public static AgarioGame Game;
         private static readonly Dictionary<int, Client> s_clients = new();
 
         private delegate void Handler(Client client, PacketBase packet);
@@ -19,6 +21,9 @@ namespace GameServer
 
         public static void Start(int receivePort, int sendPort)
         {
+            Game = new AgarioGame();
+            Game.Start();
+
             Console.WriteLine("Starting server...");
             InitializeServerData();
             
@@ -102,7 +107,8 @@ namespace GameServer
 
         private static Client AddClient(IPEndPoint endPoint)
         {
-            var client = new Client(s_clients.Count + 1, endPoint);
+            var player = Game.AddPlayer();
+            var client = new Client(s_clients.Count + 1, endPoint, player);
             s_clients.Add(client.Id, client);
             return client;
         }
