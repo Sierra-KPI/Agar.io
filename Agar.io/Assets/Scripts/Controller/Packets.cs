@@ -7,10 +7,11 @@ namespace Agario.Network
     ProtoInclude(11, typeof(ConnectionResponsePacket)),
     ProtoInclude(12, typeof(PlayerPosition)),
     ProtoInclude(13, typeof(BoardUpdatePacket)),
-    ProtoInclude(14, typeof(PlayerInfoRequestPacket)),
-    ProtoInclude(15, typeof(PlayerInfoResponsePacket)),
-    ProtoInclude(16, typeof(LeaderBoardRequestPacket)),
-    ProtoInclude(17, typeof(LeaderBoardResponsePacket)),]
+    ProtoInclude(14, typeof(PlayerInfoPacket)),
+    ProtoInclude(15, typeof(PlayerInfoRequestPacket)),
+    ProtoInclude(16, typeof(PlayerInfoResponsePacket)),
+    ProtoInclude(17, typeof(LeaderBoardRequestPacket)),
+    ProtoInclude(18, typeof(LeaderBoardResponsePacket)),]
     public class PacketBase
     {
         [ProtoMember(1)]
@@ -67,11 +68,23 @@ namespace Agario.Network
     }
 
     [ProtoContract]
+    public class PlayerInfoPacket : PacketBase
+    {
+        [ProtoMember(4)]
+        public string Name { get; set; }
+
+        [ProtoMember(5)]
+        public string Color { get; set; }
+
+        [ProtoMember(6)]
+        public float Size { get; set; }
+    }
+
+    [ProtoContract]
     public class PlayerInfoRequestPacket : PacketBase
     {
         [ProtoMember(4)]
         public int PlayerId { get; set; }
-
     }
 
     [ProtoContract]
@@ -84,10 +97,7 @@ namespace Agario.Network
         public int ClientPacketId { get; set; }
 
         [ProtoMember(6)]
-        public string PlayerName { get; set; }
-
-        [ProtoMember(7)]
-        public string PlayerColor { get; set; }
+        public PlayerInfoPacket Player { get; set; }
     }
 
     [ProtoContract]
@@ -103,7 +113,7 @@ namespace Agario.Network
         public int ClientPacketId { get; set; }
 
         [ProtoMember(5)]
-        public int[] Players { get; set; }
-
+        public PlayerInfoPacket[] Players { get; set; }
     }
+
 }

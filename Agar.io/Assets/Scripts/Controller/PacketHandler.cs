@@ -79,12 +79,12 @@ namespace Agario.Network
 
             var player = new Player
             {
-                Name = packet.PlayerName,
-                Color = packet.PlayerColor
+                Name = packet.Player.Name,
+                Color = packet.Player.Color
             };
             Client.Instance.PlayersInfo[packet.PlayerId] = player;
 
-            Debug.Log("GetPlayerInfoResponse -> Name: " + packet.PlayerName);
+            Debug.Log("GetPlayerInfoResponse -> Name: " + player.Name);
         }
 
         public static void SendLeaderBoardRequest()

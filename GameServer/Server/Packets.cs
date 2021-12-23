@@ -7,10 +7,11 @@ namespace GameServer
     ProtoInclude(11, typeof(ConnectionResponsePacket)),
     ProtoInclude(12, typeof(PlayerPosition)),
     ProtoInclude(13, typeof(BoardUpdatePacket)),
-    ProtoInclude(14, typeof(PlayerInfoRequestPacket)),
-    ProtoInclude(15, typeof(PlayerInfoResponsePacket)),
-    ProtoInclude(16, typeof(LeaderBoardRequestPacket)),
-    ProtoInclude(17, typeof(LeaderBoardResponsePacket)),]
+    ProtoInclude(14, typeof(PlayerInfoPacket)),
+    ProtoInclude(15, typeof(PlayerInfoRequestPacket)),
+    ProtoInclude(16, typeof(PlayerInfoResponsePacket)),
+    ProtoInclude(17, typeof(LeaderBoardRequestPacket)),
+    ProtoInclude(18, typeof(LeaderBoardResponsePacket)),]
     public class PacketBase
     {
         [ProtoMember(1)]
@@ -114,6 +115,5 @@ namespace GameServer
         [ProtoMember(5)]
         public PlayerInfoPacket[] Players { get; set; }
     }
-
     
 }

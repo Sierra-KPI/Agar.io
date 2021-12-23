@@ -46,7 +46,7 @@ namespace Agario.UnityView
             }
         }
 
-        public GameObject GetEntityFood(Food entity)
+        public GameObject GetEntity(Entity entity)
         {
             if (!EntityDictionary.ContainsKey(entity.EntityType))
             {
