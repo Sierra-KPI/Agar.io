@@ -73,7 +73,7 @@ namespace Agario.Model
 
         public static int GetChunkIdByPosition(Vector2 position)
         {
-            if (IsPositionValid(position)) return -1;
+            if (!IsPositionValid(position)) return -1;
             int h = (int)Math.Floor(position.X / Chunk.Width);
             int v = (int)Math.Floor(position.Y / Chunk.Width);
             int chunksInRow = Board.Width / Chunk.Width;

@@ -13,9 +13,9 @@ namespace Agario.Model
 
         public void Start()
         {
+            _board = new Board();
             _players = new List<Player>();
             _food = new List<Food>();
-            _board = new Board();
 
             SpawnFood();
         }
