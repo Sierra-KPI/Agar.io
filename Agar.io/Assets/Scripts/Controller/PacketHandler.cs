@@ -25,7 +25,7 @@ namespace Agario.Network
             Debug.Log("GetConnectionResponse -> Id: " + packet.ClientId);
         }
 
-        public static void SendPlayerPosition(int x, int y, int size)
+        public static void SendPlayerPosition(float x, float y, float size)
         {
             var packet = new PlayerPosition
             {
@@ -52,7 +52,8 @@ namespace Agario.Network
 
             // update board from packet
 
-            //Debug.Log("GetBoardUpdate -> PlayersNumber: " + packet.PlayersNumber);
+            //Debug.Log("GetBoardUpdate -> PlayersNumber: " +
+            //packet.PlayersNumber);
         }
 
         public static void SendPlayerInfoRequest(int playerId)
@@ -75,7 +76,10 @@ namespace Agario.Network
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
 
-            if (packet.PlayerId == 0) return;
+            if (packet.PlayerId == 0)
+            {
+                return;
+            }
 
             var player = new Player
             {
