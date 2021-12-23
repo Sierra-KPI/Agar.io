@@ -4,7 +4,7 @@ namespace Agario.Model
 {
     public class Player : Entity
     {
-        public static int startRadius = 3;
+        public static float startRadius = 3;
         public string Name { get; set; }
         public void Die() { }
 

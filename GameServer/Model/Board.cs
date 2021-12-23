@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace Agario.Model
 {
-    class Board
+    public class Board
     {
         public Chunk[] Chunks;
         private int _chunkNumber;

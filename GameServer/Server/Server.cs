@@ -10,7 +10,7 @@ namespace GameServer
 {
     internal class Server
     {
-        private static AgarioGame s_game;
+        public static AgarioGame Game;
         private static readonly Dictionary<int, Client> s_clients = new();
 
         private delegate void Handler(Client client, PacketBase packet);
@@ -21,8 +21,8 @@ namespace GameServer
 
         public static void Start(int receivePort, int sendPort)
         {
-            s_game = new AgarioGame();
-            s_game.Start();
+            Game = new AgarioGame();
+            Game.Start();
 
             Console.WriteLine("Starting server...");
             InitializeServerData();
@@ -107,7 +107,7 @@ namespace GameServer
 
         private static Client AddClient(IPEndPoint endPoint)
         {
-            var player = s_game.AddPlayer();
+            var player = Game.AddPlayer();
             var client = new Client(s_clients.Count + 1, endPoint, player);
             s_clients.Add(client.Id, client);
             return client;

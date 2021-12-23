@@ -2,7 +2,7 @@
 
 namespace Agario.Model
 {
-    class Chunk
+    public class Chunk
     {
         public int Id;
         public static int Width = 20;

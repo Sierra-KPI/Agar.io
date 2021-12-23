@@ -8,12 +8,12 @@ namespace Agario.Model
     {
         private List<Player> _players;
         private List<Food> _food;
-        private Board _board;
+        public Board Board;
         private const int FoodCount = 10;
 
         public void Start()
         {
-            _board = new Board();
+            Board = new Board();
             _players = new List<Player>();
             _food = new List<Food>();
 
@@ -32,7 +32,7 @@ namespace Agario.Model
 
                 Food food = new Food(position);
                 _food.Add(food);
-                _board.AddEntityToBoard(food);
+                Board.AddEntityToBoard(food);
             }
         }
 
@@ -44,6 +44,7 @@ namespace Agario.Model
             Vector2 position = new Vector2(x, y);
 
             Player player = new Player(position);
+            _players.Add(player);
 
             return player;
         }
