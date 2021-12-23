@@ -36,6 +36,18 @@ namespace Agario.Model
             }
         }
 
+        public Player AddPlayer()
+        {
+            Random random = new Random();
+            int x = random.Next(0, 100);
+            int y = random.Next(0, 100);
+            Vector2 position = new Vector2(x, y);
+
+            Player player = new Player(position);
+
+            return player;
+        }
+
         public List<Player> GetLeaderBoard()
         {
             List<Player> leaderBoard = _players;

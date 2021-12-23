@@ -107,7 +107,8 @@ namespace GameServer
 
         private static Client AddClient(IPEndPoint endPoint)
         {
-            var client = new Client(s_clients.Count + 1, endPoint);
+            var player = s_game.AddPlayer();
+            var client = new Client(s_clients.Count + 1, endPoint, player);
             s_clients.Add(client.Id, client);
             return client;
         }

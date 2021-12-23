@@ -8,7 +8,7 @@ namespace GameServer
             PacketBase _packet)
         {
             var packet = (ConnectionRequestPacket)_packet;
-            client.Name = packet.Name;
+            client.Player.Name = packet.Name;
             client.ReceivePacketsCounter = _packet.PacketId;
 
             Console.WriteLine("GetConnectionRequest -> Name: " +
@@ -71,14 +71,12 @@ namespace GameServer
             var packet = (PlayerInfoRequestPacket)_packet;
             client.ReceivePacketsCounter = _packet.PacketId;
 
-            //var player = Server.GetClient(packet.PlayerId).Player;
             var player = Server.GetClient(packet.PlayerId);
 
             Console.WriteLine("GetPlayerInfoRequest");
             SendPlayerInfoResponse(client, player);
         }
 
-        //public static void SendPlayerInfoResponse(Client client, Player player)
         public static void SendPlayerInfoResponse(Client client, Client player)
         {
             var packet = new PlayerInfoResponsePacket
@@ -88,12 +86,12 @@ namespace GameServer
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
                 PlayerId = player.Id,
-                PlayerName = player.Name,
+                PlayerName = player.Player.Name,
                 PlayerColor = "color"
             };
 
             Server.SendUDPData(client, packet);
-            Console.WriteLine("SendPlayerInfoResponse about: " + player.Name);
+            Console.WriteLine("SendPlayerInfoResponse about: " + player.Player.Name);
         }
 
         public static void GetLeaderBoardRequest(Client client,

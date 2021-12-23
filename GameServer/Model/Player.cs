@@ -8,11 +8,10 @@ namespace Agario.Model
         public string Name { get; set; }
         public void Die() { }
 
-        public Player(string name, Vector2 position)
+        public Player(Vector2 position)
         {
             EntityType = EntityType.Player;
             Radius = startRadius;
-            Name = name;
             Position = position;
             ChunkId = Board.GetChunkIdByPosition(Position);
         }
