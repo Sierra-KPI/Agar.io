@@ -15,7 +15,7 @@ namespace Agario.UnityController
 
         private void Update()
         {
-            KeyController();
+            ReadMove();
             _client.TimeOfResponse++;
         }
 
@@ -27,12 +27,12 @@ namespace Agario.UnityController
         }
 
         //just for testing
-        private void KeyController()
+        private void ReadMove()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                PacketHandler.SendPlayerPosition(1, 2, 2);
-            }
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+
+            PacketHandler.SendPlayerPosition(horizontal, vertical, 2);
         }
     }
 }
