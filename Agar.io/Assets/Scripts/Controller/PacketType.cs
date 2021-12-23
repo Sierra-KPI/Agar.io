@@ -6,6 +6,7 @@
         ConnectionResponse,
         PlayerPosition,
         BoardUpdate,
+        PlayerInfo,
         PlayerInfoRequest,
         PlayerInfoResponse,
         LeaderBoardRequest,

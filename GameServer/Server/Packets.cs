@@ -61,9 +61,6 @@ namespace GameServer
         public int ClientPacketId { get; set; }
 
         [ProtoMember(5)]
-        public int PlayersNumber { get; set; }
-
-        [ProtoMember(6)]
         public PlayerPosition[] Players { get; set; }
     }
 

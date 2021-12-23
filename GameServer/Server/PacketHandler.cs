@@ -11,6 +11,7 @@ namespace GameServer
         {
             var packet = (ConnectionRequestPacket)_packet;
             client.Player.Name = packet.Name;
+            client.Player.Id = client.Id;
             client.ReceivePacketsCounter = _packet.PacketId;
 
             Console.WriteLine("GetConnectionRequest -> Name: " +
@@ -54,7 +55,19 @@ namespace GameServer
 
         public static void SendBoardUpdate(Client client)
         {
-            // get array of players in board
+            var entities = Server.Game.Board.GetEntitiesAround(client.Player.ChunkId);
+            var entitiesPackets = new PlayerPosition[entities.GetLength(0)];
+            for (int i = 0; i < entities.GetLength(0); i++)
+            {
+                var entity = entities[i];
+                entitiesPackets[i] = new PlayerPosition
+                {
+                    ClientId = entity.Id,
+                    X = entity.Position.X,
+                    Y = entity.Position.Y,
+                    Size = entity.Radius
+                };
+            }
 
             var packet = new BoardUpdatePacket
             {
@@ -62,7 +75,7 @@ namespace GameServer
                 ClientId = client.Id,
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
-                PlayersNumber = 3,
+                Players = entitiesPackets
             };
 
             Server.SendUDPData(client, packet);

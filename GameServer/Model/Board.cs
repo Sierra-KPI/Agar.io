@@ -25,7 +25,18 @@ namespace Agario.Model
             }
         }
 
-        public List<Chunk> GetConnectedChunks(int chunkId)
+        public Entity[] GetEntitiesAround(int chunkId)
+        {
+            var entities = new List<Entity>();
+            var chunks = GetConnectedChunks(chunkId);
+            foreach (var chunk in chunks)
+            {
+                entities.AddRange(chunk.Entities);
+            }
+            return entities.ToArray();
+        }
+
+        private List<Chunk> GetConnectedChunks(int chunkId)
         {
             var chunks = new List<Chunk>();
             int chunksInRow = Board.Width / Chunk.Width;
