@@ -104,8 +104,10 @@ namespace Agario.Network
                 { PacketType.ConnectionResponse,
                     PacketHandler.GetConnectionResponse },
                 { PacketType.BoardUpdate, PacketHandler.GetBoardUpdate },
-                { PacketType.PlayerInfoResponse, PacketHandler.GetPlayerInfoResponse },
-                { PacketType.LeaderBoardResponse, PacketHandler.GetLeaderBoardResponse },
+                { PacketType.PlayerInfoResponse,
+                    PacketHandler.GetPlayerInfoResponse },
+                { PacketType.LeaderBoardResponse,
+                    PacketHandler.GetLeaderBoardResponse },
             };
         }
 

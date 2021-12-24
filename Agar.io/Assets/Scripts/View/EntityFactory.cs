@@ -8,7 +8,7 @@ namespace Agario.UnityView
     {
         public static int BlobsNumber = 200;
         public static int FoodNumber = 200;
-        public GameObject blobPrefab;
+        public GameObject PlayerPrefab;
         public List<EntityObject> EntityObjects = new();
         public Dictionary<EntityType,
             Queue<GameObject>> EntityDictionary = new();
@@ -51,6 +51,7 @@ namespace Agario.UnityView
             if (!EntityDictionary.ContainsKey(entity.EntityType))
             {
                 Debug.LogWarning("No such entity: " + entity.EntityType);
+
                 return null;
             }
 
@@ -76,6 +77,7 @@ namespace Agario.UnityView
             EntityType entityType)
         {
             entityObject.SetActive(false);
+
             EntityDictionary[entityType].Enqueue(entityObject);
         }
     }

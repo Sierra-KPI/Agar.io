@@ -110,6 +110,7 @@ namespace GameServer
             var player = Game.AddPlayer();
             var client = new Client(s_clients.Count + 1, endPoint, player);
             s_clients.Add(client.Id, client);
+
             return client;
         }
 
@@ -119,12 +120,14 @@ namespace GameServer
             {
                 return new Client();
             }
+
             return s_clients[id];
         }
 
         private static void DisconnectClient(Client client)
         {
             s_clients.Remove(client.Id);
+
             Console.WriteLine($"Disconnect {client.EndPoint} from server");
         }
 

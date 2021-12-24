@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Agario.UnityView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartMenu : MonoBehaviour
 {
-    private string _mainSceneName = "MainScene";
+    private readonly string _mainSceneName = "MainScene";
     private Button _connectButton;
     private Button _quitButton;
     private InputField _inputField;
-    private int _usernameLengthLimit = 12;
+    private readonly int _usernameLengthLimit = 12;
 
     void Start()
     {
@@ -28,7 +29,9 @@ public class StartMenu : MonoBehaviour
     {
         var username = _inputField.text;
         Debug.Log("Connect: " + username);
-        // add static field to view for username
+
+        View.s_username = username;
+
         SceneManager.LoadScene(_mainSceneName);
     }
 

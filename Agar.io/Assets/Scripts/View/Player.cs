@@ -1,17 +1,15 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Agario.UnityView
 {
-    void Start()
+    public class Player : MonoBehaviour
     {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        public string Username;
 
-        Color playerColor = new Color(
-            Random.Range(0f, 0.8f),
-            Random.Range(0f, 0.8f),
-            Random.Range(0f, 0.8f)
-        );
-
-        spriteRenderer.color = playerColor;
+        void Start()
+        {
+            gameObject.AddComponent<TextMesh>();
+            gameObject.GetComponent<TextMesh>().text = Username;
+        }
     }
 }

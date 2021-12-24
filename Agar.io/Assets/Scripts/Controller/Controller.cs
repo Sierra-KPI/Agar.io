@@ -1,4 +1,6 @@
+using Agario.Model;
 using Agario.Network;
+using Agario.UnityView;
 using UnityEngine;
 
 namespace Agario.UnityController
@@ -6,16 +8,26 @@ namespace Agario.UnityController
     public class Controller : MonoBehaviour
     {
         private Client _client;
+        private View _view;
+        [SerializeField]
+        private GameObject _playerPrefab;
+        [SerializeField]
+        private GameObject _foodPrefab;
+        private Entity _player;
 
         private void Start()
         {
             Time.fixedDeltaTime = 1f;
             _client = new Client();
+
+            _view = gameObject.AddComponent<View>();
+            //_view.CreatePlayer(_player);
+            _view.CreateEntityObjects(_foodPrefab);
         }
 
         private void Update()
         {
-            KeyController();
+            ReadMove();
             _client.TimeOfResponse++;
         }
 
@@ -27,12 +39,12 @@ namespace Agario.UnityController
         }
 
         //just for testing
-        private void KeyController()
+        private void ReadMove()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                PacketHandler.SendPlayerPosition(1, 2, 2);
-            }
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+
+            PacketHandler.SendPlayerPosition(horizontal, vertical, 2);
         }
     }
 }
