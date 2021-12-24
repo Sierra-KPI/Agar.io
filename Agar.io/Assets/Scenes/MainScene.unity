@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261837635}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 398.10074, y: 143.29109, z: -1.8563854}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -164,9 +164,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 261837635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd66f63e2d7584c48b4818fc6bf9babf, type: 3}
+  m_Script: {fileID: 11500000, guid: da8542515b4475b468cfc3b862ab58cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 7805782542081426872, guid: fbfaa4d29ade3a3478be928ad2578ce9, type: 3}
+  _foodPrefab: {fileID: 7805782542081426872, guid: 6b83275b4c8ce274f90d33fb6231c118, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
