@@ -18,7 +18,7 @@ namespace Agario.Model
 
         public void Move(Vector2 direction)
         {
-            float maxSpeed = Radius / 10;
+            float maxSpeed = 10 / Radius;
 
             Vector2 Velocity = Vector2.Multiply(direction, maxSpeed);
 
