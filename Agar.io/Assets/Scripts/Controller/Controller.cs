@@ -9,6 +9,7 @@ namespace Agario.UnityController
     {
         private Client _client;
         private View _view;
+        private Timer _timer;
         [SerializeField]
         private GameObject _playerPrefab;
         [SerializeField]
@@ -19,6 +20,9 @@ namespace Agario.UnityController
         {
             Time.fixedDeltaTime = 1f;
             _client = new Client();
+
+            _timer = gameObject.AddComponent<Timer>();
+            _timer.StartTimer();
 
             _view = gameObject.AddComponent<View>();
             //_view.CreatePlayer(_player);
@@ -33,12 +37,11 @@ namespace Agario.UnityController
 
         private void FixedUpdate()
         {
-            // set Fixed Timestemps to 1 sec
+            _timer.UpdateTimer();
             _client.CheckConnectToServer();
             PacketHandler.SendPlayerPosition(1, 2, 2);
         }
 
-        //just for testing
         private void ReadMove()
         {
             float horizontal = Input.GetAxis("Horizontal");
@@ -46,5 +49,6 @@ namespace Agario.UnityController
 
             PacketHandler.SendPlayerPosition(horizontal, vertical, 2);
         }
+
     }
 }
