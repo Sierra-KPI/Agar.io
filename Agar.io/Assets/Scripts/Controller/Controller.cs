@@ -21,7 +21,7 @@ namespace Agario.UnityController
             Time.fixedDeltaTime = 1f;
             _client = new Client();
 
-            //_timer = gameObject.AddComponent<Timer>();
+            _timer = gameObject.AddComponent<Timer>();
             _view = gameObject.AddComponent<View>();
             //_view.CreatePlayer(_player);
             _view.CreateEntityObjects(_foodPrefab);
@@ -30,12 +30,12 @@ namespace Agario.UnityController
         private void Update()
         {
             ReadMove();
+            _timer.UpdateTimer();
             _client.TimeOfResponse++;
         }
 
         private void FixedUpdate()
         {
-            //_timer.UpdateTimer();
             _client.CheckConnectToServer();
             PacketHandler.SendPlayerPosition(1, 2, 2);
         }
