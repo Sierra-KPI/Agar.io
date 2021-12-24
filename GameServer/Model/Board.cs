@@ -19,6 +19,7 @@ namespace Agario.Model
         {
             _chunkNumber = (int)Math.Pow(Board.Width / Chunk.Width, 2);
             Chunks = new Chunk[_chunkNumber];
+
             for (int i = 0; i < _chunkNumber; i++)
             {
                 Chunks[i] = new Chunk(i);
@@ -29,10 +30,12 @@ namespace Agario.Model
         {
             var entities = new List<Entity>();
             var chunks = GetConnectedChunks(chunkId);
+
             foreach (var chunk in chunks)
             {
                 entities.AddRange(chunk.Entities);
             }
+
             return entities.ToArray();
         }
 
@@ -40,6 +43,7 @@ namespace Agario.Model
         {
             var chunks = new List<Chunk>();
             int chunksInRow = Board.Width / Chunk.Width;
+
             var ids = new int[]
             {
                 chunkId + 1, chunkId - 1,
@@ -60,7 +64,6 @@ namespace Agario.Model
             }
 
             return chunks;
-
         }
 
         private bool IsChunkIdValid(int id)

@@ -10,12 +10,14 @@ namespace GameServer
             PacketBase _packet)
         {
             var packet = (ConnectionRequestPacket)_packet;
+
             client.Player.Name = packet.Name;
             client.Player.Id = client.Id;
             client.ReceivePacketsCounter = _packet.PacketId;
 
             Console.WriteLine("GetConnectionRequest -> Name: " +
                 packet.Name);
+
             SendConnectionResponse(client);
         }
 
@@ -55,8 +57,11 @@ namespace GameServer
 
         public static void SendBoardUpdate(Client client)
         {
-            var entities = Server.Game.Board.GetEntitiesAround(client.Player.ChunkId);
+            var entities = Server.Game.Board.GetEntitiesAround
+                (client.Player.ChunkId);
+
             var entitiesPackets = new PlayerPosition[entities.GetLength(0)];
+
             for (int i = 0; i < entities.GetLength(0); i++)
             {
                 var entity = entities[i];
@@ -103,6 +108,7 @@ namespace GameServer
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
                 PlayerId = player.Id,
+
                 Player = new PlayerInfoPacket
                 {
                     Name = player.Player.Name,
@@ -111,7 +117,8 @@ namespace GameServer
             };
 
             Server.SendUDPData(client, packet);
-            Console.WriteLine("SendPlayerInfoResponse about: " + player.Player.Name);
+            Console.WriteLine("SendPlayerInfoResponse about: " +
+                player.Player.Name);
         }
 
         public static void GetLeaderBoardRequest(Client client,
@@ -127,6 +134,7 @@ namespace GameServer
         public static void SendLeaderBoardResponse(Client client)
         {
             var players = new List<PlayerInfoPacket>();
+
             foreach (var player in Server.Game.GetLeaderBoard())
             {
                 players.Add(new PlayerInfoPacket
