@@ -8,7 +8,7 @@ namespace Agario.UnityView
     {
         public static int BlobsNumber = 200;
         public static int FoodNumber = 200;
-        public GameObject BlobPrefab;
+        public GameObject PlayerPrefab;
         public List<EntityObject> EntityObjects = new();
         public Dictionary<EntityType,
             Queue<GameObject>> EntityDictionary = new();
