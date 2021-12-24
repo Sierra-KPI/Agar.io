@@ -23,12 +23,18 @@ namespace GameServer
 
         public static void SendConnectionResponse(Client client)
         {
+            if (Server.Game.IsEnded)
+            {
+                Server.Game.Start();
+            }
+
             var packet = new ConnectionResponsePacket
             {
                 Type = PacketType.ConnectionResponse,
                 ClientId = client.Id,
                 PacketId = ++client.SendPacketsCounter,
-                ClientPacketId = client.ReceivePacketsCounter
+                ClientPacketId = client.ReceivePacketsCounter,
+                GameTime = Server.Game.Time
             };
 
             Server.SendUDPData(client, packet);

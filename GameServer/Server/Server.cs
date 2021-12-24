@@ -22,7 +22,6 @@ namespace GameServer
         public static void Start(int receivePort, int sendPort)
         {
             Game = new AgarioGame();
-            Game.Start();
 
             Console.WriteLine("Starting server...");
             InitializeServerData();
