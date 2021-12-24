@@ -12,7 +12,7 @@ namespace Agario.Model
         private const int FoodCount = 10;
         private static readonly Random s_random = new();
         public float Time; // update time: Time += 2
-        public bool IsEnded;
+        public bool IsEnded = true;
 
         public void Start()
         {
@@ -23,6 +23,12 @@ namespace Agario.Model
             IsEnded = false;
 
             SpawnFood();
+        }
+
+        public void Update()
+        {
+            if (IsEnded) return;
+            Time += 1 / 30f;
         }
 
         private void SpawnFood()

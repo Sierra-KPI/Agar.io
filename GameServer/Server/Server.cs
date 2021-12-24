@@ -106,6 +106,10 @@ namespace GameServer
 
         private static Client AddClient(IPEndPoint endPoint)
         {
+            if (Game.IsEnded)
+            {
+                Game.Start();
+            }
             var player = Game.AddPlayer();
             var client = new Client(s_clients.Count + 1, endPoint, player);
             s_clients.Add(client.Id, client);
@@ -132,6 +136,7 @@ namespace GameServer
 
         public static void Update()
         {
+            Game.Update();
             foreach (var client in s_clients.Values)
             {
                 if (++client.TimeOfLife > client.MaxTimeOfLife)

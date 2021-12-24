@@ -23,11 +23,6 @@ namespace GameServer
 
         public static void SendConnectionResponse(Client client)
         {
-            if (Server.Game.IsEnded)
-            {
-                Server.Game.Start();
-            }
-
             var packet = new ConnectionResponsePacket
             {
                 Type = PacketType.ConnectionResponse,

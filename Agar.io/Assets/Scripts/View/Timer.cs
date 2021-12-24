@@ -7,7 +7,7 @@ namespace Agario.UnityView
     {
         private const int _maxTimer = 5 * 60;
         public static float StartTime;
-        private Text _timerText = GameObject.Find("Timer").GetComponent<Text>();
+        //private Text _timerText = GameObject.Find("Timer").GetComponent<Text>();
 
         public void UpdateTimer()
         {
@@ -15,7 +15,7 @@ namespace Agario.UnityView
             string minutes = ((int)t / 60).ToString();
             string seconds = (t % 60).ToString("f0");
 
-            _timerText.text = minutes + ":" + seconds;
+            //_timerText.text = minutes + ":" + seconds;
         }
 
 
