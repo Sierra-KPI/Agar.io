@@ -11,6 +11,8 @@ namespace Agario.UnityController
         private View _view;
         [SerializeField]
         private GameObject _playerPrefab;
+        [SerializeField]
+        private GameObject _foodPrefab;
         private Entity _player;
 
         private void Start()
@@ -19,7 +21,8 @@ namespace Agario.UnityController
             _client = new Client();
 
             _view = gameObject.AddComponent<View>();
-            _view.CreatePlayer(_player);
+            //_view.CreatePlayer(_player);
+            _view.CreateEntityObjects(_foodPrefab);
         }
 
         private void Update()
