@@ -10,6 +10,7 @@ namespace Agario.Model
         private List<Food> _food;
         public Board Board;
         private const int FoodCount = 10;
+        private static readonly Random s_random = new();
 
         public void Start()
         {
@@ -22,15 +23,10 @@ namespace Agario.Model
 
         private void SpawnFood()
         {
-            Random random = new Random();
-
             for (var i = 0; i < FoodCount; i++)
             {
-                int x = random.Next(0, 100);
-                int y = random.Next(0, 100);
-                Vector2 position = new Vector2(x, y);
+                Food food = new Food(GetRandomPosition());
 
-                Food food = new Food(position);
                 _food.Add(food);
                 Board.AddEntityToBoard(food);
             }
@@ -38,15 +34,19 @@ namespace Agario.Model
 
         public Player AddPlayer()
         {
-            Random random = new Random();
-            int x = random.Next(0, 100);
-            int y = random.Next(0, 100);
-            Vector2 position = new Vector2(x, y);
+            Player player = new Player(GetRandomPosition());
 
-            Player player = new Player(position);
             _players.Add(player);
 
             return player;
+        }
+
+        private static Vector2 GetRandomPosition()
+        {
+            int x = s_random.Next(0, 100);
+            int y = s_random.Next(0, 100);
+
+            return new Vector2(x, y);
         }
 
         public List<Player> GetLeaderBoard()
