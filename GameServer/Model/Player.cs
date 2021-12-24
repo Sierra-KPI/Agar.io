@@ -18,7 +18,8 @@ namespace Agario.Model
 
         public void Move(Vector2 direction)
         {
-
+            Velocity = Vector2.Multiply(vector, MaxSpeed);
+            Position += Velocity;
         }
     }
 }

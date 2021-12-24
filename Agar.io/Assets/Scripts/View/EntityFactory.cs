@@ -51,6 +51,7 @@ namespace Agario.UnityView
             if (!EntityDictionary.ContainsKey(entity.EntityType))
             {
                 Debug.LogWarning("No such entity: " + entity.EntityType);
+
                 return null;
             }
 
@@ -76,6 +77,7 @@ namespace Agario.UnityView
             EntityType entityType)
         {
             entityObject.SetActive(false);
+
             EntityDictionary[entityType].Enqueue(entityObject);
         }
     }
