@@ -1,16 +1,14 @@
-﻿using System.Numerics;
-
-namespace Agario.Model
+﻿namespace Agario.Model
 {
     public static class CollisionDetection
     {
-        public static bool AreColliding(Vector2 firstPosition,
-            Vector2 secondPosition, float firstRadius, float secondRadius)
+        public static bool AreColliding(Entity firstEntity,
+            Entity secondEntity)
         {
-            var radius = firstRadius + secondRadius;
+            var radius = firstEntity.Radius + secondEntity.Radius;
 
-            var deltaX = firstPosition.X - secondPosition.X;
-            var deltaY = firstPosition.Y - secondPosition.Y;
+            var deltaX = firstEntity.Position.X - secondEntity.Position.X;
+            var deltaY = firstEntity.Position.Y - secondEntity.Position.Y;
 
             return deltaX * deltaX + deltaY * deltaY <= radius * radius;
         }
