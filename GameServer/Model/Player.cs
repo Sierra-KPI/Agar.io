@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 
 namespace Agario.Model
@@ -17,10 +18,9 @@ namespace Agario.Model
 
         public void Move(Vector2 direction)
         {
-            float maxSpeed = 10 / Radius;
+            float maxSpeed = 1 / Radius;
 
             Vector2 Velocity = Vector2.Multiply(direction, maxSpeed);
-
             Position += Velocity;
         }
 

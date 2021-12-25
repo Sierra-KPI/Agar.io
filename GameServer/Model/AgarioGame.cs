@@ -47,6 +47,7 @@ namespace Agario.Model
             Player player = new Player(GetRandomPosition());
 
             _players.Add(player);
+            Board.AddEntityToBoard(player);
 
             return player;
         }

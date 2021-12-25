@@ -24,8 +24,12 @@ namespace Agario.Network
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
 
+            var position = new System.Numerics.Vector2(packet.Position.X, packet.Position.Y);
+            Client.Instance.Player.Position = position;
+
             Timer.Time = packet.GameTime;
-            Debug.Log("GetConnectionResponse -> Id: " + packet.ClientId);
+            Debug.Log("GetConnectionResponse -> Position: " + Client.Instance.Player.Position.X +
+                " " + Client.Instance.Player.Position.Y);
         }
 
         public static void SendPlayerPosition(float x, float y, float size)
@@ -53,10 +57,41 @@ namespace Agario.Network
             }
             Client.Instance.TimeOfLife = 0;
 
-            // update board from packet
+            Client.Instance.Food = new();
+            foreach (var playerPosition in packet.Players)
+            {
+                if (playerPosition.ClientId == 1000)
+                {
+                    var food = new Food();
+                    food.Position = new System.Numerics.Vector2(playerPosition.X, playerPosition.Y);
+                    food.Radius = playerPosition.Size;
+                    Client.Instance.Food.Add(food);
 
-            //Debug.Log("GetBoardUpdate -> PlayersNumber: " +
-            //packet.PlayersNumber);
+                    continue;
+                }
+                Player player;
+                if (Client.Instance.Player.Id == playerPosition.ClientId)
+                {
+                    player = Client.Instance.Player;
+                }
+                else if (Client.Instance.Players.ContainsKey(playerPosition.ClientId))
+                {
+                    player = Client.Instance.Players[playerPosition.ClientId];
+                }
+                else
+                {
+                    player = new Player
+                    {
+                        Id = playerPosition.ClientId
+                    };
+                    Client.Instance.Players.Add(playerPosition.ClientId, player);
+                }
+
+                player.Position = new System.Numerics.Vector2(playerPosition.X, playerPosition.Y);
+                player.Radius = playerPosition.Size;
+
+            }
+
         }
 
         public static void SendPlayerInfoRequest(int playerId)
@@ -88,7 +123,7 @@ namespace Agario.Network
             {
                 Name = packet.Player.Name
             };
-            Client.Instance.PlayersInfo[packet.PlayerId] = player;
+            Client.Instance.Players[packet.PlayerId] = player;
 
             Debug.Log("GetPlayerInfoResponse -> Name: " + player.Name);
         }

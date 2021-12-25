@@ -6,8 +6,6 @@ namespace Agario.UnityView
 {
     public class EntityFactory : MonoBehaviour
     {
-        public static int BlobsNumber = 200;
-        public static int FoodNumber = 200;
         public GameObject PlayerPrefab;
         public List<EntityObject> EntityObjects = new();
         public Dictionary<EntityType,
@@ -51,7 +49,6 @@ namespace Agario.UnityView
             if (!EntityDictionary.ContainsKey(entity.EntityType))
             {
                 Debug.LogWarning("No such entity: " + entity.EntityType);
-
                 return null;
             }
 
@@ -71,7 +68,7 @@ namespace Agario.UnityView
 
             if (entity.EntityType == EntityType.Player)
             {
-                SetPlayerUsername(entityObject, ((Player)entity).Name);
+                //SetPlayerUsername(entityObject, ((Player)entity).Name);
             }
 
             return entityObject;

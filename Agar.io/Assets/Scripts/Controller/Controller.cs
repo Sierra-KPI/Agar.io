@@ -12,6 +12,7 @@ namespace Agario.UnityController
         private Player _player;
         private View _view;
         private Timer _timer;
+
         [SerializeField]
         private GameObject _playerPrefab;
         [SerializeField]
@@ -38,22 +39,23 @@ namespace Agario.UnityController
         private void Update()
         {
             ReadMove();
-            
             _client.TimeOfResponse++;
+            UpdateEntitiesPosition();
         }
 
         private void FixedUpdate()
         {
             UpdateTimer();
             _client.CheckConnectToServer();
-            PacketHandler.SendPlayerPosition(_player.Position.X,
-                _player.Position.Y, _player.Radius);
+            PacketHandler.SendPlayerPosition(0, 0, _player.Radius);
         }
 
         private void ReadMove()
         {
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
+
+            
 
             PacketHandler.SendPlayerPosition(horizontal, vertical, _player.Radius);
         }
@@ -66,6 +68,12 @@ namespace Agario.UnityController
                 PacketHandler.SendLeaderBoardRequest();
                 SceneManager.LoadScene(_endSceneName);
             }
+        }
+
+        private void UpdateEntitiesPosition()
+        {
+            _view.ChangePlayersPosition(Client.Instance.Players);
+            _view.ChangeFoodPosition(Client.Instance.Food);
         }
     }
 }

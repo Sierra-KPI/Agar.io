@@ -32,19 +32,20 @@ namespace Agario.Network
         private delegate void Handler(PacketBase _packet);
         private static Dictionary<PacketType, Handler> s_packetHandlers;
 
-        public Dictionary<int, Player> PlayersInfo;
+        public Dictionary<int, Player> Players;
+        public List<Food> Food = new();
 
         public Client(Player player)
         {
             Instance = this;
-            PlayersInfo = new();
+            Players = new();
             Player = player;
 
             _udp = new UdpClient();
             InitializeClientData();
             _udp.BeginReceive(UDPReceiveCallback, null);
 
-            PacketHandler.SendConnectionRequest("Player1");
+            PacketHandler.SendConnectionRequest(Player.Name);
         }
 
         private void UDPReceiveCallback(IAsyncResult result)
@@ -116,8 +117,7 @@ namespace Agario.Network
 
             if (TimeOfResponse > MaxTimeOfResponse)
             {
-                PacketHandler.SendPlayerPosition(Player.Position.X,
-                    Player.Position.Y, Player.Radius); 
+                PacketHandler.SendPlayerPosition(0, 0, Player.Radius); 
             }
         }
     }

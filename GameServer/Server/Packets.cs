@@ -42,6 +42,9 @@ namespace GameServer
 
         [ProtoMember(5)]
         public float GameTime { get; set; }
+
+        [ProtoMember(6)]
+        public PlayerPosition Position { get; set; }
     }
 
     [ProtoContract]
