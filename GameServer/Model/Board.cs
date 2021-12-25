@@ -8,7 +8,7 @@ namespace Agario.Model
     {
         public Chunk[] Chunks;
         private int _chunkNumber;
-        public static int Width = 100;
+        public const int Width = 100;
 
         public Board()
         {
@@ -17,7 +17,7 @@ namespace Agario.Model
 
         private void CreateChunks()
         {
-            _chunkNumber = (int)Math.Pow(Board.Width / Chunk.Width, 2);
+            _chunkNumber = (int)Math.Pow(Width / Chunk.Width, 2);
             Chunks = new Chunk[_chunkNumber];
 
             for (int i = 0; i < _chunkNumber; i++)
@@ -29,9 +29,9 @@ namespace Agario.Model
         public Entity[] GetEntitiesAround(int chunkId)
         {
             var entities = new List<Entity>();
-            var chunks = GetConnectedChunks(chunkId);
+            List<Chunk> chunks = GetConnectedChunks(chunkId);
 
-            foreach (var chunk in chunks)
+            foreach (Chunk chunk in chunks)
             {
                 entities.AddRange(chunk.Entities);
             }
@@ -42,19 +42,9 @@ namespace Agario.Model
         private List<Chunk> GetConnectedChunks(int chunkId)
         {
             var chunks = new List<Chunk>();
-            int chunksInRow = Board.Width / Chunk.Width;
+            int chunksInRow = Width / Chunk.Width;
 
-            var ids = new int[]
-            {
-                chunkId,
-                chunkId + 1, chunkId - 1,
-                chunkId + chunksInRow,
-                chunkId - chunksInRow,
-                chunkId + chunksInRow + 1,
-                chunkId + chunksInRow - 1,
-                chunkId - chunksInRow + 1,
-                chunkId - chunksInRow - 1,
-            };
+            int[] ids = GetNearestChunksIds(chunkId, chunksInRow);
 
             foreach (var id in ids)
             {
@@ -67,12 +57,31 @@ namespace Agario.Model
             return chunks;
         }
 
+        private static int[] GetNearestChunksIds(int chunkId,
+            int chunksInRow)
+        {
+            var ids = new int[]
+            {
+                chunkId,
+                chunkId + 1, chunkId - 1,
+                chunkId + chunksInRow,
+                chunkId - chunksInRow,
+                chunkId + chunksInRow + 1,
+                chunkId + chunksInRow - 1,
+                chunkId - chunksInRow + 1,
+                chunkId - chunksInRow - 1,
+            };
+
+            return ids;
+        }
+
         private bool IsChunkIdValid(int id)
         {
             if (id >= 0 && id < _chunkNumber)
             {
                 return true;
             }
+
             return false;
         }
 
@@ -83,25 +92,34 @@ namespace Agario.Model
             {
                 return true;
             }
+
             return false;
         }
 
         public static int GetChunkIdByPosition(Vector2 position)
         {
-            if (!IsPositionValid(position)) return -1;
-            int h = (int)Math.Floor(position.X / Chunk.Width);
-            int v = (int)Math.Floor(position.Y / Chunk.Width);
-            int chunksInRow = Board.Width / Chunk.Width;
-            int id = (v * chunksInRow) + h;
+            if (!IsPositionValid(position))
+            {
+                return -1;
+            }
+
+            int horizontal = (int)Math.Floor(position.X / Chunk.Width);
+            int vertical = (int)Math.Floor(position.Y / Chunk.Width);
+
+            int chunksInRow = Width / Chunk.Width;
+            int id = (vertical * chunksInRow) + horizontal;
+
             return id;
         }
 
         public void UpdateChunksForEntity(Entity entity)
         {
             var currentChunkId = GetChunkIdByPosition(entity.Position);
+          
             if (entity.ChunkId == currentChunkId ||
                 !IsChunkIdValid(entity.ChunkId) ||
                 !IsChunkIdValid(currentChunkId)) return;
+
             Chunks[currentChunkId].Entities.Add(entity);
             Chunks[entity.ChunkId].Entities.Remove(entity);
             entity.ChunkId = currentChunkId;
@@ -110,6 +128,7 @@ namespace Agario.Model
         public void AddEntityToBoard(Entity entity)
         {
             var currentChunkId = GetChunkIdByPosition(entity.Position);
+
             Chunks[currentChunkId].Entities.Add(entity);
             entity.ChunkId = currentChunkId;
         }
@@ -119,7 +138,5 @@ namespace Agario.Model
             Chunks[entity.ChunkId].Entities.Remove(entity);
             entity.ChunkId = -1;
         }
-
-
     }
 }

@@ -118,5 +118,4 @@ namespace GameServer
         [ProtoMember(5)]
         public PlayerInfoPacket[] Players { get; set; }
     }
-    
 }

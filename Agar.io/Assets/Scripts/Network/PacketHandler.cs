@@ -111,6 +111,7 @@ namespace Agario.Network
         public static void GetPlayerInfoResponse(PacketBase _packet)
         {
             var packet = (PlayerInfoResponsePacket)_packet;
+
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
 
@@ -123,6 +124,7 @@ namespace Agario.Network
             {
                 Name = packet.Player.Name
             };
+
             Client.Instance.Players[packet.PlayerId] = player;
 
             Debug.Log("GetPlayerInfoResponse -> Name: " + player.Name);
@@ -144,8 +146,10 @@ namespace Agario.Network
         public static void GetLeaderBoardResponse(PacketBase _packet)
         {
             var packet = (LeaderBoardResponsePacket)_packet;
+
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
+
             Debug.Log("GetLeaderBoardResponse");
 
             var leaderBoard = new Player[packet.Players.GetLength(0)];

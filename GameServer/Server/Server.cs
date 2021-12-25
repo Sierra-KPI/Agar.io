@@ -20,11 +20,13 @@ namespace GameServer
         private static UdpClient s_udpListener;
         private static UdpClient s_udpSender;
 
+        private const string ServerStartMessage = "Starting server...";
+
         public static void Start(int receivePort, int sendPort)
         {
             Game = new AgarioGame();
 
-            Console.WriteLine("Starting server...");
+            Console.WriteLine(ServerStartMessage);
             InitializeServerData();
             
             s_udpListener = new UdpClient(receivePort);
