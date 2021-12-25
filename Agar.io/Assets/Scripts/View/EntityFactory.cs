@@ -6,8 +6,6 @@ namespace Agario.UnityView
 {
     public class EntityFactory : MonoBehaviour
     {
-        public static int BlobsNumber = 200;
-        public static int FoodNumber = 200;
         public GameObject PlayerPrefab;
         public List<EntityObject> EntityObjects = new();
         public Dictionary<EntityType,
@@ -51,7 +49,6 @@ namespace Agario.UnityView
             if (!EntityDictionary.ContainsKey(entity.EntityType))
             {
                 Debug.LogWarning("No such entity: " + entity.EntityType);
-
                 return null;
             }
 
@@ -67,14 +64,11 @@ namespace Agario.UnityView
             entityObject.transform.localScale =
                 new Vector3(entity.Radius, entity.Radius);
 
-            entityObject.GetComponent<Renderer>().material.color =
-                new Color(1, 1, 1);
-
             SetRandomColor(entityObject);
 
             if (entity.EntityType == EntityType.Player)
             {
-                SetPlayerUsername(entityObject);
+                //SetPlayerUsername(entityObject, ((Player)entity).Name);
             }
 
             return entityObject;
@@ -94,10 +88,10 @@ namespace Agario.UnityView
             spriteRenderer.color = playerColor;
         }
 
-        private void SetPlayerUsername(GameObject entityObject)
+        private void SetPlayerUsername(GameObject entityObject, string username)
         {
             entityObject.AddComponent<TextMesh>();
-            entityObject.GetComponent<TextMesh>().text = Username;
+            entityObject.GetComponent<TextMesh>().text = username;
         }
 
         public void ReturnEntity(GameObject entityObject,

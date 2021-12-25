@@ -62,6 +62,7 @@ namespace Agario.Model
         {
             var ids = new int[]
             {
+                chunkId,
                 chunkId + 1, chunkId - 1,
                 chunkId + chunksInRow,
                 chunkId - chunksInRow,
@@ -114,12 +115,10 @@ namespace Agario.Model
         public void UpdateChunksForEntity(Entity entity)
         {
             var currentChunkId = GetChunkIdByPosition(entity.Position);
-
+          
             if (entity.ChunkId == currentChunkId ||
-                IsChunkIdValid(entity.ChunkId))
-            {
-                return;
-            }
+                !IsChunkIdValid(entity.ChunkId) ||
+                !IsChunkIdValid(currentChunkId)) return;
 
             Chunks[currentChunkId].Entities.Add(entity);
             Chunks[entity.ChunkId].Entities.Remove(entity);
