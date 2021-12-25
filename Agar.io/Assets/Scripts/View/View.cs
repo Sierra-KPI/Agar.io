@@ -70,15 +70,19 @@ namespace Agario.UnityView
         {
             foreach (var player in players.Values)
             {
-                if (!_players.ContainsKey(player.Id))
+                try
                 {
-                    CreatePlayer(player);
-                }
-                Vector3 newPosition = new Vector3(player.Position.X, player.Position.Y);
-                _players[player.Id].transform.localPosition = newPosition;
+                    if (!_players.ContainsKey(player.Id))
+                    {
+                        CreatePlayer(player);
+                    }
+                    Vector3 newPosition = new Vector3(player.Position.X, player.Position.Y);
+                    _players[player.Id].transform.localPosition = newPosition;
 
-                Vector3 newSize = new Vector3(player.Radius, player.Radius);
-                _players[player.Id].transform.localScale = newSize;
+                    Vector3 newSize = new Vector3(player.Radius, player.Radius);
+                    _players[player.Id].transform.localScale = newSize;
+                } catch { }
+                
             }
             
         }

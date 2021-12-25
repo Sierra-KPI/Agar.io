@@ -84,7 +84,7 @@ namespace Agario.Network
                     {
                         Id = playerPosition.ClientId
                     };
-                    Client.Instance.Players.Add(playerPosition.ClientId, player);
+                    Client.Instance.Players.TryAdd(playerPosition.ClientId, player);
                 }
 
                 player.Position = new System.Numerics.Vector2(playerPosition.X, playerPosition.Y);

@@ -5,7 +5,7 @@ namespace Agario.UnityView
 {
     public class Timer : MonoBehaviour
     {
-        public const int MaxTime = 1 * 20;
+        public const int MaxTime = 5 * 60;
         public static float Time = 0;
         private Text _timerText;
 
