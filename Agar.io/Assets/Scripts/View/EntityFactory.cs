@@ -73,6 +73,20 @@ namespace Agario.UnityView
             return entityObject;
         }
 
+        private void SetRandomColor(GameObject entityObject)
+        {
+            SpriteRenderer spriteRenderer =
+                entityObject.GetComponent<SpriteRenderer>();
+
+            Color playerColor = new Color(
+                Random.Range(0f, 0.8f),
+                Random.Range(0f, 0.8f),
+                Random.Range(0f, 0.8f)
+            );
+
+            spriteRenderer.color = playerColor;
+        }
+
         public void ReturnEntity(GameObject entityObject,
             EntityType entityType)
         {

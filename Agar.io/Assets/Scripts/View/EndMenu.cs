@@ -30,7 +30,6 @@ public class EndMenu : MonoBehaviour
 
         _quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
         _quitButton.onClick.AddListener(delegate { OnQuitButtonClick(); });
-
     }
 
     public void OnStartButtonClick()
