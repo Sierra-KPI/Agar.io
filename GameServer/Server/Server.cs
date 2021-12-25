@@ -12,6 +12,7 @@ namespace GameServer
     {
         public static AgarioGame Game;
         private static readonly Dictionary<int, Client> s_clients = new();
+        private static int s_clientId = 0;
 
         private delegate void Handler(Client client, PacketBase packet);
         private static Dictionary<PacketType, Handler> s_packetHandlers;
@@ -111,8 +112,7 @@ namespace GameServer
                 Game.Start();
             }
             var player = Game.AddPlayer();
-            var client = new Client(s_clients.Count + 1, endPoint, player);
-            // check s_clients.ContainsKey(client.Id)
+            var client = new Client(++s_clientId, endPoint, player);
             s_clients.Add(client.Id, client);
 
             return client;

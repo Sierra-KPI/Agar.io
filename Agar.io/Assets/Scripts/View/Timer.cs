@@ -7,7 +7,6 @@ namespace Agario.UnityView
     {
         private const int _maxTimer = 5 * 60;
         public static float StartTime = 0;
-        private float _time;
         private Text _timerText;
 
         public void Awake()
