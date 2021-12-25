@@ -17,7 +17,7 @@ namespace Agario.UnityView
             _entities.Add(player, obj);
         }
 
-        public void CreateEntityObjects(GameObject _foodPrefab)
+        public void CreateEntityObjects(GameObject _foodPrefab, GameObject _playerPrefab)
         {
             var _foodObject = new EntityObject(
                 EntityType.Food,
@@ -25,6 +25,13 @@ namespace Agario.UnityView
                 10
             );
             _entityFactory.AddEntityObject(_foodObject);
+
+            var _playerObject = new EntityObject(
+                EntityType.Player,
+                _playerPrefab,
+                10
+            );
+            _entityFactory.AddEntityObject(_playerObject);
 
             _entityFactory.CreateEntityObjects();
         }

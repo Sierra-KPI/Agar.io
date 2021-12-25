@@ -31,8 +31,8 @@ namespace Agario.UnityController
 
             _timer = gameObject.AddComponent<Timer>();
             _view = gameObject.AddComponent<View>();
-            //_view.CreatePlayer(_player);
-            _view.CreateEntityObjects(_foodPrefab);
+            _view.CreateEntityObjects(_foodPrefab, _playerPrefab);
+            _view.CreatePlayer(_player);
         }
 
         private void Update()
