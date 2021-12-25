@@ -147,6 +147,18 @@ namespace Agario.Network
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
             Debug.Log("GetLeaderBoardResponse");
+
+            var leaderBoard = new Player[packet.Players.GetLength(0)];
+            for (int i = 0; i < packet.Players.GetLength(0); i++)
+            {
+                leaderBoard[i] = new Player()
+                {
+                    Name = packet.Players[i].Name,
+                    Radius = packet.Players[i].Size
+                };
+            }
+
+            EndMenu.Players = leaderBoard;
         }
 
     }
