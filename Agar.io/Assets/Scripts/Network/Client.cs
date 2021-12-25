@@ -5,21 +5,15 @@ using System.Net;
 using System.Net.Sockets;
 using ProtoBuf;
 using UnityEngine;
+using Agario.Model;
 
 namespace Agario.Network
 {
-
-    public struct Player {
-        public int Id;
-        public string Name;
-        public string Color;
-    }
-
     public class Client
     {
         public static Client Instance;
         public int Id;
-        //public Player player;
+        public Player Player;
 
         private readonly string _serverIp = "127.0.0.1";
         private readonly int _serverSendPort = 26950;
@@ -38,18 +32,20 @@ namespace Agario.Network
         private delegate void Handler(PacketBase _packet);
         private static Dictionary<PacketType, Handler> s_packetHandlers;
 
-        public Dictionary<int, Player> PlayersInfo;
+        public Dictionary<int, Player> Players;
+        public List<Food> Food = new();
 
-        public Client()
+        public Client(Player player)
         {
             Instance = this;
-            PlayersInfo = new();
+            Players = new();
+            Player = player;
 
             _udp = new UdpClient();
             InitializeClientData();
             _udp.BeginReceive(UDPReceiveCallback, null);
 
-            PacketHandler.SendConnectionRequest("Player1");
+            PacketHandler.SendConnectionRequest(Player.Name);
         }
 
         private void UDPReceiveCallback(IAsyncResult result)
@@ -116,12 +112,12 @@ namespace Agario.Network
             if (++TimeOfLife > MaxTimeOfLife)
             {
                 Debug.Log("Disconnected from server.");
-                PacketHandler.SendConnectionRequest("name"); //fix
+                PacketHandler.SendConnectionRequest(Player.Name); 
             }
 
             if (TimeOfResponse > MaxTimeOfResponse)
             {
-                PacketHandler.SendPlayerPosition(9, 9, 2); // fix
+                PacketHandler.SendPlayerPosition(0, 0, Player.Radius); 
             }
         }
     }

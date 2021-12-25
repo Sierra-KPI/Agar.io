@@ -29,7 +29,13 @@ namespace GameServer
                 ClientId = client.Id,
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
-                GameTime = Server.Game.Time
+                GameTime = Server.Game.Time,
+                Position = new PlayerPosition
+                {
+                    X = client.Player.Position.X,
+                    Y = client.Player.Position.Y,
+                    Size = client.Player.Radius
+                }
             };
 
             Server.SendUDPData(client, packet);
@@ -53,7 +59,7 @@ namespace GameServer
             client.Player.Move(direction);
             Server.Game.Board.UpdateChunksForEntity(client.Player);
 
-            //Console.WriteLine("X: " + packet.X + " Y: " + packet.Y);
+            //Console.WriteLine("Chunk: " + client.Player.ChunkId + "X: " + client.Player.Position.X + " Y: " + client.Player.Position.Y);
         }
 
         public static void SendBoardUpdate(Client client)
@@ -85,7 +91,7 @@ namespace GameServer
             };
 
             Server.SendUDPData(client, packet);
-            //Console.WriteLine("SendBoardUpdate -> ClientId: " + client.Id);
+            //Console.WriteLine("SendBoardUpdate -> entitiesPackets: " + entitiesPackets.GetLength(0));
         }
 
         public static void GetPlayerInfoRequest(Client client,

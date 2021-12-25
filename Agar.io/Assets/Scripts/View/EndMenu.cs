@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Agario.Model;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EndMenu : MonoBehaviour
 {
+    public static Player[] Players;
     private readonly string _mainSceneName = "MainScene";
     private Button _quitButton;
     private Button _startButton;
@@ -15,14 +17,14 @@ public class EndMenu : MonoBehaviour
     void Start()
     {
         var table = GameObject.Find("Table");
-
-        for (int i = 0; i < 5; i++)
+        var count = Players.GetLength(0) < 5 ? Players.GetLength(0) : 5;
+        for (int i = 0; i < count; i++)
         {
             GameObject row = Instantiate(_rowPrefab, table.transform);
             Text[] cells = row.GetComponentsInChildren<Text>();
             cells[0].text = (i + 1).ToString();
-            cells[1].text = "Username" + i;
-            cells[2].text = ((5-i)*6.829).ToString("f0");
+            cells[1].text = Players[i].Name;
+            cells[2].text = Players[i].Radius.ToString("f0");
         }
 
         _startButton = GameObject.Find("StartButton").GetComponent<Button>();

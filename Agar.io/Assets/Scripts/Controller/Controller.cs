@@ -9,39 +9,44 @@ namespace Agario.UnityController
     public class Controller : MonoBehaviour
     {
         private Client _client;
+        private Player _player;
         private View _view;
         private Timer _timer;
+
         [SerializeField]
         private GameObject _playerPrefab;
         [SerializeField]
         private GameObject _foodPrefab;
-        private Entity _player;
+        //private Entity _player;
 
         private readonly string _endSceneName = "EndScene";
 
         private void Start()
         {
             Time.fixedDeltaTime = 1f;
-            _client = new Client();
+            _player = new Player()
+            {
+                Name = View.s_username,
+            };
+            _client = new Client(_player);
 
             _timer = gameObject.AddComponent<Timer>();
             _view = gameObject.AddComponent<View>();
-            //_view.CreatePlayer(_player);
-            _view.CreateEntityObjects(_foodPrefab);
+            _view.CreateEntityObjects(_foodPrefab, _playerPrefab);
         }
 
         private void Update()
         {
             ReadMove();
-            
             _client.TimeOfResponse++;
+            UpdateEntitiesPosition();
         }
 
         private void FixedUpdate()
         {
             UpdateTimer();
             _client.CheckConnectToServer();
-            PacketHandler.SendPlayerPosition(1, 2, 2);
+            PacketHandler.SendPlayerPosition(0, 0, _player.Radius);
         }
 
         private void ReadMove()
@@ -49,7 +54,11 @@ namespace Agario.UnityController
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            PacketHandler.SendPlayerPosition(horizontal, vertical, 2);
+            var position = new Vector3(_player.Position.X, _player.Position.Y);
+            //GameObject.Find("MainCamera").GetComponent<Camera>().transform.position = position;
+            GetComponentInChildren<Camera>().transform.position = position;
+
+            PacketHandler.SendPlayerPosition(horizontal, vertical, _player.Radius);
         }
 
         private void UpdateTimer()
@@ -60,6 +69,12 @@ namespace Agario.UnityController
                 PacketHandler.SendLeaderBoardRequest();
                 SceneManager.LoadScene(_endSceneName);
             }
+        }
+
+        private void UpdateEntitiesPosition()
+        {
+            _view.ChangePlayersPosition(Client.Instance.Players);
+            _view.ChangeFoodPosition(Client.Instance.Food);
         }
     }
 }
