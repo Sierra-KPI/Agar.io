@@ -8,7 +8,7 @@ namespace Agario.Model
     {
         public Chunk[] Chunks;
         private int _chunkNumber;
-        public static int Width = 100;
+        public const int Width = 100;
 
         public Board()
         {
