@@ -39,6 +39,9 @@ namespace Agario.Network
     {
         [ProtoMember(4)]
         public int ClientPacketId { get; set; }
+
+        [ProtoMember(5)]
+        public float GameTime { get; set; }
     }
 
     [ProtoContract]

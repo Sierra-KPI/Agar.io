@@ -2,9 +2,9 @@
     "name": "Controller",
     "rootNamespace": "",
     "references": [
-        "GUID:fe4246d7c0df7b544bae0f80175378fb",
-        "GUID:7eac1f27e76be2e4580fea831daee3dd",
-        "GUID:db6e9fa5de3a03244846a037b46a7681"
+        "GUID:5b8948c91ac1b724394732a686b04b15",
+        "GUID:e7f5de27b1d0d4644866ae56a2a4dbb1",
+        "GUID:831ad9f9c333ff94f89c1c171e95a3f8"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -11,14 +11,24 @@ namespace Agario.Model
         public Board Board;
         private const int FoodCount = 10;
         private static readonly Random s_random = new();
+        public float Time;
+        public bool IsEnded = true;
 
         public void Start()
         {
             Board = new Board();
             _players = new List<Player>();
             _food = new List<Food>();
+            Time = 0;
+            IsEnded = false;
 
             SpawnFood();
+        }
+
+        public void Update()
+        {
+            if (IsEnded) return;
+            Time += 1 / 30f;
         }
 
         private void SpawnFood()
@@ -51,15 +61,12 @@ namespace Agario.Model
 
         public List<Player> GetLeaderBoard()
         {
+            IsEnded = true;
             List<Player> leaderBoard = _players;
-
-            foreach (Player player in _players)
+            leaderBoard.Sort((a, b) =>
             {
-                leaderBoard.Sort((a, b) =>
-                {
-                    return a.Radius.CompareTo(b.Radius);
-                });
-            }
+                return a.Radius.CompareTo(b.Radius);
+            });
 
             return leaderBoard;
         }

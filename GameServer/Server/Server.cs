@@ -12,6 +12,7 @@ namespace GameServer
     {
         public static AgarioGame Game;
         private static readonly Dictionary<int, Client> s_clients = new();
+        private static int s_clientId = 0;
 
         private delegate void Handler(Client client, PacketBase packet);
         private static Dictionary<PacketType, Handler> s_packetHandlers;
@@ -22,7 +23,6 @@ namespace GameServer
         public static void Start(int receivePort, int sendPort)
         {
             Game = new AgarioGame();
-            Game.Start();
 
             Console.WriteLine("Starting server...");
             InitializeServerData();
@@ -107,8 +107,12 @@ namespace GameServer
 
         private static Client AddClient(IPEndPoint endPoint)
         {
+            if (Game.IsEnded)
+            {
+                Game.Start();
+            }
             var player = Game.AddPlayer();
-            var client = new Client(s_clients.Count + 1, endPoint, player);
+            var client = new Client(++s_clientId, endPoint, player);
             s_clients.Add(client.Id, client);
 
             return client;
@@ -133,6 +137,7 @@ namespace GameServer
 
         public static void Update()
         {
+            Game.Update();
             foreach (var client in s_clients.Values)
             {
                 if (++client.TimeOfLife > client.MaxTimeOfLife)

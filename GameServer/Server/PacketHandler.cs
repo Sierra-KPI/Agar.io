@@ -28,7 +28,8 @@ namespace GameServer
                 Type = PacketType.ConnectionResponse,
                 ClientId = client.Id,
                 PacketId = ++client.SendPacketsCounter,
-                ClientPacketId = client.ReceivePacketsCounter
+                ClientPacketId = client.ReceivePacketsCounter,
+                GameTime = Server.Game.Time
             };
 
             Server.SendUDPData(client, packet);
