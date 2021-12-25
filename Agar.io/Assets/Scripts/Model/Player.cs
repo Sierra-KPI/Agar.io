@@ -1,6 +1,6 @@
 ﻿namespace Agario.Model
 {
-    class Player : Entity
+    public class Player : Entity
     {
         public string Name { get; set; }
         public Player()

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Agario.UnityView;
+using Agario.Model;
 
 namespace Agario.Network
 {
@@ -85,8 +86,7 @@ namespace Agario.Network
 
             var player = new Player
             {
-                Name = packet.Player.Name,
-                Color = packet.Player.Color
+                Name = packet.Player.Name
             };
             Client.Instance.PlayersInfo[packet.PlayerId] = player;
 

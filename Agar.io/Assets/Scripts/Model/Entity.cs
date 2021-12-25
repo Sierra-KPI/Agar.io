@@ -8,6 +8,5 @@ namespace Agario.Model
         public float Radius { get; set; }
         public EntityType EntityType { get; set; }
         public bool IsDead { get; set; }
-        public int ChunkId { get; set; }
     }
 }
