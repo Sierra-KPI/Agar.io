@@ -6,6 +6,11 @@ namespace GameServer
     internal class Program
     {
         private static bool s_isRunning = false;
+        private const string MainThreadMessage = "Main thread started";
+        private const int ReceivePort = 26950;
+        private const int SendPort = 26952;
+        public const int TicksPerSec = 30;
+        public const float MsPerTick = 1000f / TicksPerSec;
 
         private static void Main(string[] args)
         {
@@ -16,19 +21,14 @@ namespace GameServer
             Thread mainThread = new Thread(new ThreadStart(MainThread));
             mainThread.Start();
 
-            int receivePort = 26950;
-            int sendPort = 26952;
-            Server.Start(receivePort, sendPort);
+            Server.Start(ReceivePort, SendPort);
         }
-
-        public const int TicksPerSec = 30; 
-        public const float MsPerTick = 1000f / TicksPerSec;
 
         // rewrite
         private static void MainThread()
         {
-            Console.WriteLine($"Main thread started");
-            DateTime _nextLoop = DateTime.Now;
+            Console.WriteLine(MainThreadMessage);
+            DateTime nextLoop = DateTime.Now;
 
             while (s_isRunning)
             {
