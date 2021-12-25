@@ -30,12 +30,13 @@ namespace Agario.UnityController
         private void Update()
         {
             ReadMove();
-            _timer.UpdateTimer();
+            
             _client.TimeOfResponse++;
         }
 
         private void FixedUpdate()
         {
+            _timer.UpdateTimer();
             _client.CheckConnectToServer();
             PacketHandler.SendPlayerPosition(1, 2, 2);
         }

@@ -112,6 +112,7 @@ namespace GameServer
             }
             var player = Game.AddPlayer();
             var client = new Client(s_clients.Count + 1, endPoint, player);
+            // check s_clients.ContainsKey(client.Id)
             s_clients.Add(client.Id, client);
 
             return client;

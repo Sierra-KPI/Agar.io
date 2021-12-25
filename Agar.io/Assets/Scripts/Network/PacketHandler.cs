@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Agario.UnityView;
 
 namespace Agario.Network
 {
@@ -22,7 +23,7 @@ namespace Agario.Network
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
 
-            // set timer: Timer.StartTime = packet.GameTime
+            Timer.StartTime = packet.GameTime;
             Debug.Log("Timer " + packet.GameTime);
             Debug.Log("GetConnectionResponse -> Id: " + packet.ClientId);
         }
