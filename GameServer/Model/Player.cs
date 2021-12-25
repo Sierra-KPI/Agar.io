@@ -6,7 +6,6 @@ namespace Agario.Model
     {
         public static float startRadius = 3;
         public string Name { get; set; }
-        public void Die() { }
 
         public Player(Vector2 position)
         {
@@ -23,6 +22,12 @@ namespace Agario.Model
             Vector2 Velocity = Vector2.Multiply(direction, maxSpeed);
 
             Position += Velocity;
+        }
+
+        public void Kill(Entity entity)
+        {
+            Radius += entity.Radius;
+            entity.Die();
         }
     }
 }

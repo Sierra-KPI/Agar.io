@@ -10,5 +10,6 @@ namespace Agario.Model
         public EntityType EntityType { get; set; }
         public bool IsDead { get; set; }
         public int ChunkId { get; set; }
+        public void Die() { }
     }
 }
