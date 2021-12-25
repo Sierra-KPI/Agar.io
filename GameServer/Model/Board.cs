@@ -44,6 +44,22 @@ namespace Agario.Model
             var chunks = new List<Chunk>();
             int chunksInRow = Board.Width / Chunk.Width;
 
+            int[] ids = GetNearestChunksIds(chunkId, chunksInRow);
+
+            foreach (var id in ids)
+            {
+                if (IsChunkIdValid(id))
+                {
+                    chunks.Add(Chunks[id]);
+                }
+            }
+
+            return chunks;
+        }
+
+        private static int[] GetNearestChunksIds(int chunkId,
+            int chunksInRow)
+        {
             var ids = new int[]
             {
                 chunkId + 1, chunkId - 1,
@@ -55,15 +71,7 @@ namespace Agario.Model
                 chunkId - chunksInRow - 1,
             };
 
-            foreach (var id in ids)
-            {
-                if (IsChunkIdValid(id))
-                {
-                    chunks.Add(Chunks[id]);
-                }
-            }
-
-            return chunks;
+            return ids;
         }
 
         private bool IsChunkIdValid(int id)
