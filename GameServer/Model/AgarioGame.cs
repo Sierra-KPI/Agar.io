@@ -64,13 +64,13 @@ namespace Agario.Model
             IsEnded = true;
             List<Player> leaderBoard = _players;
 
-            foreach (Player player in _players)
+            /*foreach (Player player in _players)
             {
                 leaderBoard.Sort((a, b) =>
                 {
                     return a.Radius.CompareTo(b.Radius);
                 });
-            }
+            }*/
 
             return leaderBoard;
         }

@@ -23,8 +23,7 @@ namespace Agario.Network
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
 
-            Timer.StartTime = packet.GameTime;
-            Debug.Log("Timer " + packet.GameTime);
+            Timer.Time = packet.GameTime;
             Debug.Log("GetConnectionResponse -> Id: " + packet.ClientId);
         }
 

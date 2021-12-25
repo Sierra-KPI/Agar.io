@@ -2,6 +2,7 @@ using Agario.Model;
 using Agario.Network;
 using Agario.UnityView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Agario.UnityController
 {
@@ -15,6 +16,8 @@ namespace Agario.UnityController
         [SerializeField]
         private GameObject _foodPrefab;
         private Entity _player;
+
+        private readonly string _endSceneName = "EndScene";
 
         private void Start()
         {
@@ -36,7 +39,7 @@ namespace Agario.UnityController
 
         private void FixedUpdate()
         {
-            _timer.UpdateTimer();
+            UpdateTimer();
             _client.CheckConnectToServer();
             PacketHandler.SendPlayerPosition(1, 2, 2);
         }
@@ -49,5 +52,14 @@ namespace Agario.UnityController
             PacketHandler.SendPlayerPosition(horizontal, vertical, 2);
         }
 
+        private void UpdateTimer()
+        {
+            _timer.UpdateTimer();
+            if (Timer.Time >= Timer.MaxTime)
+            {
+                PacketHandler.SendLeaderBoardRequest();
+                SceneManager.LoadScene(_endSceneName);
+            }
+        }
     }
 }

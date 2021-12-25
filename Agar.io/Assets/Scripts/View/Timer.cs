@@ -5,8 +5,8 @@ namespace Agario.UnityView
 {
     public class Timer : MonoBehaviour
     {
-        private const int _maxTimer = 5 * 60;
-        public static float StartTime = 0;
+        public const int MaxTime = 1 * 20;
+        public static float Time = 0;
         private Text _timerText;
 
         public void Awake()
@@ -16,7 +16,7 @@ namespace Agario.UnityView
 
         public void UpdateTimer()
         {
-            float t = _maxTimer - StartTime++;
+            float t = MaxTime - Time++;
             string minutes = ((int)t / 60).ToString();
             string seconds = (t % 60) < 10 ?
                 "0" + (t % 60).ToString("f0") :
