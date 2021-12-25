@@ -30,18 +30,15 @@ namespace GameServer
             Console.WriteLine(MainThreadMessage);
             DateTime nextLoop = DateTime.Now;
 
-            while (s_isRunning)
+            while (s_isRunning && (nextLoop < DateTime.Now))
             {
-                while (_nextLoop < DateTime.Now)
+                Server.Update();
+
+                nextLoop = nextLoop.AddMilliseconds(MsPerTick);
+
+                if (nextLoop > DateTime.Now)
                 {
-                    Server.Update();
-
-                    _nextLoop = _nextLoop.AddMilliseconds(MsPerTick);
-
-                    if (_nextLoop > DateTime.Now)
-                    {
-                        Thread.Sleep(_nextLoop - DateTime.Now);
-                    }
+                    Thread.Sleep(nextLoop - DateTime.Now);
                 }
             }
         }
