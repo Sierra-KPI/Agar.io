@@ -33,7 +33,6 @@ namespace Agario.UnityController
             _timer = gameObject.AddComponent<Timer>();
             _view = gameObject.AddComponent<View>();
             _view.CreateEntityObjects(_foodPrefab, _playerPrefab);
-            _view.CreatePlayer(_player);
         }
 
         private void Update()
@@ -55,7 +54,9 @@ namespace Agario.UnityController
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            
+            var position = new Vector3(_player.Position.X, _player.Position.Y);
+            //GameObject.Find("MainCamera").GetComponent<Camera>().transform.position = position;
+            GetComponentInChildren<Camera>().transform.position = position;
 
             PacketHandler.SendPlayerPosition(horizontal, vertical, _player.Radius);
         }
