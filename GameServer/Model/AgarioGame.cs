@@ -27,7 +27,11 @@ namespace Agario.Model
 
         public void Update()
         {
-            if (IsEnded) return;
+            if (IsEnded)
+            {
+                return;
+            }
+
             Time += 1 / 30f;
         }
 
@@ -62,6 +66,7 @@ namespace Agario.Model
         public List<Player> GetLeaderBoard()
         {
             IsEnded = true;
+
             List<Player> leaderBoard = _players;
             leaderBoard.Sort((a, b) =>
             {

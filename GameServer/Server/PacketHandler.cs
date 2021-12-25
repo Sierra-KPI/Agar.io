@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Agario.Model;
 
 namespace GameServer
 {
@@ -58,7 +59,7 @@ namespace GameServer
 
         public static void SendBoardUpdate(Client client)
         {
-            var entities = Server.Game.Board.GetEntitiesAround
+            Entity[] entities = Server.Game.Board.GetEntitiesAround
                 (client.Player.ChunkId);
 
             var entitiesPackets = new PlayerPosition[entities.GetLength(0)];
