@@ -49,15 +49,22 @@ namespace Agario.Model
                     Entity secondEntity = allEntities[j];
 
                     if (CollisionDetection.AreColliding(firstEntity,
-                        secondEntity))
+                        secondEntity) && !firstEntity.IsDead &&
+                        !secondEntity.IsDead)
                     {
                         if (firstEntity.Radius > secondEntity.Radius &&
-                            firstEntity.EntityType == EntityType.Player &&
-                            !firstEntity.IsDead && !secondEntity.IsDead)
+                            firstEntity.EntityType == EntityType.Player)
                         {
                             Player player = (Player)firstEntity;
                             player.Kill(secondEntity);
                             Board.RemoveEntityFromBoard(secondEntity);
+                        }
+                        else if (secondEntity.Radius > firstEntity.Radius &&
+                            secondEntity.EntityType == EntityType.Player)
+                        {
+                            Player player = (Player)secondEntity;
+                            player.Kill(firstEntity);
+                            Board.RemoveEntityFromBoard(firstEntity);
                         }
                     }
                 }
