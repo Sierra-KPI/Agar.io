@@ -34,8 +34,7 @@ namespace Agario.Model
 
             Time += 1 / 30f;
 
-            //CheckCollisions();
-
+            CheckCollisions();
         }
 
         private void CheckCollisions()
@@ -53,10 +52,12 @@ namespace Agario.Model
                         secondEntity))
                     {
                         if (firstEntity.Radius > secondEntity.Radius &&
-                            firstEntity.EntityType == EntityType.Player)
+                            firstEntity.EntityType == EntityType.Player &&
+                            !firstEntity.IsDead && !secondEntity.IsDead)
                         {
                             Player player = (Player)firstEntity;
                             player.Kill(secondEntity);
+                            Board.RemoveEntityFromBoard(secondEntity);
                         }
                     }
                 }
