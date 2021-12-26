@@ -34,15 +34,13 @@ namespace Agario.Model
 
             Time += 1 / 30f;
 
-            CheckCollisions();
+            //CheckCollisions();
+
         }
 
         private void CheckCollisions()
         {
-            List<Entity> allEntities = new List<Entity>();
-
-            allEntities.AddRange(_players);
-            allEntities.AddRange(_food);
+            List<Entity> allEntities = GetAllEntities();
 
             for (var i = 0; i < allEntities.Count - 1; i++)
             {
@@ -63,6 +61,16 @@ namespace Agario.Model
                     }
                 }
             }
+        }
+
+        private List<Entity> GetAllEntities()
+        {
+            List<Entity> allEntities = new List<Entity>();
+
+            allEntities.AddRange(_players);
+            allEntities.AddRange(_food);
+
+            return allEntities;
         }
 
         private void SpawnFood()
