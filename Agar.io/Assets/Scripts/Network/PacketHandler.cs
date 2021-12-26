@@ -32,8 +32,7 @@ namespace Agario.Network
             Client.Instance.Players.TryAdd(Client.Instance.Id, Client.Instance.Player);
 
             Timer.Time = packet.GameTime;
-            Debug.Log("GetConnectionResponse -> Position: " + Client.Instance.Player.Position.X +
-                " " + Client.Instance.Player.Position.Y);
+            Debug.Log("GetConnectionResponse ID: " + Client.Instance.Id);
         }
 
         public static void SendPlayerPosition(float x, float y, float size)
@@ -64,6 +63,7 @@ namespace Agario.Network
             Client.Instance.Food = new();
             foreach (var playerPosition in packet.Players)
             {
+                
                 if (playerPosition.ClientId == 1000)
                 {
                     var food = new Food();
@@ -89,6 +89,10 @@ namespace Agario.Network
                         Id = playerPosition.ClientId
                     };
                     Client.Instance.Players.TryAdd(playerPosition.ClientId, player);
+                }
+                if (playerPosition.Size == 0)
+                {
+                    Client.Instance.Players.Remove(player.Id);
                 }
 
                 player.Position = new System.Numerics.Vector2(playerPosition.X, playerPosition.Y);
