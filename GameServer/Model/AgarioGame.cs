@@ -57,6 +57,7 @@ namespace Agario.Model
                         {
                             Player player = (Player)firstEntity;
                             player.Kill(secondEntity);
+                            Board.RemoveEntityFromBoard(secondEntity);
                         }
                     }
                 }
