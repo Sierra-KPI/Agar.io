@@ -29,9 +29,6 @@ namespace GameServer
     {
         [ProtoMember(4)]
         public string Name { get; set; }
-
-        [ProtoMember(5)]
-        public string Color { get; set; }
     }
 
     [ProtoContract]
@@ -75,9 +72,6 @@ namespace GameServer
     {
         [ProtoMember(4)]
         public string Name { get; set; }
-
-        [ProtoMember(5)]
-        public string Color { get; set; }
 
         [ProtoMember(6)]
         public float Size { get; set; }
