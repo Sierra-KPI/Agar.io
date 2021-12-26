@@ -35,7 +35,6 @@ namespace Agario.Model
             Time += 1 / 30f;
 
             CheckCollisions();
-
         }
 
         private void CheckCollisions()
@@ -58,7 +57,6 @@ namespace Agario.Model
                         {
                             Player player = (Player)firstEntity;
                             player.Kill(secondEntity);
-                            Console.WriteLine("Eat");
                         }
                     }
                 }
