@@ -35,9 +35,16 @@ namespace Agario.UnityController
 
         private void Update()
         {
-            ReadMove();
-            _client.TimeOfResponse++;
-            UpdateEntitiesPosition();
+            if (Client.Instance.Player.Radius == 0)
+            {
+                SceneLoader.LoadDeadMenu();
+            }
+            else
+            {
+                ReadMove();
+                _client.TimeOfResponse++;
+                UpdateEntitiesPosition();
+            }
         }
 
         private void FixedUpdate()

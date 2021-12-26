@@ -93,9 +93,7 @@ namespace Agario.Network
 
                 player.Position = new System.Numerics.Vector2(playerPosition.X, playerPosition.Y);
                 player.Radius = playerPosition.Size;
-
             }
-
         }
 
         public static void SendPlayerInfoRequest(int playerId)
@@ -109,7 +107,6 @@ namespace Agario.Network
             };
 
             Client.Instance.SendUDPData(packet);
-            Debug.Log("SendPlayerInfoRequest");
         }
 
         public static void GetPlayerInfoResponse(PacketBase _packet)
@@ -130,8 +127,6 @@ namespace Agario.Network
             };
 
             Client.Instance.Players[packet.PlayerId] = player;
-
-            Debug.Log("GetPlayerInfoResponse -> Name: " + player.Name);
         }
 
         public static void SendLeaderBoardRequest()
@@ -144,7 +139,6 @@ namespace Agario.Network
             };
 
             Client.Instance.SendUDPData(packet);
-            Debug.Log("SendLeaderBoardRequest");
         }
 
         public static void GetLeaderBoardResponse(PacketBase _packet)
@@ -153,8 +147,6 @@ namespace Agario.Network
 
             Client.Instance.Id = packet.ClientId;
             Client.Instance.ReceivePacketsCounter = packet.PacketId;
-
-            Debug.Log("GetLeaderBoardResponse");
 
             var leaderBoard = new Player[packet.Players.GetLength(0)];
             for (int i = 0; i < packet.Players.GetLength(0); i++)

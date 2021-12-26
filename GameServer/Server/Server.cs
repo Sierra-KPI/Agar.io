@@ -133,6 +133,7 @@ namespace GameServer
         private static void DisconnectClient(Client client)
         {
             s_clients.Remove(client.Id);
+            Game.RemovePlayer(client.Player);
 
             Console.WriteLine($"Disconnect {client.EndPoint} from server");
         }

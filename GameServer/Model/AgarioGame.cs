@@ -95,6 +95,12 @@ namespace Agario.Model
             return player;
         }
 
+        public void RemovePlayer(Player player)
+        {
+            _players.Remove(player);
+            Board.RemoveEntityFromBoard(player);
+        }
+
         private static Vector2 GetRandomPosition()
         {
             int x = s_random.Next(0, 100);

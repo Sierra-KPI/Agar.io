@@ -17,6 +17,14 @@ namespace Agario.Model
 
         public void Move(Vector2 direction)
         {
+            if (Position.X > Board.Width ||
+                Position.X < 0 ||
+                Position.Y > Board.Width ||
+                Position.Y < 0)
+            {
+                Die();
+            }
+
             float maxSpeed = 0.4f / Radius;
 
             Vector2 Velocity = Vector2.Multiply(direction, maxSpeed);

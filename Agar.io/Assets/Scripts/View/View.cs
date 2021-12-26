@@ -39,62 +39,59 @@ namespace Agario.UnityView
 
         public void ChangePlayersPosition(Dictionary<int, Player> players)
         {
+
             foreach (var player in players.Values)
             {
-                try
+                if (player.Radius == 0)
                 {
-                    if (!_players.ContainsKey(player.Id))
-                    {
-                        CreatePlayer(player);
-                    }
-                    Vector3 newPosition = new Vector3(player.Position.X,
-                        player.Position.Y, 1);
-                    _players[player.Id].transform.localPosition = newPosition;
+                    continue;
+                }
+                if (!_players.ContainsKey(player.Id))
+                {
+                    CreatePlayer(player);
+                }
 
-                    Vector3 newSize = new Vector3(player.Radius, player.Radius);
-                    _players[player.Id].transform.localScale = newSize;
-                } catch { }
-                
+                Vector3 newPosition = new Vector3(player.Position.X,
+                    player.Position.Y, 1);
+                _players[player.Id].transform.localPosition = newPosition;
+
+                Vector3 newSize = new Vector3(player.Radius, player.Radius);
+                _players[player.Id].transform.localScale = newSize;
             }
-            
         }
 
         public void ChangeFoodPosition(List<Food> food)
         {
-            try
+            var foodCount = food.Count;
+            var objCount = _food.Count;
+            if (foodCount >= objCount)
             {
-                var foodCount = food.Count;
-                var objCount = _food.Count;
-                if (foodCount >= objCount)
+                for (int j = 0; j < objCount; j++)
                 {
-                    for (int j = 0; j < objCount; j++)
-                    {
-                        Vector3 newPosition = new Vector3(food[j].Position.X,
-                            food[j].Position.Y, 1);
-                        _food[j].transform.localPosition = newPosition;
-                    }
-                    for (int j = objCount; j < foodCount; j++)
-                    {
-                        var obj = _entityFactory.GetEntity(food[j]);
-                        _food.Add(obj);
-                    }
+                    Vector3 newPosition = new Vector3(food[j].Position.X,
+                        food[j].Position.Y, 1);
+                    _food[j].transform.localPosition = newPosition;
                 }
-                else
+                for (int j = objCount; j < foodCount; j++)
                 {
-                    for (int j = 0; j < foodCount; j++)
-                    {
-                        Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y, 1);
-                        _food[j].transform.localPosition = newPosition;
-                    }
-                    for (int j = foodCount; j < objCount; j++)
-                    {
-                        Vector3 newPosition = new Vector3(0, 0, 0);
-                        _food[j].transform.localPosition = newPosition;
-                    }
+                    var obj = _entityFactory.GetEntity(food[j]);
+                    _food.Add(obj);
                 }
-            } catch { }
+            }
+            else
+            {
+                for (int j = 0; j < foodCount; j++)
+                {
+                    Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y, 1);
+                    _food[j].transform.localPosition = newPosition;
+                }
+                for (int j = foodCount; j < objCount; j++)
+                {
+                    Vector3 newPosition = new Vector3(0, 0, 0);
+                    _food[j].transform.localPosition = newPosition;
+                }
+            }
 
         }
-
     }
 }
