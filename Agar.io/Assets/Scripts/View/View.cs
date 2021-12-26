@@ -6,7 +6,6 @@ namespace Agario.UnityView
 {
     public class View : MonoBehaviour
     {
-        private readonly Dictionary<Entity, GameObject> _entities = new();
         private readonly Dictionary<int, GameObject> _players = new();
         private readonly List<GameObject> _food = new();
         private EntityFactory _entityFactory = new();
@@ -16,7 +15,6 @@ namespace Agario.UnityView
         public void CreatePlayer(Player player)
         {
             GameObject obj = _entityFactory.GetEntity(player);
-            _entities.Add(player, obj);
             _players.Add(player.Id, obj);
         }
 
@@ -37,33 +35,6 @@ namespace Agario.UnityView
             _entityFactory.AddEntityObject(_playerObject);
 
             _entityFactory.CreateEntityObjects();
-        }
-
-        public void CreateEntities(List<Entity> Entities)
-        {
-            foreach (Entity entity in Entities)
-            {
-                GameObject entityObject = _entityFactory.GetEntity(entity);
-                _entities.Add(entity, entityObject);
-            }
-        }
-
-        public void DestroyEntity(Entity entity)
-        {
-            var obj = _entities.GetValueOrDefault(entity);
-            _entityFactory.ReturnEntity(obj, entity.EntityType);
-        }
-
-        public void ChangeGameObjectsPositions()
-        {
-            foreach (KeyValuePair<Entity, GameObject> keyValue in _entities)
-            {
-                float xPos = keyValue.Key.Position.X;
-                float yPos = keyValue.Key.Position.Y;
-
-                Vector3 newPosition = new Vector3(xPos, yPos);
-                keyValue.Value.transform.localPosition = newPosition;
-            }
         }
 
         public void ChangePlayersPosition(Dictionary<int, Player> players)
@@ -90,35 +61,35 @@ namespace Agario.UnityView
 
         public void ChangeFoodPosition(List<Food> food)
         {
-            var foodCount = food.Count;
-            var objCount = _food.Count;
-            if (foodCount >= objCount)
+            try
             {
-                for (int j = 0; j < objCount; j++)
+                var foodCount = food.Count;
+                var objCount = _food.Count;
+                if (foodCount >= objCount)
                 {
-                    Vector3 newPosition = new Vector3(food[j].Position.X,
-                        food[j].Position.Y, 1);
-                    _food[j].transform.localPosition = newPosition;
+                    for (int j = 0; j < objCount; j++)
+                    {
+                        Vector3 newPosition = new Vector3(food[j].Position.X,
+                            food[j].Position.Y, 1);
+                        _food[j].transform.localPosition = newPosition;
+                    }
+                    for (int j = objCount; j < foodCount; j++)
+                    {
+                        var obj = _entityFactory.GetEntity(food[j]);
+                        _food.Add(obj);
+                    }
                 }
-                for (int j = objCount; j < foodCount; j++)
+                else
                 {
-                    var obj = _entityFactory.GetEntity(food[j]);
-                    _food.Add(obj);
+                    for (int j = 0; j < foodCount; j++)
+                    {
+                        Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y, 1);
+                        _food[j].transform.localPosition = newPosition;
+                    }
                 }
-            }
-            else
-            {
-                for (int j = 0; j < foodCount; j++)
-                {
-                    Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y, 1);
-                    _food[j].transform.localPosition = newPosition;
-                }
-            }
-
+            } catch { }
 
         }
-
-
 
     }
 }

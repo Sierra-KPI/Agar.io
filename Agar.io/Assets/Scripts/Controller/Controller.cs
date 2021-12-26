@@ -72,22 +72,6 @@ namespace Agario.UnityController
         {
             _view.ChangePlayersPosition(Client.Instance.Players);
             _view.ChangeFoodPosition(Client.Instance.Food);
-
-            foreach (var player in Client.Instance.Players)
-            {
-                if (player.Value.IsDead)
-                {
-                    _view.DestroyEntity(player.Value);
-                }
-            }
-            foreach (var food in Client.Instance.Food)
-            {
-                Debug.Log(food.IsDead);
-                if (food.IsDead)
-                {
-                    _view.DestroyEntity(food);
-                }
-            }
         }
     }
 }
