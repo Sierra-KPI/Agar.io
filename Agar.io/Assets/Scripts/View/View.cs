@@ -86,6 +86,11 @@ namespace Agario.UnityView
                         Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y, 1);
                         _food[j].transform.localPosition = newPosition;
                     }
+                    for (int j = foodCount; j < objCount; j++)
+                    {
+                        Vector3 newPosition = new Vector3(0, 0, 0);
+                        _food[j].transform.localPosition = newPosition;
+                    }
                 }
             } catch { }
 

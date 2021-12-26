@@ -110,7 +110,7 @@ namespace Agario.Model
             List<Player> leaderBoard = _players;
             leaderBoard.Sort((a, b) =>
             {
-                return a.Radius.CompareTo(b.Radius);
+                return b.Radius.CompareTo(a.Radius);
             });
 
             return leaderBoard;

@@ -27,7 +27,7 @@ namespace Agario.Network
         public int SendPacketsCounter = 0;
         public int TimeOfLife = 0;
         public int TimeOfResponse = 0;
-        public int MaxTimeOfLife = 3; // 1 sec
+        public int MaxTimeOfLife = 1;
         public int MaxTimeOfResponse = 40; // 0.1 sec
 
         private delegate void Handler(PacketBase _packet);
@@ -86,7 +86,6 @@ namespace Agario.Network
                 _udp.BeginSend(data, data.GetLength(0),
                     _sendEndPoint, null, null);
             }
-            //Debug.Log("send data to " + _sendEndPoint.ToString());
         }
 
         private void InitializeClientData()

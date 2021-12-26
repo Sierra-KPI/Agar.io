@@ -37,7 +37,16 @@ namespace Agario.UnityView
                 for (var i = 0; i < entityObject.Number; i++)
                 {
                     GameObject obj = Instantiate(entityObject.Prefab);
-                    SetRandomColor(obj);
+                    
+                    if (entityObject.EntityType == EntityType.Food)
+                    {
+                        SetFoodColor(obj);
+                    }
+                    else
+                    {
+                        SetRandomColor(obj);
+                    }
+                    
                     obj.SetActive(false);
                     objectQueue.Enqueue(obj);
                 }
@@ -85,6 +94,15 @@ namespace Agario.UnityView
             );
 
             spriteRenderer.color = playerColor;
+        }
+
+        private void SetFoodColor(GameObject entityObject)
+        {
+            SpriteRenderer spriteRenderer =
+                entityObject.GetComponent<SpriteRenderer>();
+
+            Color foodColor = new Color(0, 0, 0);
+            spriteRenderer.color = foodColor;
         }
 
         private void SetPlayerUsername(GameObject entityObject, string username)
