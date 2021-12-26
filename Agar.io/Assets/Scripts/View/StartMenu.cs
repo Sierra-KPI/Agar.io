@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class StartMenu : MonoBehaviour
 {
-    private readonly string _mainSceneName = "MainScene";
     private Button _connectButton;
     private Button _quitButton;
     private InputField _inputField;
@@ -19,7 +18,7 @@ public class StartMenu : MonoBehaviour
         _connectButton.onClick.AddListener(delegate { OnConnectButtonClick(); });
 
         _quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
-        _quitButton.onClick.AddListener(delegate { OnQuitButtonClick(); });
+        _quitButton.onClick.AddListener(delegate { SceneLoader.QuitButton(); });
 
         _inputField = GameObject.Find("InputField").GetComponent<InputField>();
         _inputField.characterLimit = _usernameLengthLimit;
@@ -32,12 +31,7 @@ public class StartMenu : MonoBehaviour
 
         View.s_username = username;
 
-        SceneManager.LoadScene(_mainSceneName);
+        SceneLoader.LoadMainScene();
     }
 
-    public void OnQuitButtonClick()
-    {
-        Debug.Log("QUIT");
-        Application.Quit();
-    }
 }

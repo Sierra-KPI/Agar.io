@@ -2,7 +2,6 @@ using Agario.Model;
 using Agario.Network;
 using Agario.UnityView;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Agario.UnityController
 {
@@ -17,13 +16,12 @@ namespace Agario.UnityController
         private GameObject _playerPrefab;
         [SerializeField]
         private GameObject _foodPrefab;
-        //private Entity _player;
-
-        private readonly string _endSceneName = "EndScene";
 
         private void Start()
         {
             Time.fixedDeltaTime = 1f;
+            SceneLoader.SetDeadMenu();
+
             _player = new Player()
             {
                 Name = View.s_username,
@@ -66,7 +64,7 @@ namespace Agario.UnityController
             if (Timer.Time >= Timer.MaxTime)
             {
                 PacketHandler.SendLeaderBoardRequest();
-                SceneManager.LoadScene(_endSceneName);
+                SceneLoader.LoadEndScene();
             }
         }
 
