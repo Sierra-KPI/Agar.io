@@ -119,8 +119,7 @@ namespace GameServer
 
                 Player = new PlayerInfoPacket
                 {
-                    Name = player.Player.Name,
-                    Color = "color" // fix
+                    Name = player.Player.Name
                 }
             };
 
@@ -148,7 +147,6 @@ namespace GameServer
                 players.Add(new PlayerInfoPacket
                 {
                     Name = player.Name,
-                    Color = "color", // fix
                     Size = player.Radius,
                 });
             }
