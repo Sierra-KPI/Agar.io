@@ -34,7 +34,7 @@ namespace Agario.Model
 
             Time += 1 / 30f;
 
-            CheckCollisions();
+            //CheckCollisions();
 
         }
 
