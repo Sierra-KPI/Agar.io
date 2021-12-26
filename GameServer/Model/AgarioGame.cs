@@ -9,7 +9,7 @@ namespace Agario.Model
         private List<Player> _players;
         private List<Food> _food;
         public Board Board;
-        private const int FoodCount = 10;
+        private const int FoodCount = 100;
         private static readonly Random s_random = new();
         public float Time;
         public bool IsEnded = true;

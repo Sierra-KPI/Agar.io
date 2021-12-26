@@ -55,7 +55,6 @@ namespace Agario.UnityController
             float vertical = Input.GetAxis("Vertical");
 
             var position = new Vector3(_player.Position.X, _player.Position.Y);
-            //GameObject.Find("MainCamera").GetComponent<Camera>().transform.position = position;
             GetComponentInChildren<Camera>().transform.position = position;
 
             PacketHandler.SendPlayerPosition(horizontal, vertical, _player.Radius);

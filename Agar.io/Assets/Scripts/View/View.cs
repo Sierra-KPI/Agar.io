@@ -102,26 +102,16 @@ namespace Agario.UnityView
                 }
                 for (int j = objCount; j < foodCount; j++)
                 {
-                    try
-                    {
-                        var obj = _entityFactory.GetEntity(food[j]);
-                        _food.Add(obj);
-                    } catch { }
-                    
+                    var obj = _entityFactory.GetEntity(food[j]);
+                    _food.Add(obj);
                 }
             }
             else
             {
                 for (int j = 0; j < foodCount; j++)
                 {
-                    Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y);
+                    Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y, 1);
                     _food[j].transform.localPosition = newPosition;
-                }
-                for (int j = foodCount; j < objCount; j++)
-                {
-                    //var obj = _food[j];
-                    //_food.Remove(obj);
-                    //_entityFactory.ReturnEntity(obj, EntityType.Food);
                 }
             }
 

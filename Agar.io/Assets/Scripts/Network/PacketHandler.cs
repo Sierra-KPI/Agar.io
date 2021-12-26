@@ -26,6 +26,10 @@ namespace Agario.Network
 
             var position = new System.Numerics.Vector2(packet.Position.X, packet.Position.Y);
             Client.Instance.Player.Position = position;
+            Client.Instance.Player.Id = packet.ClientId;
+            Client.Instance.Player.Radius = packet.Position.Size;
+
+            Client.Instance.Players.TryAdd(Client.Instance.Id, Client.Instance.Player);
 
             Timer.Time = packet.GameTime;
             Debug.Log("GetConnectionResponse -> Position: " + Client.Instance.Player.Position.X +
