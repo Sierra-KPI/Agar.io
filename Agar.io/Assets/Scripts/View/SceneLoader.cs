@@ -8,8 +8,21 @@ namespace Agario.UnityView
     {
         private static readonly string _mainSceneName = "MainScene";
         private static readonly string _endSceneName = "EndScene";
+        private static readonly string _disconnectedMessage = "Disconnected from server...";
 
         private static GameObject _deadMenu;
+
+        public static void ShowDisconnectedMeassage()
+        {
+            var message = GameObject.Find("DisconnectMessage").GetComponent<Text>();
+            message.text = _disconnectedMessage;
+        }
+
+        public static void HideDisconnectedMeassage()
+        {
+            var message = GameObject.Find("DisconnectMessage").GetComponent<Text>();
+            message.text = "";
+        }
 
         public static void SetDeadMenu()
         {

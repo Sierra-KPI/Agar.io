@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using ProtoBuf;
 using UnityEngine;
 using Agario.Model;
+using Agario.UnityView;
 
 namespace Agario.Network
 {
@@ -112,7 +113,12 @@ namespace Agario.Network
             if (++TimeOfLife > MaxTimeOfLife)
             {
                 Debug.Log("Disconnected from server.");
+                SceneLoader.ShowDisconnectedMeassage();
                 PacketHandler.SendConnectionRequest(Player.Name); 
+            }
+            else
+            {
+                SceneLoader.HideDisconnectedMeassage();
             }
 
             if (TimeOfResponse > MaxTimeOfResponse)
