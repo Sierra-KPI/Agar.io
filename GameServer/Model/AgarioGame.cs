@@ -33,6 +33,36 @@ namespace Agario.Model
             }
 
             Time += 1 / 30f;
+
+            CheckCollisions();
+        }
+
+        private void CheckCollisions()
+        {
+            List<Entity> allEntities = new List<Entity>();
+
+            allEntities.AddRange(_players);
+            allEntities.AddRange(_food);
+
+            for (var i = 0; i < allEntities.Count - 1; i++)
+            {
+                for (var j = i + 1; j < allEntities.Count; j++)
+                {
+                    Entity firstEntity = allEntities[i];
+                    Entity secondEntity = allEntities[j];
+
+                    if (CollisionDetection.AreColliding(firstEntity,
+                        secondEntity))
+                    {
+                        if (firstEntity.Radius > secondEntity.Radius &&
+                            firstEntity.EntityType == EntityType.Player)
+                        {
+                            Player player = (Player)firstEntity;
+                            player.Kill(secondEntity);
+                        }
+                    }
+                }
+            }
         }
 
         private void SpawnFood()
