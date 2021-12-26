@@ -37,6 +37,7 @@ namespace Agario.UnityView
                 for (var i = 0; i < entityObject.Number; i++)
                 {
                     GameObject obj = Instantiate(entityObject.Prefab);
+                    SetRandomColor(obj);
                     obj.SetActive(false);
                     objectQueue.Enqueue(obj);
                 }
@@ -63,8 +64,6 @@ namespace Agario.UnityView
 
             entityObject.transform.localScale =
                 new Vector3(entity.Radius, entity.Radius);
-
-            SetRandomColor(entityObject);
 
             if (entity.EntityType == EntityType.Player)
             {
