@@ -76,7 +76,8 @@ namespace Agario.UnityView
                     {
                         CreatePlayer(player);
                     }
-                    Vector3 newPosition = new Vector3(player.Position.X, player.Position.Y);
+                    Vector3 newPosition = new Vector3(player.Position.X,
+                        player.Position.Y, 1);
                     _players[player.Id].transform.localPosition = newPosition;
 
                     Vector3 newSize = new Vector3(player.Radius, player.Radius);
@@ -95,7 +96,8 @@ namespace Agario.UnityView
             {
                 for (int j = 0; j < objCount; j++)
                 {
-                    Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y);
+                    Vector3 newPosition = new Vector3(food[j].Position.X,
+                        food[j].Position.Y, 1);
                     _food[j].transform.localPosition = newPosition;
                 }
                 for (int j = objCount; j < foodCount; j++)
