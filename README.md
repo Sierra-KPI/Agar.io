@@ -1,7 +1,7 @@
 # Agar.io
 
 <p align="center">
-  <img src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png" data-canonical-src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png" />
+  <img src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png" data-canonical-src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png"/>
 </p>
 
 ## Table of Contents
@@ -25,32 +25,35 @@ Agar.io is a massively multiplayer online action game created by Brazilian devel
 ## Example
 
 ```csharp
-public bool MakeMove(Cell from, Cell to, Cell through)
+private List<Entity> GetAllEntities()
 {
-    var moves = GetPossiblePlayersMoves(from, through);
-    return Array.Exists(moves, element => element == to);
+    List<Entity> allEntities = new List<Entity>();
+
+    allEntities.AddRange(_players);
+    allEntities.AddRange(_food);
+
+    return allEntities;
 }
 
-public bool PlaceWall(Wall wall)
+private void SpawnFood()
 {
-    var cell1ID = GetIdOfCellByCoordinates(wall.Coordinates);
-    var cell2ID = GetIdOfCellByCoordinates(wall.EndCoordinates);
-    int diff = GetDiffId(cell1ID, cell2ID);
-            
-    _walls = _walls.Where(elem =>
+    for (var i = 0; i < FoodCount; i++)
     {
-        //replace to GetIdOfCellByCoordinates
-        var wallCell1 = GetCellByCoordinates(elem.Coordinates);
-        var wallCell2 = GetCellByCoordinates(elem.EndCoordinates);
-        return (wallCell1.Id != cell1ID || wallCell2.Id != cell2ID) &&
-        (wallCell1.Id != cell1ID - diff || wallCell2.Id != cell2ID - diff) &&
-        (wallCell1.Id != cell1ID + diff || wallCell2.Id != cell2ID + diff) &&
-        (wallCell1.Id != cell1ID || wallCell2.Id != cell1ID + diff);
-            }).ToList();
+        Food food = new Food(GetRandomPosition());
 
-        _placedWalls.Add(wall);
-        return true;
+        _food.Add(food);
+        Board.AddEntityToBoard(food);
     }
+}
+
+public Player AddPlayer()
+{
+    Player player = new Player(GetRandomPosition());
+
+    _players.Add(player);
+    Board.AddEntityToBoard(player);
+
+    return player;
 }
 ```
 
@@ -58,7 +61,7 @@ public bool PlaceWall(Wall wall)
 
 ## Pictures
 
-[![Picture1](https://github.com/Sierra-KPI/Quoridor/blob/main/docs/ConsoleGame.png)](https://github.com/Sierra-KPI/Quoridor/blob/main/docs/ConsoleGame.png)
+[![Picture1](https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png)](https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png)
 
 ---
 
