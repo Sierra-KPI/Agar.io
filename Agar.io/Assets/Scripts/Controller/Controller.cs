@@ -7,6 +7,8 @@ namespace Agario.UnityController
 {
     public class Controller : MonoBehaviour
     {
+        #region Fields
+
         private Client _client;
         private Player _player;
         private View _view;
@@ -16,6 +18,10 @@ namespace Agario.UnityController
         private GameObject _playerPrefab;
         [SerializeField]
         private GameObject _foodPrefab;
+
+        #endregion Fields
+
+        #region Methods
 
         private void Start()
         {
@@ -80,5 +86,7 @@ namespace Agario.UnityController
             _view.ChangePlayersPosition(Client.Instance.Players);
             _view.ChangeFoodPosition(Client.Instance.Food);
         }
+
+        #endregion Methods
     }
 }
