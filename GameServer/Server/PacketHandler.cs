@@ -7,6 +7,8 @@ namespace GameServer
 {
     internal class PacketHandler
     {
+        #region Messages
+
         private const string GetConnectionMessage = 
             "GetConnectionRequest -> Name: ";
         private const string SendConnectionMessage =
@@ -19,6 +21,10 @@ namespace GameServer
             "GetLeaderBoardRequest";
         private const string SendLeaderBoardMessage =
             "SendLeaderBoardResponse";
+
+        #endregion Messages
+
+        #region Methods
 
         public static void GetConnectionRequest(Client client,
             PacketBase _packet)
@@ -177,5 +183,7 @@ namespace GameServer
             Server.SendUDPData(client, packet);
             Console.WriteLine(SendLeaderBoardMessage);
         }
+
+        #endregion Methods
     }
 }

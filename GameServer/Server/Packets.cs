@@ -2,6 +2,8 @@
 
 namespace GameServer
 {
+    #region ContractCore
+
     [ProtoContract,
     ProtoInclude(10, typeof(ConnectionRequestPacket)),
     ProtoInclude(11, typeof(ConnectionResponsePacket)),
@@ -12,6 +14,11 @@ namespace GameServer
     ProtoInclude(16, typeof(PlayerInfoResponsePacket)),
     ProtoInclude(17, typeof(LeaderBoardRequestPacket)),
     ProtoInclude(18, typeof(LeaderBoardResponsePacket)),]
+
+    #endregion ContractCore
+
+    #region PacketBase
+
     public class PacketBase
     {
         [ProtoMember(1)]
@@ -23,6 +30,10 @@ namespace GameServer
         [ProtoMember(3)]
         public int PacketId { get; set; }
     }
+
+    #endregion PacketBase
+
+    #region ProtoContracts
 
     [ProtoContract]
     public class ConnectionRequestPacket : PacketBase
@@ -112,4 +123,6 @@ namespace GameServer
         [ProtoMember(5)]
         public PlayerInfoPacket[] Players { get; set; }
     }
+
+    #endregion Contracts
 }

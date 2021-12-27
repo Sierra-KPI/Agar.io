@@ -5,6 +5,8 @@ namespace GameServer
 {
     internal class Client
     {
+        #region Fields
+
         public int Id;
         public IPEndPoint EndPoint;
         public Player Player;
@@ -14,6 +16,10 @@ namespace GameServer
         public int TimeOfLife = 0;
         public int MaxTimeOfLife = 30 * 3;
 
+        #endregion Fields
+
+        #region Contructors
+
         public Client(int clientId, IPEndPoint endPoint, Player player)
         {
             Id = clientId;
@@ -22,5 +28,7 @@ namespace GameServer
         }
 
         public Client() { }
+
+        #endregion Contructors
     }
 }

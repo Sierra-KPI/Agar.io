@@ -10,6 +10,8 @@ namespace GameServer
 {
     internal class Server
     {
+        #region Fields
+
         public static AgarioGame Game;
         private static readonly Dictionary<int, Client> s_clients = new();
         private static int s_clientId = 0;
@@ -25,6 +27,10 @@ namespace GameServer
         private const string ErrorReceivingDataMessage = 
             "Error receiving UDP data: ";
         private const string InitializedPacketsMessage = "Initialized packets.";
+
+        #endregion Fields
+
+        #region Methods
 
         public static void Start(int receivePort, int sendPort)
         {
@@ -174,5 +180,7 @@ namespace GameServer
 
             Console.WriteLine(InitializedPacketsMessage);
         }
+
+        #endregion Methods
     }
 }

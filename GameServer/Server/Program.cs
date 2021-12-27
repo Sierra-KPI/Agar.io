@@ -5,6 +5,8 @@ namespace GameServer
 {
     internal class Program
     {
+        #region Fields
+
         private static bool s_isRunning = false;
         private const string MainThreadMessage = "Main thread started";
 
@@ -14,6 +16,10 @@ namespace GameServer
         public const float MsPerTick = 1000f / TicksPerSec;
 
         private const string GameServerTitle = "Game Server";
+
+        #endregion Fields
+
+        #region Methods
 
         private static void Main(string[] args)
         {
@@ -47,5 +53,7 @@ namespace GameServer
                 }
             }
         }
+
+        #endregion Methods
     }
 }
