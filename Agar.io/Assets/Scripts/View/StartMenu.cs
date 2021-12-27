@@ -33,5 +33,4 @@ public class StartMenu : MonoBehaviour
 
         SceneLoader.LoadMainScene();
     }
-
 }

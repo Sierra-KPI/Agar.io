@@ -91,7 +91,6 @@ namespace Agario.UnityView
                     _food[j].transform.localPosition = newPosition;
                 }
             }
-
         }
     }
 }

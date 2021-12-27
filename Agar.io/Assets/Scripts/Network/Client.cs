@@ -28,7 +28,7 @@ namespace Agario.Network
         public int TimeOfLife = 0;
         public int TimeOfResponse = 0;
         public int MaxTimeOfLife = 1;
-        public int MaxTimeOfResponse = 40; // 0.1 sec
+        public int MaxTimeOfResponse = 40;
 
         private delegate void Handler(PacketBase _packet);
         private static Dictionary<PacketType, Handler> s_packetHandlers;

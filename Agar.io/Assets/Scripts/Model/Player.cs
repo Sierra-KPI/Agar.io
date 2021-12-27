@@ -9,6 +9,5 @@
             Radius = 3;
             EntityType = EntityType.Player;
         }
-
     }
 }

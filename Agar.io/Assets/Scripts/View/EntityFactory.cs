@@ -74,11 +74,6 @@ namespace Agario.UnityView
             entityObject.transform.localScale =
                 new Vector3(entity.Radius, entity.Radius);
 
-            if (entity.EntityType == EntityType.Player)
-            {
-                //SetPlayerUsername(entityObject, ((Player)entity).Name);
-            }
-
             return entityObject;
         }
 

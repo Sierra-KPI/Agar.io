@@ -57,6 +57,5 @@ namespace Agario.UnityView
             Debug.Log("QUIT");
             Application.Quit();
         }
-
     }
 }

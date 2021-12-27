@@ -164,6 +164,5 @@ namespace Agario.Network
 
             EndMenu.Players = leaderBoard;
         }
-
     }
 }

@@ -24,7 +24,5 @@ namespace Agario.UnityView
 
             _timerText.text = minutes + ":" + seconds;
         }
-
-
     }
 }
