@@ -6,11 +6,17 @@ namespace Agario.UnityView
 {
     public class View : MonoBehaviour
     {
+        #region Fields
+
         private readonly Dictionary<int, GameObject> _players = new();
         private readonly List<GameObject> _food = new();
         private EntityFactory _entityFactory = new();
 
         public static string s_username;
+
+        #endregion Fields
+
+        #region Methods
 
         public void CreatePlayer(Player player)
         {
@@ -92,5 +98,7 @@ namespace Agario.UnityView
                 }
             }
         }
+
+        #endregion Methods
     }
 }

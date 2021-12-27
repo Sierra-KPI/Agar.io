@@ -6,6 +6,8 @@ namespace Agario.UnityView
 {
     public class EntityFactory : MonoBehaviour
     {
+        #region Fields
+
         public GameObject PlayerPrefab;
         public List<EntityObject> EntityObjects = new();
         public Dictionary<EntityType,
@@ -13,10 +15,18 @@ namespace Agario.UnityView
 
         public static EntityFactory Instance;
 
+        #endregion Fields
+
+        #region Constructor
+
         public EntityFactory()
         {
             Instance = this;
         }
+
+        #endregion Constructor
+
+        #region Methods
 
         public void AddEntityObject(EntityObject entityObject)
         {
@@ -113,5 +123,7 @@ namespace Agario.UnityView
 
             EntityDictionary[entityType].Enqueue(entityObject);
         }
+
+        #endregion Methods
     }
 }

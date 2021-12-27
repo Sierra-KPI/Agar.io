@@ -7,10 +7,16 @@ using UnityEngine.UI;
 
 public class StartMenu : MonoBehaviour
 {
+    #region Fields
+
     private Button _connectButton;
     private Button _quitButton;
     private InputField _inputField;
     private readonly int _usernameLengthLimit = 12;
+
+    #endregion Fields
+
+    #region Methods
 
     void Start()
     {
@@ -33,4 +39,6 @@ public class StartMenu : MonoBehaviour
 
         SceneLoader.LoadMainScene();
     }
+
+    #endregion Methods
 }

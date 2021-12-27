@@ -5,9 +5,15 @@ namespace Agario.UnityView
 {
     public class EntityObject
     {
+        #region Fields
+
         public EntityType EntityType;
         public GameObject Prefab;
         public int Number;
+
+        #endregion Fields
+
+        #region Constructor
 
         public EntityObject(EntityType entityType,
             GameObject prefab, int number)
@@ -16,5 +22,7 @@ namespace Agario.UnityView
             Prefab = prefab;
             Number = number;
         }
+
+        #endregion Constuctror
     }
 }

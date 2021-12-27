@@ -6,11 +6,17 @@ namespace Agario.UnityView
 {
     public class SceneLoader : MonoBehaviour
     {
+        #region Fields
+
         private static readonly string _mainSceneName = "MainScene";
         private static readonly string _endSceneName = "EndScene";
         private static readonly string _disconnectedMessage = "Disconnected from server...";
 
         private static GameObject _deadMenu;
+
+        #endregion Fields
+
+        #region Methods
 
         public static void ShowDisconnectedMeassage()
         {
@@ -57,5 +63,7 @@ namespace Agario.UnityView
             Debug.Log("QUIT");
             Application.Quit();
         }
+
+        #endregion Methods
     }
 }

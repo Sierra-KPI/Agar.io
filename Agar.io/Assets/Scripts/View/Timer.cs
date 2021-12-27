@@ -5,9 +5,15 @@ namespace Agario.UnityView
 {
     public class Timer : MonoBehaviour
     {
+        #region Fields
+
         public const int MaxTime = 2 * 60;
         public static float Time = 0;
         private Text _timerText;
+
+        #endregion Fields
+
+        #region Methods
 
         public void Awake()
         {
@@ -24,5 +30,7 @@ namespace Agario.UnityView
 
             _timerText.text = minutes + ":" + seconds;
         }
+
+        #endregion Methods
     }
 }

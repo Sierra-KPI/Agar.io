@@ -6,9 +6,15 @@ namespace Agario.UnityView
 {
     public class EndMenu : MonoBehaviour
     {
+        #region Fields
+
         public static Player[] Players;
         [SerializeField]
         private GameObject _rowPrefab;
+
+        #endregion Fields
+
+        #region Methods
 
         void Start()
         {
@@ -29,5 +35,7 @@ namespace Agario.UnityView
             var _quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
             _quitButton.onClick.AddListener(delegate { SceneLoader.QuitButton(); });
         }
+
+        #endregion Methods
     }
 }
