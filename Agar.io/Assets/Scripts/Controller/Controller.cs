@@ -32,6 +32,7 @@ namespace Agario.UnityController
             {
                 Name = View.s_username,
             };
+
             _client = new Client(_player);
 
             _timer = gameObject.AddComponent<Timer>();
@@ -68,12 +69,14 @@ namespace Agario.UnityController
             var position = new Vector3(_player.Position.X, _player.Position.Y);
             GetComponentInChildren<Camera>().transform.position = position;
 
-            PacketHandler.SendPlayerPosition(horizontal, vertical, _player.Radius);
+            PacketHandler.SendPlayerPosition(horizontal, vertical, 
+                _player.Radius);
         }
 
         private void UpdateTimer()
         {
             _timer.UpdateTimer();
+
             if (Timer.Time >= Timer.MaxTime)
             {
                 PacketHandler.SendLeaderBoardRequest();

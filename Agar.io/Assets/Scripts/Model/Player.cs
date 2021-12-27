@@ -7,13 +7,15 @@
         public string Name { get; set; }
         public int Id { get; set; }
 
+        private const int StartRadius = 3;
+
         #endregion Fields
 
         #region Constuctor
 
         public Player()
         {
-            Radius = 3;
+            Radius = StartRadius;
             EntityType = EntityType.Player;
         }
 
