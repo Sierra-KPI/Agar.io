@@ -6,6 +6,8 @@ namespace Agario.Network
 {
     public class PacketHandler
     {
+        #region Methods
+
         public static void SendConnectionRequest(string name)
         {
             var packet = new ConnectionRequestPacket
@@ -164,5 +166,7 @@ namespace Agario.Network
 
             EndMenu.Players = leaderBoard;
         }
+
+        #endregion Methods
     }
 }

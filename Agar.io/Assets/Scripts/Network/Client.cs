@@ -12,6 +12,8 @@ namespace Agario.Network
 {
     public class Client
     {
+        #region Fields
+
         public static Client Instance;
         public int Id;
         public Player Player;
@@ -36,6 +38,10 @@ namespace Agario.Network
         public Dictionary<int, Player> Players;
         public List<Food> Food = new();
 
+        #endregion Fields
+
+        #region Constructor
+
         public Client(Player player)
         {
             Instance = this;
@@ -48,6 +54,10 @@ namespace Agario.Network
 
             PacketHandler.SendConnectionRequest(Player.Name);
         }
+
+        #endregion Constructor
+
+        #region Methods
 
         private void UDPReceiveCallback(IAsyncResult result)
         {
@@ -125,5 +135,7 @@ namespace Agario.Network
                 PacketHandler.SendPlayerPosition(0, 0, Player.Radius); 
             }
         }
+
+        #endregion Methods
     }
 }
