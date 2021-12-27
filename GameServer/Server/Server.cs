@@ -21,6 +21,10 @@ namespace GameServer
         private static UdpClient s_udpSender;
 
         private const string ServerStartMessage = "Starting server...";
+        private const string ServerStartPortMessage = "Server started on port";
+        private const string ErrorReceivingDataMessage = 
+            "Error receiving UDP data: ";
+        private const string InitializedPacketsMessage = "Initialized packets.";
 
         public static void Start(int receivePort, int sendPort)
         {
@@ -34,7 +38,7 @@ namespace GameServer
 
             s_udpSender = new UdpClient(sendPort);
 
-            Console.WriteLine($"Server started on port {receivePort}.");
+            Console.WriteLine(ServerStartPortMessage + receivePort);
         }
 
         private static void UDPReceiveCallback(IAsyncResult result)
@@ -73,12 +77,13 @@ namespace GameServer
 
                         client = s_clients[packet.ClientId];
                     }
+
                     s_packetHandlers[packet.Type](client, packet);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error receiving UDP data: {e}");
+                Console.WriteLine(ErrorReceivingDataMessage + e);
             }
         }
 
@@ -141,7 +146,8 @@ namespace GameServer
         public static void Update()
         {
             Game.Update();
-            foreach (var client in s_clients.Values)
+
+            foreach (Client client in s_clients.Values)
             {
                 if (++client.TimeOfLife > client.MaxTimeOfLife)
                 {
@@ -166,7 +172,7 @@ namespace GameServer
                     PacketHandler.GetLeaderBoardRequest },
             };
 
-            Console.WriteLine("Initialized packets.");
+            Console.WriteLine(InitializedPacketsMessage);
         }
     }
 }
