@@ -7,6 +7,19 @@ namespace GameServer
 {
     internal class PacketHandler
     {
+        private const string GetConnectionMessage = 
+            "GetConnectionRequest -> Name: ";
+        private const string SendConnectionMessage =
+            "SendConnectionResponse";
+        private const string GetPlayerInfoMessage =
+            "GetPlayerInfoRequest";
+        private const string SendPlayerInfoMessage =
+            "SendPlayerInfoResponse about: ";
+        private const string GetLeaderBoardMessage =
+            "GetLeaderBoardRequest";
+        private const string SendLeaderBoardMessage =
+            "SendLeaderBoardResponse";
+
         public static void GetConnectionRequest(Client client,
             PacketBase _packet)
         {
@@ -16,7 +29,7 @@ namespace GameServer
             client.Player.Id = client.Id;
             client.ReceivePacketsCounter = _packet.PacketId;
 
-            Console.WriteLine("GetConnectionRequest -> Name: " +
+            Console.WriteLine(GetConnectionMessage +
                 packet.Name);
 
             SendConnectionResponse(client);
@@ -31,6 +44,7 @@ namespace GameServer
                 PacketId = ++client.SendPacketsCounter,
                 ClientPacketId = client.ReceivePacketsCounter,
                 GameTime = Server.Game.Time,
+
                 Position = new PlayerPosition
                 {
                     X = client.Player.Position.X,
@@ -40,7 +54,7 @@ namespace GameServer
             };
 
             Server.SendUDPData(client, packet);
-            Console.WriteLine("SendConnectionResponse");
+            Console.WriteLine(SendConnectionMessage);
         }
 
         public static void GetPlayerPosition(Client client,
@@ -58,8 +72,8 @@ namespace GameServer
 
             var direction = new Vector2(packet.X, packet.Y);
             client.Player.Move(direction);
-            Server.Game.Board.UpdateChunksForEntity(client.Player);
 
+            Server.Game.Board.UpdateChunksForEntity(client.Player);
         }
 
         public static void SendBoardUpdate(Client client)
@@ -69,9 +83,10 @@ namespace GameServer
 
             var entitiesPackets = new PlayerPosition[entities.GetLength(0)];
 
-            for (int i = 0; i < entities.GetLength(0); i++)
+            for (var i = 0; i < entities.GetLength(0); i++)
             {
                 var entity = entities[i];
+
                 entitiesPackets[i] = new PlayerPosition
                 {
                     ClientId = entity.Id,
@@ -101,7 +116,7 @@ namespace GameServer
 
             var player = Server.GetClient(packet.PlayerId);
 
-            Console.WriteLine("GetPlayerInfoRequest");
+            Console.WriteLine(GetPlayerInfoMessage);
             SendPlayerInfoResponse(client, player);
         }
 
@@ -122,7 +137,8 @@ namespace GameServer
             };
 
             Server.SendUDPData(client, packet);
-            Console.WriteLine("SendPlayerInfoResponse about: " +
+
+            Console.WriteLine(SendPlayerInfoMessage +
                 player.Player.Name);
         }
 
@@ -132,7 +148,7 @@ namespace GameServer
             var packet = (LeaderBoardRequestPacket)_packet;
             client.ReceivePacketsCounter = packet.PacketId;
 
-            Console.WriteLine("GetLeaderBoardRequest");
+            Console.WriteLine(GetLeaderBoardMessage);
             SendLeaderBoardResponse(client);
         }
 
@@ -140,7 +156,7 @@ namespace GameServer
         {
             var players = new List<PlayerInfoPacket>();
 
-            foreach (var player in Server.Game.GetLeaderBoard())
+            foreach (Player player in Server.Game.GetLeaderBoard())
             {
                 players.Add(new PlayerInfoPacket
                 {
@@ -159,7 +175,7 @@ namespace GameServer
             };
 
             Server.SendUDPData(client, packet);
-            Console.WriteLine("SendLeaderBoardResponse");
+            Console.WriteLine(SendLeaderBoardMessage);
         }
     }
 }
