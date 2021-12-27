@@ -1,7 +1,7 @@
 # Agar.io
 
 <p align="center">
-  <img src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png" data-canonical-src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png"/>
+  <img src="/docs/Agar.ioHeader.png" data-canonical-src="/docs/Agar.ioHeader.png"/>
 </p>
 
 ## Table of Contents
@@ -61,7 +61,7 @@ public Player AddPlayer()
 
 ## Pictures
 
-[![Picture1](https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png)](https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png)
+[![Picture1](/docs/Agar.io.png)](/docs/Agar.io.png)
 
 ---
 
