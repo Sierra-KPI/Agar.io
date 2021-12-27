@@ -1,7 +1,7 @@
 # Agar.io
 
 <p align="center">
-  <img src="https://github.com/Sierra-KPI/Quoridor/blob/main/docs/Quoridor.jpg" data-canonical-src="https://github.com/Sierra-KPI/Quoridor/blob/main/docs/Quoridor.jpg" />
+  <img src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png" data-canonical-src="https://github.com/Sierra-KPI/Agar.io/blob/master/docs/Agar.io.png" />
 </p>
 
 ## Table of Contents
@@ -13,20 +13,16 @@
 
 ### Description
 
-The abstract strategy game Quoridor is surprisingly deep for its simple rules. The object of the game is to advance your pawn to the opposite edge of the board. On your turn you may either move your pawn or place a wall. You may hinder your opponent with wall placement, but not completely block them off. Meanwhile, they are trying to do the same to you. The first pawn to reach the opposite side wins.
+Agar.io is a massively multiplayer online action game created by Brazilian developer Matheus Valadares. Players control one or more circular cells in a map representing a Petri dish. The goal is to gain as much mass as possible by eating agar and cells smaller than the player's cell while avoiding larger ones which can eat the player's cells. Each player starts with one cell ~~, but players can split a cell into two once it reaches a sufficient mass, allowing them to control multiple cells~~. The name comes from the substance agar, used to culture bacteria.
 
 ## Badges
 
 [![Theme](https://img.shields.io/badge/Theme-GameDev-blueviolet)](https://img.shields.io/badge/Theme-GameDev-blueviolet)
-[![Game](https://img.shields.io/badge/Game-Quoridor-blueviolet)](https://img.shields.io/badge/Game-Quoridor-blueviolet)
+[![Game](https://img.shields.io/badge/Game-Agario-blueviolet)](https://img.shields.io/badge/Game-Agario-blueviolet)
 
 ---
 
 ## Example
-
-Wall Placement
-
-[![Picture1](https://github.com/Sierra-KPI/Quoridor/blob/main/docs/WallExample.png)](https://github.com/Sierra-KPI/Quoridor/blob/main/docs/WallExample.png)
 
 ```csharp
 public bool MakeMove(Cell from, Cell to, Cell through)
