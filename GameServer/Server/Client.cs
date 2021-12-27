@@ -12,7 +12,7 @@ namespace GameServer
         public int ReceivePacketsCounter = 0;
         public int SendPacketsCounter = 0;
         public int TimeOfLife = 0;
-        public int MaxTimeOfLife = 30 * 3; // 3 seconds
+        public int MaxTimeOfLife = 30 * 3;
 
         public Client(int clientId, IPEndPoint endPoint, Player player)
         {

@@ -60,7 +60,6 @@ namespace GameServer
             client.Player.Move(direction);
             Server.Game.Board.UpdateChunksForEntity(client.Player);
 
-            //Console.WriteLine("Chunk: " + client.Player.ChunkId + "X: " + client.Player.Position.X + " Y: " + client.Player.Position.Y);
         }
 
         public static void SendBoardUpdate(Client client)
@@ -92,7 +91,6 @@ namespace GameServer
             };
 
             Server.SendUDPData(client, packet);
-            //Console.WriteLine("SendBoardUpdate -> entitiesPackets: " + entitiesPackets.GetLength(0));
         }
 
         public static void GetPlayerInfoRequest(Client client,

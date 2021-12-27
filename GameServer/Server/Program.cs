@@ -24,7 +24,6 @@ namespace GameServer
             Server.Start(ReceivePort, SendPort);
         }
 
-        // rewrite
         private static void MainThread()
         {
             Console.WriteLine(MainThreadMessage);
