@@ -14,8 +14,8 @@ namespace Agario.UnityView
 
         public static string s_username;
 
-        private static readonly int _foodNumber = 150;
-        private static readonly int _playerNumber = 10;
+        private static readonly int s_foodNumber = 150;
+        private static readonly int s_playerNumber = 10;
 
         #endregion Fields
 
@@ -33,14 +33,14 @@ namespace Agario.UnityView
             var _foodObject = new EntityObject(
                 EntityType.Food,
                 _foodPrefab,
-                _foodNumber
+                s_foodNumber
             );
             _entityFactory.AddEntityObject(_foodObject);
 
             var _playerObject = new EntityObject(
                 EntityType.Player,
                 _playerPrefab,
-                _playerNumber
+                s_playerNumber
             );
             _entityFactory.AddEntityObject(_playerObject);
 

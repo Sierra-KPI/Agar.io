@@ -78,10 +78,12 @@ namespace Agario.Network
             {
                 if (playerPosition.ClientId == 1000)
                 {
-                    var food = new Food();
-                    food.Position = new System.Numerics.
-                        Vector2(playerPosition.X, playerPosition.Y);
-                    food.Radius = playerPosition.Size;
+                    var food = new Food
+                    {
+                        Position = new System.Numerics.
+                        Vector2(playerPosition.X, playerPosition.Y),
+                        Radius = playerPosition.Size
+                    };
                     Client.Instance.Food.Add(food);
 
                     continue;

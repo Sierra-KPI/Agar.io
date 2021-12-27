@@ -8,22 +8,22 @@ namespace Agario.UnityView
     {
         #region Fields
 
-        private static readonly string _mainSceneName = "MainScene";
-        private static readonly string _endSceneName = "EndScene";
-        private static readonly string _disconnectMessageName =
+        private static readonly string s_mainSceneName = "MainScene";
+        private static readonly string s_endSceneName = "EndScene";
+        private static readonly string s_disconnectMessageName =
             "DisconnectMessage";
-        private static readonly string _deadMenuName =
+        private static readonly string s_deadMenuName =
             "DeadMenu";
-        private static readonly string _quitButtonName =
+        private static readonly string s_quitButtonName =
             "QuitButton";
-        private static readonly string _startButtonName =
+        private static readonly string s_startButtonName =
             "StartButton";
 
-        private static readonly string _disconnectedMessage =
+        private static readonly string s_disconnectedMessage =
             "Disconnected from server...";
-        private static readonly string _quitMessage = "QUIT";
+        private static readonly string s_quitMessage = "QUIT";
 
-        private static GameObject _deadMenu;
+        private static GameObject s_deadMenu;
 
         #endregion Fields
 
@@ -31,51 +31,51 @@ namespace Agario.UnityView
 
         public static void ShowDisconnectedMeassage()
         {
-            var message = GameObject.Find(_disconnectMessageName).
+            var message = GameObject.Find(s_disconnectMessageName).
                 GetComponent<Text>();
-            message.text = _disconnectedMessage;
+            message.text = s_disconnectedMessage;
         }
 
         public static void HideDisconnectedMeassage()
         {
-            var message = GameObject.Find(_disconnectMessageName).
+            var message = GameObject.Find(s_disconnectMessageName).
                 GetComponent<Text>();
             message.text = "";
         }
 
         public static void SetDeadMenu()
         {
-            _deadMenu = GameObject.Find(_deadMenuName);
+            s_deadMenu = GameObject.Find(s_deadMenuName);
 
-            var _quitButton = GameObject.Find(_quitButtonName).
+            var _quitButton = GameObject.Find(s_quitButtonName).
                 GetComponent<Button>();
             _quitButton.onClick.AddListener(delegate { QuitButton(); });
 
-            var _startButton = GameObject.Find(_startButtonName).
+            var _startButton = GameObject.Find(s_startButtonName).
                 GetComponent<Button>();
             _startButton.onClick.AddListener(delegate { LoadMainScene(); });
 
-            _deadMenu.SetActive(false);
+            s_deadMenu.SetActive(false);
         }
 
         public static void LoadDeadMenu()
         {
-            _deadMenu.SetActive(true);
+            s_deadMenu.SetActive(true);
         }
 
         public static void LoadMainScene()
         {
-            SceneManager.LoadScene(_mainSceneName);
+            SceneManager.LoadScene(s_mainSceneName);
         }
 
         public static void LoadEndScene()
         {
-            SceneManager.LoadScene(_endSceneName);
+            SceneManager.LoadScene(s_endSceneName);
         }
 
         public static void QuitButton()
         {
-            Debug.Log(_quitMessage);
+            Debug.Log(s_quitMessage);
             Application.Quit();
         }
 

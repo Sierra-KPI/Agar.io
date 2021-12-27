@@ -14,13 +14,13 @@ public class StartMenu : MonoBehaviour
     private InputField _inputField;
     private readonly int _usernameLengthLimit = 12;
 
-    private static readonly string _connectButtonName =
+    private static readonly string s_connectButtonName =
         "ConnectButton";
-    private static readonly string _quitButtonName =
+    private static readonly string s_quitButtonName =
         "QuitButton";
-    private static readonly string _inputFieldName =
+    private static readonly string s_inputFieldName =
         "InputField";
-    private static readonly string ConnectMessage =
+    private static readonly string s_connectMessage =
         "Connect: ";
 
     #endregion Fields
@@ -29,17 +29,17 @@ public class StartMenu : MonoBehaviour
 
     void Start()
     {
-        _connectButton = GameObject.Find(_connectButtonName).
+        _connectButton = GameObject.Find(s_connectButtonName).
             GetComponent<Button>();
         _connectButton.onClick.AddListener(
             delegate { OnConnectButtonClick(); });
 
-        _quitButton = GameObject.Find(_quitButtonName).
+        _quitButton = GameObject.Find(s_quitButtonName).
             GetComponent<Button>();
         _quitButton.onClick.AddListener(
             delegate { SceneLoader.QuitButton(); });
 
-        _inputField = GameObject.Find(_inputFieldName).
+        _inputField = GameObject.Find(s_inputFieldName).
             GetComponent<InputField>();
         _inputField.characterLimit = _usernameLengthLimit;
     }
@@ -47,7 +47,7 @@ public class StartMenu : MonoBehaviour
     private void OnConnectButtonClick()
     {
         var username = _inputField.text;
-        Debug.Log(ConnectMessage + username);
+        Debug.Log(s_connectMessage + username);
 
         View.s_username = username;
 

@@ -17,7 +17,7 @@ namespace Agario.UnityView
 
         private const string NoEntityMessage = "No such entity: ";
 
-        private const Color FoodColor = new Color(0, 0, 0);
+        private Color _foodColor = new(0, 0, 0);
         private const float PlayerColorMaxRange = 0.8f;
 
         #endregion Fields
@@ -113,7 +113,7 @@ namespace Agario.UnityView
             SpriteRenderer spriteRenderer =
                 entityObject.GetComponent<SpriteRenderer>();
 
-            spriteRenderer.color = FoodColor;
+            spriteRenderer.color = _foodColor;
         }
 
         public void ReturnEntity(GameObject entityObject,
