@@ -10,7 +10,18 @@ namespace Agario.UnityView
 
         private static readonly string _mainSceneName = "MainScene";
         private static readonly string _endSceneName = "EndScene";
-        private static readonly string _disconnectedMessage = "Disconnected from server...";
+        private static readonly string _disconnectMessageName =
+            "DisconnectMessage";
+        private static readonly string _deadMenuName =
+            "DeadMenu";
+        private static readonly string _quitButtonName =
+            "QuitButton";
+        private static readonly string _startButtonName =
+            "StartButton";
+
+        private static readonly string _disconnectedMessage =
+            "Disconnected from server...";
+        private static readonly string _quitMessage = "QUIT";
 
         private static GameObject _deadMenu;
 
@@ -20,24 +31,28 @@ namespace Agario.UnityView
 
         public static void ShowDisconnectedMeassage()
         {
-            var message = GameObject.Find("DisconnectMessage").GetComponent<Text>();
+            var message = GameObject.Find(_disconnectMessageName).
+                GetComponent<Text>();
             message.text = _disconnectedMessage;
         }
 
         public static void HideDisconnectedMeassage()
         {
-            var message = GameObject.Find("DisconnectMessage").GetComponent<Text>();
+            var message = GameObject.Find(_disconnectMessageName).
+                GetComponent<Text>();
             message.text = "";
         }
 
         public static void SetDeadMenu()
         {
-            _deadMenu = GameObject.Find("DeadMenu");
+            _deadMenu = GameObject.Find(_deadMenuName);
 
-            var _quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
+            var _quitButton = GameObject.Find(_quitButtonName).
+                GetComponent<Button>();
             _quitButton.onClick.AddListener(delegate { QuitButton(); });
 
-            var _startButton = GameObject.Find("StartButton").GetComponent<Button>();
+            var _startButton = GameObject.Find(_startButtonName).
+                GetComponent<Button>();
             _startButton.onClick.AddListener(delegate { LoadMainScene(); });
 
             _deadMenu.SetActive(false);
@@ -60,7 +75,7 @@ namespace Agario.UnityView
 
         public static void QuitButton()
         {
-            Debug.Log("QUIT");
+            Debug.Log(_quitMessage);
             Application.Quit();
         }
 

@@ -15,6 +15,11 @@ namespace Agario.UnityView
 
         public static EntityFactory Instance;
 
+        private const string NoEntityMessage = "No such entity: ";
+
+        private const Color FoodColor = new Color(0, 0, 0);
+        private const float PlayerColorMaxRange = 0.8f;
+
         #endregion Fields
 
         #region Constructor
@@ -60,6 +65,7 @@ namespace Agario.UnityView
                     obj.SetActive(false);
                     objectQueue.Enqueue(obj);
                 }
+
                 EntityDictionary.Add(entityObject.EntityType, objectQueue);
             }
         }
@@ -68,7 +74,8 @@ namespace Agario.UnityView
         {
             if (!EntityDictionary.ContainsKey(entity.EntityType))
             {
-                Debug.LogWarning("No such entity: " + entity.EntityType);
+                Debug.LogWarning(NoEntityMessage + entity.EntityType);
+
                 return null;
             }
 
@@ -93,9 +100,9 @@ namespace Agario.UnityView
                 entityObject.GetComponent<SpriteRenderer>();
 
             Color playerColor = new Color(
-                Random.Range(0f, 0.8f),
-                Random.Range(0f, 0.8f),
-                Random.Range(0f, 0.8f)
+                Random.Range(0f, PlayerColorMaxRange),
+                Random.Range(0f, PlayerColorMaxRange),
+                Random.Range(0f, PlayerColorMaxRange)
             );
 
             spriteRenderer.color = playerColor;
@@ -106,14 +113,7 @@ namespace Agario.UnityView
             SpriteRenderer spriteRenderer =
                 entityObject.GetComponent<SpriteRenderer>();
 
-            Color foodColor = new Color(0, 0, 0);
-            spriteRenderer.color = foodColor;
-        }
-
-        private void SetPlayerUsername(GameObject entityObject, string username)
-        {
-            entityObject.AddComponent<TextMesh>();
-            entityObject.GetComponent<TextMesh>().text = username;
+            spriteRenderer.color = FoodColor;
         }
 
         public void ReturnEntity(GameObject entityObject,

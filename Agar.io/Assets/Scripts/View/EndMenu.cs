@@ -12,15 +12,22 @@ namespace Agario.UnityView
         [SerializeField]
         private GameObject _rowPrefab;
 
+        private const int MaxLeaderBoardPlayers = 5;
+        private const string TableName = "Table";
+        private const string StartButtonName = "StartButton";
+        private const string EndButtonName = "EndButton";
+
         #endregion Fields
 
         #region Methods
 
         void Start()
         {
-            var table = GameObject.Find("Table");
-            var count = Players.GetLength(0) < 5 ? Players.GetLength(0) : 5;
-            for (int i = 0; i < count; i++)
+            var table = GameObject.Find(TableName);
+            var count = Players.GetLength(0) < MaxLeaderBoardPlayers ?
+                Players.GetLength(0) : MaxLeaderBoardPlayers;
+
+            for (var i = 0; i < count; i++)
             {
                 GameObject row = Instantiate(_rowPrefab, table.transform);
                 Text[] cells = row.GetComponentsInChildren<Text>();
@@ -29,11 +36,15 @@ namespace Agario.UnityView
                 cells[2].text = Players[i].Radius.ToString("f0");
             }
 
-            var _startButton = GameObject.Find("StartButton").GetComponent<Button>();
-            _startButton.onClick.AddListener(delegate { SceneLoader.LoadMainScene(); });
+            var _startButton = GameObject.Find(StartButtonName).
+                GetComponent<Button>();
+            _startButton.onClick.AddListener(
+                delegate { SceneLoader.LoadMainScene(); });
 
-            var _quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
-            _quitButton.onClick.AddListener(delegate { SceneLoader.QuitButton(); });
+            var _quitButton = GameObject.Find(EndButtonName).
+                GetComponent<Button>();
+            _quitButton.onClick.AddListener(
+                delegate { SceneLoader.QuitButton(); });
         }
 
         #endregion Methods
