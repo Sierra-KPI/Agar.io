@@ -20,7 +20,7 @@ namespace Agario.Model
             _chunkNumber = (int)Math.Pow(Width / Chunk.Width, 2);
             Chunks = new Chunk[_chunkNumber];
 
-            for (int i = 0; i < _chunkNumber; i++)
+            for (var i = 0; i < _chunkNumber; i++)
             {
                 Chunks[i] = new Chunk(i);
             }
@@ -46,7 +46,7 @@ namespace Agario.Model
 
             int[] ids = GetNearestChunksIds(chunkId, chunksInRow);
 
-            foreach (var id in ids)
+            foreach (int id in ids)
             {
                 if (IsChunkIdValid(id))
                 {
@@ -115,13 +115,17 @@ namespace Agario.Model
         public void UpdateChunksForEntity(Entity entity)
         {
             var currentChunkId = GetChunkIdByPosition(entity.Position);
-          
+
             if (entity.ChunkId == currentChunkId ||
                 !IsChunkIdValid(entity.ChunkId) ||
-                !IsChunkIdValid(currentChunkId)) return;
+                !IsChunkIdValid(currentChunkId)) 
+            {
+                return; 
+            }
 
             Chunks[currentChunkId].Entities.Add(entity);
             Chunks[entity.ChunkId].Entities.Remove(entity);
+
             entity.ChunkId = currentChunkId;
         }
 

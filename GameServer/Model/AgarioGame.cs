@@ -98,6 +98,7 @@ namespace Agario.Model
         public void RemovePlayer(Player player)
         {
             _players.Remove(player);
+
             Board.RemoveEntityFromBoard(player);
         }
 
