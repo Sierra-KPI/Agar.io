@@ -4,6 +4,8 @@ namespace Agario.Model
 {
     public class Food : Entity
     {
+        #region Constuctor
+
         public Food(Vector2 position)
         {
             Id = 1000;
@@ -13,5 +15,7 @@ namespace Agario.Model
             EntityType = EntityType.Food;
             ChunkId = Board.GetChunkIdByPosition(Position);
         }
+
+        #endregion Constuctor
     }
 }

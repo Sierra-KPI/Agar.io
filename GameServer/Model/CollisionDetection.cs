@@ -2,6 +2,8 @@
 {
     public static class CollisionDetection
     {
+        #region Method
+
         public static bool AreColliding(Entity firstEntity,
             Entity secondEntity)
         {
@@ -12,5 +14,7 @@
 
             return deltaX * deltaX + deltaY * deltaY <= radius * radius;
         }
+
+        #endregion Method
     }
 }

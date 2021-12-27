@@ -6,14 +6,24 @@ namespace Agario.Model
 {
     public class Board
     {
+        #region Fields
+
         public Chunk[] Chunks;
         private int _chunkNumber;
         public const int Width = 100;
+
+        #endregion Fields
+
+        #region Contructor
 
         public Board()
         {
             CreateChunks();
         }
+
+        #endregion Contructor
+
+        #region Methods
 
         private void CreateChunks()
         {
@@ -142,5 +152,7 @@ namespace Agario.Model
             Chunks[entity.ChunkId].Entities.Remove(entity);
             entity.ChunkId = -1;
         }
+
+        #endregion Methods
     }
 }

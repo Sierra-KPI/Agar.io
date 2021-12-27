@@ -6,6 +6,8 @@ namespace Agario.Model
 {
     public class AgarioGame
     {
+        #region Fields
+
         private List<Player> _players;
         private List<Food> _food;
         public Board Board;
@@ -13,6 +15,10 @@ namespace Agario.Model
         private static readonly Random s_random = new();
         public float Time;
         public bool IsEnded = true;
+
+        #endregion Fields
+
+        #region Methods
 
         public void Start()
         {
@@ -122,5 +128,7 @@ namespace Agario.Model
 
             return leaderBoard;
         }
+
+        #endregion Methods
     }
 }
