@@ -38,6 +38,11 @@ namespace Agario.Network
         public Dictionary<int, Player> Players;
         public List<Food> Food = new();
 
+        private const string ErrorReceivingDataMessage =
+            "Error receiving UDP data: ";
+        private const string DisconnectedMessage =
+            "Disconnected from server.";
+
         #endregion Fields
 
         #region Constructor
@@ -82,7 +87,7 @@ namespace Agario.Network
             }
             catch (Exception e)
             {
-                Debug.Log($"Error receiving UDP data: {e}");
+                Debug.Log(ErrorReceivingDataMessage + e);
             }
         }
 
@@ -92,7 +97,7 @@ namespace Agario.Network
             {
                 Serializer.SerializeWithLengthPrefix(outputFile, packet,
                     PrefixStyle.Base128);
-                var data = outputFile.ToArray();
+                byte[] data = outputFile.ToArray();
                 _udp.BeginSend(data, data.GetLength(0),
                     _sendEndPoint, null, null);
             }
@@ -121,7 +126,7 @@ namespace Agario.Network
         {
             if (++TimeOfLife > MaxTimeOfLife)
             {
-                Debug.Log("Disconnected from server.");
+                Debug.Log(DisconnectedMessage);
                 SceneLoader.ShowDisconnectedMeassage();
                 PacketHandler.SendConnectionRequest(Player.Name); 
             }
