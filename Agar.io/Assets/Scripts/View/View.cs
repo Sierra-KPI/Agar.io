@@ -14,6 +14,9 @@ namespace Agario.UnityView
 
         public static string s_username;
 
+        private static readonly int _foodNumber = 150;
+        private static readonly int _playerNumber = 10;
+
         #endregion Fields
 
         #region Methods
@@ -24,19 +27,20 @@ namespace Agario.UnityView
             _players.Add(player.Id, obj);
         }
 
-        public void CreateEntityObjects(GameObject _foodPrefab, GameObject _playerPrefab)
+        public void CreateEntityObjects(GameObject _foodPrefab,
+            GameObject _playerPrefab)
         {
             var _foodObject = new EntityObject(
                 EntityType.Food,
                 _foodPrefab,
-                150
+                _foodNumber
             );
             _entityFactory.AddEntityObject(_foodObject);
 
             var _playerObject = new EntityObject(
                 EntityType.Player,
                 _playerPrefab,
-                10
+                _playerNumber
             );
             _entityFactory.AddEntityObject(_playerObject);
 
@@ -46,7 +50,7 @@ namespace Agario.UnityView
         public void ChangePlayersPosition(Dictionary<int, Player> players)
         {
 
-            foreach (var player in players.Values)
+            foreach (Player player in players.Values)
             {
                 if (player.Radius == 0)
                 {
@@ -70,15 +74,16 @@ namespace Agario.UnityView
         {
             var foodCount = food.Count;
             var objCount = _food.Count;
+
             if (foodCount >= objCount)
             {
-                for (int j = 0; j < objCount; j++)
+                for (var j = 0; j < objCount; j++)
                 {
                     Vector3 newPosition = new Vector3(food[j].Position.X,
                         food[j].Position.Y, 1);
                     _food[j].transform.localPosition = newPosition;
                 }
-                for (int j = objCount; j < foodCount; j++)
+                for (var j = objCount; j < foodCount; j++)
                 {
                     var obj = _entityFactory.GetEntity(food[j]);
                     _food.Add(obj);
@@ -86,12 +91,13 @@ namespace Agario.UnityView
             }
             else
             {
-                for (int j = 0; j < foodCount; j++)
+                for (var j = 0; j < foodCount; j++)
                 {
-                    Vector3 newPosition = new Vector3(food[j].Position.X, food[j].Position.Y, 1);
+                    Vector3 newPosition = new Vector3(food[j].Position.X,
+                        food[j].Position.Y, 1);
                     _food[j].transform.localPosition = newPosition;
                 }
-                for (int j = foodCount; j < objCount; j++)
+                for (var j = foodCount; j < objCount; j++)
                 {
                     Vector3 newPosition = new Vector3(0, 0, 0);
                     _food[j].transform.localPosition = newPosition;

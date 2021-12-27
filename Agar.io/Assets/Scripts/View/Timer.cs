@@ -10,6 +10,9 @@ namespace Agario.UnityView
         public const int MaxTime = 2 * 60;
         public static float Time = 0;
         private Text _timerText;
+        private static string _timerName = "Timer";
+        private static int _secondsPerMinute = 60;
+        private string string _delimiter = ":";
 
         #endregion Fields
 
@@ -17,18 +20,18 @@ namespace Agario.UnityView
 
         public void Awake()
         {
-            _timerText = GameObject.Find("Timer").GetComponent<Text>();
+            _timerText = GameObject.Find(_timerName).GetComponent<Text>();
         }
 
         public void UpdateTimer()
         {
             float t = MaxTime - Time++;
-            string minutes = ((int)t / 60).ToString();
-            string seconds = (t % 60) < 9 ?
-                "0" + (t % 60).ToString("f0") :
-                (t % 60).ToString("f0");
+            string minutes = ((int)t / _secondsPerMinute).ToString();
+            string seconds = (t % _secondsPerMinute) < 9 ?
+                "0" + (t % _secondsPerMinute).ToString("f0") :
+                (t % _secondsPerMinute).ToString("f0");
 
-            _timerText.text = minutes + ":" + seconds;
+            _timerText.text = minutes + _delimiter + seconds;
         }
 
         #endregion Methods
