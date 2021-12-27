@@ -6,12 +6,14 @@ namespace Agario.Model
     {
         private const float StartRadius = 3;
         public string Name { get; set; } = "Default name";
+        private const float SpeedMultiplier = 0.4f;
 
         public Player(Vector2 position)
         {
-            EntityType = EntityType.Player;
-            Radius = StartRadius;
             Position = position;
+            Radius = StartRadius;
+
+            EntityType = EntityType.Player;
             ChunkId = Board.GetChunkIdByPosition(Position);
         }
 
@@ -25,7 +27,7 @@ namespace Agario.Model
                 Die();
             }
 
-            float maxSpeed = 0.4f / Radius;
+            float maxSpeed = SpeedMultiplier / Radius;
 
             Vector2 Velocity = Vector2.Multiply(direction, maxSpeed);
             Position += Velocity;

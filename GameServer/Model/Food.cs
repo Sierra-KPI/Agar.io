@@ -8,8 +8,9 @@ namespace Agario.Model
         {
             Id = 1000;
             Position = position;
-            EntityType = EntityType.Food;
             Radius = 2;
+
+            EntityType = EntityType.Food;
             ChunkId = Board.GetChunkIdByPosition(Position);
         }
     }
